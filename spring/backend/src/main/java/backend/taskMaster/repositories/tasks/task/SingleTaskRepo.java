@@ -11,6 +11,9 @@ import java.util.List;
 @Repository
 public interface SingleTaskRepo extends JpaRepository<SingleTask, Long> {
 
+    // gets all tasks of a user ordered by date (used for debugging)
+    List<SingleTask> findAllByUserIdOrderByDateAsc(Long id);
+
     List<SingleTask> findAllByUserUsernameAndDateBetweenOrderByDateAsc(
             String username, LocalDate firstDate, LocalDate lastDate
     );

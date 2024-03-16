@@ -55,6 +55,18 @@ public class SingleTask {
     @UpdateTimestamp
     private LocalDateTime updatedDateTime;
 
+    public SingleTask(
+            String taskName,
+            LocalDate date,
+            User user) {
+        this.taskName = taskName;
+        this.date = date;
+        this.user = user;
+        this.status = TaskStatusEnum.PENDING;
+        this.createdDateTime = LocalDateTime.now();
+        this.updatedDateTime = LocalDateTime.now();
+    }
+
     @Override
     public String toString() {
         return "MaintenanceTask{" +
