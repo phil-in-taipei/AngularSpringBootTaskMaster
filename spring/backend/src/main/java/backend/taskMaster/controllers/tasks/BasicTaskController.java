@@ -135,15 +135,8 @@ public class BasicTaskController {
             @RequestBody TaskReschedulePatchRequest taskReschedulePatchRequest
             ) {
         try {
-            System.out.println("This is the request:");
-            System.out.println(taskReschedulePatchRequest.getComments());
-            System.out.println(taskReschedulePatchRequest.getDate());
-            System.out.println("This is the id: " + taskId);
             SingleTask updatedTask = taskService.getTask(taskId);
-            System.out.println("This is the task: " + updatedTask);
-            System.out.println("This is the new date: " + taskReschedulePatchRequest.getDate());
             LocalDate newDate = LocalDate.parse(taskReschedulePatchRequest.getDate());
-            System.out.println("This is the new date: " + newDate);
             updatedTask.setDate(newDate);
             updatedTask.setStatus(TaskStatusEnum.DEFERRED);
             updatedTask.setComments(taskReschedulePatchRequest.getComments());

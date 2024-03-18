@@ -1,6 +1,8 @@
 package backend.taskMaster.models.tasks.task;
 
 import backend.taskMaster.models.user.User;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -26,9 +28,11 @@ public class SingleTask {
     private String taskName;
 
     @Column(nullable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
 
     @ManyToOne(optional = false)
+    @JsonIgnore
     @JoinColumn
     private User user;
 
