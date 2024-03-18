@@ -2,6 +2,7 @@ package backend.taskMaster;
 
 import backend.taskMaster.models.user.Role;
 import backend.taskMaster.models.user.User;
+import backend.taskMaster.repositories.tasks.task.SingleTaskRepo;
 import backend.taskMaster.repositories.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -21,6 +22,9 @@ public class TaskMasterApplicationTest implements CommandLineRunner {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    SingleTaskRepo singleTaskRepo;
+
     //@Autowired
     //private UserDetailsServiceImplementation userService;
 
@@ -38,6 +42,7 @@ public class TaskMasterApplicationTest implements CommandLineRunner {
         // The mock users deleted here are created in the UserRegistrationControllerEndpointTest class
         userRepository.deleteByUsername("Test User");
         userRepository.deleteByUsername("Test Admin");
+        singleTaskRepo.deleteAll();
         if (userRepository.findAll().isEmpty()) {
             System.out.println("The user repo is empty. Creating mock users");
             User testUser = User.builder()

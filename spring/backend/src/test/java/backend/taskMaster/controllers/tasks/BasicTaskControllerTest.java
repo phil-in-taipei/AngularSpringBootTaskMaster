@@ -45,7 +45,7 @@ import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 @AutoConfigureMockMvc(addFilters = true)
 @ActiveProfiles("test")
 class BasicTaskControllerTest {
-    
+
     @MockBean
     AuthenticationService authenticationService;
 
@@ -201,12 +201,10 @@ class BasicTaskControllerTest {
     @WithMockUser(authorities = {"USER", }, username = "TestUser")
     public void deleteTaskFailure() throws Exception {
         long nonExistentID = 12920L;
-        String message = "Cannot delete, task with id: "
-                        + nonExistentID + " does not exist";
         when(taskService.getTask(anyLong()))
                 .thenReturn(null);
         mockMvc.
-                perform(request(HttpMethod.GET, "/api/task/delete/1"))
+                perform(request(HttpMethod.GET, "/api/task/delete/" + nonExistentID))
                 //.andDo(print())
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("message")
