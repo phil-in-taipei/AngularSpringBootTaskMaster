@@ -23,23 +23,19 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import org.springframework.test.web.servlet.RequestBuilder;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
@@ -49,10 +45,7 @@ import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 @AutoConfigureMockMvc(addFilters = true)
 @ActiveProfiles("test")
 class BasicTaskControllerTest {
-
-    @Autowired
-    private WebApplicationContext context;
-
+    
     @MockBean
     AuthenticationService authenticationService;
 
@@ -284,6 +277,26 @@ class BasicTaskControllerTest {
                 .andExpect(jsonPath("date")
                         .value(
                                 today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+                );
+    }
+
+    @Test
+    @WithMockUser(authorities = {"USER", }, username = "TestUser")
+    void rescheduleTaskFailure() throws Exception {
+        when(taskService.getTask(anyLong()))
+                .thenReturn(null);
+        mockMvc.perform(patch("/api/task/reschedule/1")
+                        .contentType("application/json")
+                        .with(csrf())
+                        .content(TestUtil.convertObjectToJsonBytes(reschedulePatchRequest))
+                )
+                //.andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(header().string("Content-Type", "application/json"))
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("message")
+                        .value(
+                                "There was an error. Please try again")
                 );
     }
 }
