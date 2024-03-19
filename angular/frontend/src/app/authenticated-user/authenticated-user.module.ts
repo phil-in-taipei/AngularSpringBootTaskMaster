@@ -17,6 +17,7 @@ import {
 import { AuthenticatedUserComponent } from './authenticated-user/authenticated-user.component';
 import { UserProfileComponent } from './user/user-profile/user-profile.component';
 import { EditProfileFormComponent } from './user/edit-profile-form/edit-profile-form.component';
+import { LandingPageComponent } from './landing/landing-page/landing-page.component';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { EditProfileFormComponent } from './user/edit-profile-form/edit-profile-
     AuthenticatedHeaderComponent,
     AuthenticatedUserComponent,
     EditProfileFormComponent,
+    LandingPageComponent,
     UserProfileComponent
   ],
   imports: [

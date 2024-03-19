@@ -6,7 +6,26 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li><a class="nav-link" 
-            [routerLink]="['user-profile']">Profile</a>
+            routerLink="/authenticated-user/user-profile" routerLinkActive>Profile</a>
+          </li>
+          <li><a class="nav-link" 
+            routerLink="/authenticated-user/landing" routerLinkActive>Landing</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle mydropnav"
+            href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Weekly
+            </a>
+            <ul class="dropdown-menu mydropnav bg-dark" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item bg-dark" 
+                routerLink="/authenticated-user/weekly/create" routerLinkActive 
+                >Create</a>
+              </li>
+              <li><a class="dropdown-item bg-dark" 
+                routerLink="/authenticated-user/weekly/list" routerLinkActive 
+                >List</a>
+              </li>
+            </ul>
           </li>
           <li>
             <a class="nav-link" href="#" (click)="onLogout()">Logout</a>
