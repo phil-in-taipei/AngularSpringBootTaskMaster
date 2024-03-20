@@ -10,10 +10,13 @@ const routes: Routes = [
       { path: 'user-profile', component: UserProfileComponent },
       { path: 'create-task', component: CreateTaskComponent },
       { path: 'landing', component: LandingPageComponent },
-      { path: 'weekly', loadChildren: () => import('./tasks/weekly/weekly.module').then(
-        m => m.WeeklyModule) 
+      { path: 'weekly', loadChildren: () => import('./tasks/weekly/weekly.module')
+                                                    .then(m => m.WeeklyModule) 
       },
-      //{ path: "**", redirectTo: '/user-profile' }
+      { path: 'monthly', loadChildren: () => import('./tasks/monthly/monthly.module')
+                                                    .then(m => m.MonthlyModule) 
+      },
+      
     ] 
   },
   

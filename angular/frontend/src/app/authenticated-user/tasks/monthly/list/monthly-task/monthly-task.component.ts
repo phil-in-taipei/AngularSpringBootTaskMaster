@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-monthly-task',
-  standalone: true,
-  imports: [],
+  standalone: false,
   templateUrl: './monthly-task.component.html',
   styleUrl: './monthly-task.component.css'
 })
