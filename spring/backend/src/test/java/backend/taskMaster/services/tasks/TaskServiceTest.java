@@ -182,4 +182,16 @@ class TaskServiceTest {
             taskService.saveTask(testTask1);
         });
     }
+
+    @Test
+    void saveTaskAndReturnAllOnSameDate() throws IllegalArgumentException {
+        List<SingleTask> testTasks = new ArrayList<>();
+        testTasks.add(testTask1);
+        when(singleTaskRepo.save(any(SingleTask.class)))
+                .thenReturn(testTask1);
+        when(singleTaskRepo.findAllByUserUsernameAndDate(anyString(),  any(LocalDate.class))
+        ).thenReturn(testTasks);
+        assertThat(taskService.saveTaskAndReturnAllOnSameDate(testTask1))
+                .isEqualTo(testTasks);
+    }
 }

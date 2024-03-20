@@ -104,5 +104,14 @@ public class TaskService {
         return singleTaskRepo.save(task);
     }
 
+    @Loggable
+    @Transactional
+    public List<SingleTask> saveTaskAndReturnAllOnSameDate(SingleTask task)
+            throws IllegalArgumentException {
+        SingleTask savedTask = singleTaskRepo.save(task);
+        return singleTaskRepo.findAllByUserUsernameAndDate(
+                savedTask.getUser().getUsername(), savedTask.getDate()
+        );
+    }
 
 }

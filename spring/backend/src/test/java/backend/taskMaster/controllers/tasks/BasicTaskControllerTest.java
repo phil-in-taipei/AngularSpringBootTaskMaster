@@ -100,10 +100,12 @@ class BasicTaskControllerTest {
     @WithMockUser(authorities = {"USER", }, username = "TestUser")
     void createTask() throws Exception {
         LocalDate yesterday = LocalDate.now().minusDays(1);
+        List<SingleTask> tasksYesterday = new ArrayList<>();
+        tasksYesterday.add(testTask1);
         when(userService.loadUserByUsername(anyString()))
                 .thenReturn(testUser);
-        when(taskService.saveTask(any(SingleTask.class)))
-                .thenReturn(testTask1);
+        when(taskService.saveTaskAndReturnAllOnSameDate(any(SingleTask.class)))
+                .thenReturn(tasksYesterday);
         mockMvc.perform(post("/api/task/create")
                         .contentType("application/json")
                         .with(csrf())
@@ -113,11 +115,11 @@ class BasicTaskControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(header().string("Content-Type", "application/json"))
                 .andExpect(content().contentType("application/json"))
-                .andExpect(jsonPath("taskName")
+                .andExpect(jsonPath("$[0]taskName")
                         .value(
                                 "Test Task 1")
                 )
-                .andExpect(jsonPath("date")
+                .andExpect(jsonPath("$[0]date")
                         .value(
                                 yesterday.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 );

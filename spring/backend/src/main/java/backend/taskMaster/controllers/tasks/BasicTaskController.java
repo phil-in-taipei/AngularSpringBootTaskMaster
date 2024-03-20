@@ -43,7 +43,11 @@ public class BasicTaskController {
             SingleTask singleTask = new SingleTask(
                     request.getTaskName(),
                     date, user);
-            return new ResponseEntity<>(taskService.saveTask(singleTask), HttpStatus.CREATED);
+            return new ResponseEntity<>(
+                    taskService
+                            .saveTaskAndReturnAllOnSameDate(singleTask),
+                    HttpStatus.CREATED
+            );
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(new ApiError(e.getMessage()));
         } catch (Exception e) {

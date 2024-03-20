@@ -44,6 +44,7 @@ public class SingleTask {
     private String comments;
 
     @CreationTimestamp
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime createdDateTime;
 
     // the fields below are from a previous version that involved
@@ -57,6 +58,7 @@ public class SingleTask {
     //private IntervalTaskGroup intervalTaskGroup;
 
     @UpdateTimestamp
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime updatedDateTime;
 
     public SingleTask(
