@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-interval',
-  standalone: true,
-  imports: [],
+  standalone: false,
   templateUrl: './interval.component.html',
   styleUrl: './interval.component.css'
 })

@@ -16,7 +16,9 @@ const routes: Routes = [
       { path: 'monthly', loadChildren: () => import('./tasks/monthly/monthly.module')
                                                     .then(m => m.MonthlyModule) 
       },
-      
+      { path: 'interval', loadChildren: () => import('./tasks/interval/interval.module')
+                                                    .then(m => m.IntervalModule) 
+      },
     ] 
   },
   
