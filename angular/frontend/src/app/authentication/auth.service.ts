@@ -12,6 +12,9 @@ import {
 } from '../models/auth-login.model';
 import { AppState } from './../reducers';
 import { 
+  SingleTasksCleared 
+} from '../authenticated-user/tasks/single/state/single-task.actions';
+import { 
   UserProfileCleared 
 } from '../authenticated-user/user/user-state/user.actions';
 
@@ -91,6 +94,7 @@ export class AuthService {
 
   private clearNgrxStore():void {
     this.store.dispatch(new UserProfileCleared());
+    this.store.dispatch(new SingleTasksCleared());
   }
 
 

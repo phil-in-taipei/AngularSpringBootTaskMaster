@@ -48,6 +48,25 @@ export function singleTasksReducer(
                 successMessage: 'Task successfully submitted!'
             });
 
+        case SingleTaskActionTypes.SingleTasksCleared:
+            return initialSingleTasksState;
+
+
+        case SingleTaskActionTypes.SingleTaskCreationCancelled:
+            console.log(action.payload);
+            let userErrorMessage: string = "Error submitting task!";
+            if (action.payload.err.error.message) {
+                    //console.log(action.payload.err.error.message)
+                userErrorMessage = action.payload.err.error.message;
+            }
+            return {
+                ...state,  successMessage: undefined,
+                errorMessage: userErrorMessage
+            }
+    
+     
+    
+
         case SingleTaskActionTypes.SingleTaskMessagesCleared:
             return {...state,  successMessage: undefined,
                 errorMessage: undefined

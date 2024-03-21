@@ -35,7 +35,6 @@ export class CreateTaskFormComponent {
   onSubmitSingleTask(form: NgForm) {
 
     if (form.invalid) {
-      //console.log('the form is invalid!')
       this.store.dispatch(new SingleTaskCreationCancelled({err: {
         error: {
           message: "The form values were not properly filled in!"
@@ -52,9 +51,6 @@ export class CreateTaskFormComponent {
         ),
       taskName: form.value.taskName,
     }
-    console.log('-----------------------------------------------');
-    console.log(submissionForm)
-    console.log('-----------------------------------------------');
     this.store.dispatch(new SingleTaskCreateSubmitted(
       { singleTask: submissionForm }
     ));
