@@ -1,1 +1,34 @@
-<p>create-task-form works!</p>
+<form (submit)="onSubmitSingleTask(singleTaskForm)" #singleTaskForm="ngForm">
+    <div class="input-group">
+        <input class="form-control" placeholder="yyyy-mm-dd"
+            name="date" [(ngModel)]="dateModel" ngbDatepicker #date="ngbDatepicker">
+        <div class="input-group-append">
+        <button class="btn btn-outline-secondary calendar" (click)="date.toggle()" type="button">
+        Select Date</button>
+        </div>
+    </div>
+    <br />
+    <div>
+        <label>Surname</label>
+        <input
+        class="form-control"
+        type="text"
+        minlength="2"
+        rows="4"
+        name="taskName"
+        ngModel
+        required
+        placeholder="Please Enter a Task Name"
+        #taskName="ngModel"
+        >
+      <div *ngIf="taskName.touched && taskName.invalid">Please enter your surname.</div>
+    </div>
+    <br />
+    <hr />
+    <div>
+      <button class="btn btn-outline-secondary" type="submit"
+      >Submit</button>
+    </div>
+    <br />
+</form>
+
