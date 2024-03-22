@@ -8,7 +8,7 @@ export interface SingleTaskModel {
     taskName: string;
     date: string;
     status: string;
-    comments: string;
+    comments: string | null;
     createdDateTime: string;
     updatedDateTime: string;
 }
