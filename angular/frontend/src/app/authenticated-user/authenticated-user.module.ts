@@ -24,6 +24,9 @@ import { CreateTaskFormComponent } from './tasks/single/create/create-task-form/
 import { UserProfileComponent } from './user/user-profile/user-profile.component';
 import { EditProfileFormComponent } from './user/edit-profile-form/edit-profile-form.component';
 import { LandingPageComponent } from './landing/landing-page/landing-page.component';
+import { 
+  LandingPageUserComponent 
+} from './landing/landing-page-user/landing-page-user.component';
 
 
 @NgModule({
@@ -35,6 +38,7 @@ import { LandingPageComponent } from './landing/landing-page/landing-page.compon
     CreateTaskFormComponent,
     EditProfileFormComponent,
     LandingPageComponent,
+    LandingPageUserComponent,
     UserProfileComponent
   ],
   imports: [

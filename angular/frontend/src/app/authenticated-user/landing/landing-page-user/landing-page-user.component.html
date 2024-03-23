@@ -1,1 +1,25 @@
-<p>landing-page-user works!</p>
+<div class="container date-search">
+    <div class="text-center">
+      <form class="form-inline">
+        <div class="form-group">
+          <div class="input-group">
+            <input class="form-control" placeholder="yyyy-mm-dd"
+                   name="dp" [(ngModel)]="dateModel" ngbDatepicker #d="ngbDatepicker">
+            <br />
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+                Search Date
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+</div>
+<br />
+<div class="text-center">
+  <button class="btn btn-sm btn-outline-secondary middle"
+    (click)="navToSelectedDate()">Go To Scheduled Date
+  </button>
+</div>
+  
