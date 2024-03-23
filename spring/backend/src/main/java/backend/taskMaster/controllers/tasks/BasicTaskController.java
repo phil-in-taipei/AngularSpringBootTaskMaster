@@ -145,7 +145,9 @@ public class BasicTaskController {
             updatedTask.setStatus(TaskStatusEnum.DEFERRED);
             updatedTask.setComments(taskReschedulePatchRequest.getComments());
             updatedTask.setUpdatedDateTime(LocalDateTime.now());
-            return new ResponseEntity<>(taskService.saveTask(updatedTask), HttpStatus.OK);
+            return new ResponseEntity<>(
+                    taskService.saveTaskAndReturnAllOnSameDate(updatedTask),
+                    HttpStatus.OK);
         } catch (NullPointerException | IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(
                     new ApiError("There was an error. Please try again")

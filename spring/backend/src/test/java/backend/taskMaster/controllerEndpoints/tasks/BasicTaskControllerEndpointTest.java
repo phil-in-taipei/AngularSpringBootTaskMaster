@@ -121,11 +121,11 @@ public class BasicTaskControllerEndpointTest {
                 .andExpect(status().isOk())
                 .andExpect(header().string("Content-Type", "application/json"))
                 .andExpect(content().contentType("application/json"))
-                .andExpect(jsonPath("taskName")
+                .andExpect(jsonPath("$[0]taskName")
                         .value(
-                                testTask.getTaskName())
+                                "Test Task 1")
                 )
-                .andExpect(jsonPath("date")
+                .andExpect(jsonPath("$[0]date")
                         .value(
                                 today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 );

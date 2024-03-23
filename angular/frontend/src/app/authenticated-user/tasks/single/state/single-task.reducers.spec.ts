@@ -26,17 +26,24 @@ fdescribe('incomeSourcesReducer', () => {
     it('returns the state with new single tasks entity and indicates that ' 
         + 'the single task has been sucessfully submitted', () => {
         const state = singleTasksReducer(statePriorToNewSingleTaskSubmitted.singleTasks, 
-        new SingleTaskCreatedWithDailyBatchAdded({ dailyTasks: singleTaskMarch25thData }));
-        expect(state).toEqual(stateAfterNewSingleTaskSubmitted.singleTasks);
+        new SingleTaskCreatedWithDailyBatchAdded(
+            { dailyTasks: singleTaskMarch25thData }
+            ));
+        expect(state).toEqual(
+            stateAfterNewSingleTaskSubmitted.singleTasks
+            );
     });
 
     it('returns the state with originally loaded single tasks entity and indicates that ' 
         + 'submission of a new income source has been unsucessful', () => {
-        const state = singleTasksReducer(statePriorToNewSingleTaskSubmitted.singleTasks, 
+        const state = singleTasksReducer(
+            statePriorToNewSingleTaskSubmitted.singleTasks, 
         new SingleTaskCreationCancelled({ err: {error: {
             Error: "Error submitting task!"
         } } }));
-       expect(state).toEqual(stateAfterNewSingleTaskSubmissionFailure.income);
+       expect(state).toEqual(
+        stateAfterNewSingleTaskSubmissionFailure.income
+        );
     });
 
 
