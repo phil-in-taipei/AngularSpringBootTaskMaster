@@ -43,7 +43,7 @@ export const testSingleTask3: SingleTaskModel = {
 };
 
 export const singleTaskMarchData: SingleTaskModel[] = [
-    testSingleTask1, testSingleTask2, testSingleTask3
+    testSingleTask2, testSingleTask1, testSingleTask3
 ];
 
 export const testSingleTask4: SingleTaskModel = {

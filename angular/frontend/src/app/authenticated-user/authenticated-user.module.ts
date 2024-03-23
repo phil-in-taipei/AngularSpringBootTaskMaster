@@ -42,7 +42,7 @@ import { LandingPageComponent } from './landing/landing-page/landing-page.compon
     NgbModule,
     FormsModule,
     AuthenticatedUserRoutingModule,
-    StoreModule.forFeature('single-tasks', singleTasksReducer),
+    StoreModule.forFeature('singleTasks', singleTasksReducer),
     EffectsModule.forFeature([SingleTaskEffects]),
     StoreModule.forFeature('user', userProfileReducer),
     EffectsModule.forFeature([UserEffects]),

@@ -14,12 +14,20 @@ import {
 } from "./single-task-data";
 import { SingleTaskModel } from "src/app/models/single-task.model";
 
-const march25IDs:number[] = [ singleTaskMarch25thData[0].id, singleTaskMarch25thData[1].id ];
+const marchIDsPriorToSubmission: number[] = [ 
+    singleTaskMarchData[0].id, 
+    singleTaskMarchData[2].id ,
+];
+
+const march25IDs:number[] = [ 
+    singleTaskMarch25thData[0].id, 
+    singleTaskMarch25thData[1].id ,
+];
 
 const marchIDs:number[] = [ 
     singleTaskMarchData[0].id, 
     singleTaskMarchData[1].id, 
-    singleTaskMarchData[3].id 
+    singleTaskMarchData[2].id 
 ];
 
 const marchIDsPostReschedule: number[] = [ 
@@ -27,9 +35,14 @@ const marchIDsPostReschedule: number[] = [
     singleTaskDataMarchPostReschedule[1].id
 ];
 
-const marchEntities:Dictionary<SingleTaskModel> = {
+const marchEntitiesPriorToSubmission:Dictionary<SingleTaskModel> = {
     '1': singleTaskMarchData[0],
-    '2': singleTaskMarchData[1],
+    '3': singleTaskMarchData[2],
+};
+
+const marchEntities:Dictionary<SingleTaskModel> = {
+    '1': singleTaskMarchData[1],
+    '2': singleTaskMarchData[0],
     '3': singleTaskMarchData[2],
 };
 
@@ -39,6 +52,7 @@ const marchEntitiesPostReschedule:Dictionary<SingleTaskModel> = {
 };
 
 const april25IDs:number[] = [ singleTaskDataApril[0].id ];
+
 const april25IDSPostReschedule: number[] = [
     singleTaskDataAprilPostReschedule[0].id,
     singleTaskDataAprilPostReschedule[1].id,
@@ -57,3 +71,41 @@ const aprilEntitiesPostReschedule:Dictionary<SingleTaskModel> = {
 const aprilEntitiesPostDeletion:Dictionary<SingleTaskModel> = {
 
 };
+
+const deletedSingleTaskSuccessMessage: string = 'You have successfully deleted a task!';
+const newSingleTaskFailureMessage: string = "Error submitting task!";
+const newSingleTaskSuccessMessage: string = 'Task successfully submitted!';
+
+export const statePriorToNewSingleTaskSubmitted = {
+    singleTasks: {
+      ids: marchIDsPriorToSubmission,
+      entities: marchEntitiesPriorToSubmission,
+      errorMessage: undefined,
+      landingPageSingleTasksLoaded: true,
+      monthlySingleTasksLoaded: true,
+      successMessage: undefined
+    }
+};
+
+export const stateAfterNewSingleTaskSubmitted = {
+    singleTasks: {
+      ids: marchIDs,
+      entities: marchEntities,
+      errorMessage: undefined,
+      landingPageSingleTasksLoaded: true,
+      monthlySingleTasksLoaded: true,
+      successMessage: newSingleTaskSuccessMessage
+    }
+};
+
+export const stateAfterNewSingleTaskSubmissionFailure = {
+    income: {
+      ids: marchIDsPriorToSubmission,
+      entities: marchEntitiesPriorToSubmission,
+      errorMessage: newSingleTaskFailureMessage,
+      landingPageSingleTasksLoaded: true,
+      monthlySingleTasksLoaded: true,
+      successMessage: undefined
+    }
+};
+

@@ -4,7 +4,7 @@ import { SingleTasksState } from './single-task.reducers';
 import * as fromSingleTasks from './single-task.reducers';
 
 export const selectSingleTasksState = 
-            createFeatureSelector<SingleTasksState>("single-tasks");
+            createFeatureSelector<SingleTasksState>("singleTasks");
 
 export const selectAllSingleTasks = createSelector(
     selectSingleTasksState,
