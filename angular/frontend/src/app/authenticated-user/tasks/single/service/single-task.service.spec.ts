@@ -11,7 +11,7 @@ import {
 } from 'src/app/authentication/auth.service';
 
 import { 
-  singleTaskCreateRequest, testSingleTask1 
+  singleTaskCreateRequest, singleTaskMarch25thData
 } from 'src/app/test-data/authenticated-user-module-tests/single-task-tests/single-task-data';
 
 import { SingleTaskService } from './single-task.service';
@@ -44,7 +44,7 @@ fdescribe('SingleTaskService', () => {
 
       service.submitSingleTask(singleTaskCreateRequest)
         .subscribe(response => {
-          expect(response).toEqual([testSingleTask1]);
+          expect(response).toEqual(singleTaskMarch25thData);
       });
 
       const request = httpTestingController.expectOne({
@@ -52,7 +52,7 @@ fdescribe('SingleTaskService', () => {
         url:`${environment.apiUrl}/api/task/create`,
       });
 
-      request.flush([testSingleTask1]);
+      request.flush(singleTaskMarch25thData);
 
   }));
 
