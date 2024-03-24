@@ -7,15 +7,39 @@ import { catchError, filter, map,
     mergeMap, withLatestFrom 
 } from "rxjs/operators";
 
-import { 
+import {
+    LandingPageTasksLoaded, LandingPageTasksRequested,
+    LandingPageTasksRequestCancelled, 
     SingleTaskActionTypes, SingleTaskCreateSubmitted, 
     SingleTaskCreatedWithDailyBatchAdded, SingleTaskCreationCancelled
 } from './single-task.actions';
-
+import { 
+    selectLandingPageTasksLoaded 
+} from './single-task.selectors';
 import { SingleTaskService } from '../service/single-task.service';
 
 @Injectable()
 export class SingleTaskEffects {
+   
+    fetchLandingPageTasks$ = createEffect(() => {
+        return this.actions$
+          .pipe(
+            ofType<LandingPageTasksRequested>(SingleTaskActionTypes.LandingPageTasksRequested),
+            withLatestFrom(this.store.pipe(select(selectLandingPageTasksLoaded))),
+            filter(([action, landingPageTasksLoaded]) => !landingPageTasksLoaded),
+            mergeMap(action => this.singleTaskService.fetchTodaysSingleTasks()
+              .pipe(
+                map(singleTasks => new LandingPageTasksLoaded({ singleTasks })),
+                catchError(err => {
+                  this.store.dispatch(
+                      new LandingPageTasksRequestCancelled({ err })
+                  );
+                  return of();
+                })
+              )
+            )
+          )
+      });
 
     submitSingleTask$ = createEffect(() => {
         return this.actions$

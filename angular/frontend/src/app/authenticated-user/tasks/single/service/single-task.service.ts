@@ -20,6 +20,42 @@ export class SingleTaskService {
     private authService: AuthService
   ) { }
 
+  fetchSingleTasksByDate(date: string) {
+    let token = this.authService.getAuthToken();
+    return this.http.get<SingleTaskModel[]>(
+      `${environment.apiUrl}/api/task/date/${date}/`,
+        {
+          headers: new HttpHeaders({ 'Bearer': `Token ${token}` })
+        })
+  }
+
+  fetchTodaysSingleTasks() {
+    let dateTimeObj = new Date();
+    const date = this.getTodayDateString(
+      dateTimeObj.getUTCDate(),
+      dateTimeObj.getUTCMonth() + 1,
+      dateTimeObj.getUTCFullYear()
+    );
+    return this.fetchSingleTasksByDate(date);
+  }
+
+  getTodayDateString(day: number, month: number, year: number): string {
+    let monthStr;
+    if (month > 0 && month < 10) {
+      monthStr = '0' + month.toString();
+    } else {
+      monthStr = month.toString();
+    }
+    let dayOfMonthStr;
+    if (day > 0 && day < 10) {
+      dayOfMonthStr = '0' + day.toString();
+    } else {
+      dayOfMonthStr = day.toString();
+    }
+    let dateString = `${year}-${monthStr}-${dayOfMonthStr}`;
+    return dateString;
+  }
+
   rescheduleSingleTask(id: number,
     submissionForm: SingleTaskRescheduleModel
     ): Observable<SingleTaskModel> {
