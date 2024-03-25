@@ -1,3 +1,4 @@
+<br/><br/>
 <div class="container date-search">
     <div class="text-center">
       <form class="form-inline">
@@ -22,4 +23,44 @@
     (click)="navToSelectedDate()">Go To Scheduled Date
   </button>
 </div>
-  
+<div *ngIf="todaysTasks$ | async as todaysTasks" class="container">
+  <hr class="thick-br"/>
+  <h3>Today's Classes</h3>
+  <h5>{{ todaysTasks.length }} Task(s) Scheduled Today</h5>
+  <h5>
+    <button class="btn btn-primary" type="button"
+      data-bs-toggle="collapse" data-bs-target="#collapseDailyTasks"
+      aria-expanded="false" aria-controls="collapseExample">
+      View Daily Tasks
+    </button>
+  </h5>
+  <div *ngIf="todaysTasks.length > 0"
+    id="collapseDailyTasks"
+    class="collapse table-responsive"
+  >
+    <table class="table">
+      <thead>
+        <tr class="row">
+          <th class="col"><p>Date</p></th>
+          <th class="col"><p>Name</p></th>
+          <th class="col"><p>Confirm Completion</p></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row" *ngFor="let task of todaysTasks">
+          <th class="col">
+            <p>{{ task.date }}</p>
+          </th>
+          <th class="col">
+            <p>{{ task.taskName }}</p>
+          </th>
+          <th class="col">
+            <p>{{ task.status }}</p>
+          </th>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <hr class="thick-br"/>
+</div>
+<br/><br/>
