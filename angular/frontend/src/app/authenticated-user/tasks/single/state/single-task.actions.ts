@@ -34,9 +34,6 @@ export class LandingPageTasksRequestCancelled implements Action {
 
 export class LandingPageTasksRequested implements Action {
     readonly type = SingleTaskActionTypes.LandingPageTasksRequested;
-  
-    constructor(public payload: { date: string }) {}
-  
 }
 
 export class SingleTasksCleared implements Action {

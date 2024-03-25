@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { environment } from '../../../../../environments/environment';
 import { AuthService } from 'src/app/authentication/auth.service';
+import { DateTimeUtil } from 'src/app/shared-utils/date-time.util';
 import { 
   SingleTaskCreateModel, 
   SingleTaskRescheduleModel, 
@@ -17,43 +18,27 @@ export class SingleTaskService {
 
   constructor(
     private http: HttpClient,
-    private authService: AuthService
+    private authService: AuthService,
+    private dateTimeUtil: DateTimeUtil
   ) { }
 
   fetchSingleTasksByDate(date: string) {
     let token = this.authService.getAuthToken();
     return this.http.get<SingleTaskModel[]>(
-      `${environment.apiUrl}/api/task/date/${date}/`,
+      `${environment.apiUrl}/api/task/date/${date}`,
         {
-          headers: new HttpHeaders({ 'Bearer': `Token ${token}` })
+          headers: new HttpHeaders({ 'Authorization': `Bearer ${token}` })
         })
   }
 
   fetchTodaysSingleTasks() {
     let dateTimeObj = new Date();
-    const date = this.getTodayDateString(
+    const date = this.dateTimeUtil.getDateString(
       dateTimeObj.getUTCDate(),
       dateTimeObj.getUTCMonth() + 1,
       dateTimeObj.getUTCFullYear()
     );
     return this.fetchSingleTasksByDate(date);
-  }
-
-  getTodayDateString(day: number, month: number, year: number): string {
-    let monthStr;
-    if (month > 0 && month < 10) {
-      monthStr = '0' + month.toString();
-    } else {
-      monthStr = month.toString();
-    }
-    let dayOfMonthStr;
-    if (day > 0 && day < 10) {
-      dayOfMonthStr = '0' + day.toString();
-    } else {
-      dayOfMonthStr = day.toString();
-    }
-    let dateString = `${year}-${monthStr}-${dayOfMonthStr}`;
-    return dateString;
   }
 
   rescheduleSingleTask(id: number,

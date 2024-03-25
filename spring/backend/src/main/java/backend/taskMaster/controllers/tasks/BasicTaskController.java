@@ -80,6 +80,7 @@ public class BasicTaskController {
     public ResponseEntity<?> getUserTasksByDate (
             @PathVariable(name = "date") String date,
             Authentication authentication) {
+        System.out.println("*********" + date + "***************");
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         LocalDate queryDate = LocalDate.parse(date);
         try {

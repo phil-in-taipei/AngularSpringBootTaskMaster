@@ -7,9 +7,9 @@ import { LandingPageComponent } from './landing/landing-page/landing-page.compon
 
 const routes: Routes = [
   { path: '', component: AuthenticatedUserComponent, children: [ 
-      { path: 'user-profile', component: UserProfileComponent },
       { path: 'create-task', component: CreateTaskComponent },
       { path: 'landing', component: LandingPageComponent },
+      { path: 'user-profile', component: UserProfileComponent },
       { path: 'weekly', loadChildren: () => import('./tasks/weekly/weekly.module')
                                                     .then(m => m.WeeklyModule) 
       },

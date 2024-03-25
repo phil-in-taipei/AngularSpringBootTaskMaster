@@ -4,12 +4,16 @@ import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 
 import { AppState } from 'src/app/reducers';
+import { DateTimeUtil } from 'src/app/shared-utils/date-time.util';
+import { 
+  LandingPageTasksRequested 
+} from '../../tasks/single/state/single-task.actions';
 import { 
   selectSingleTasksByDate 
 } from '../../tasks/single/state/single-task.selectors';
+import { selectUserProfile } from '../../user/user-state/user.selectors';
 import { SingleTaskModel } from 'src/app/models/single-task.model';
 import { UserProfileModel } from 'src/app/models/user-profile.model';
-import { selectUserProfile } from '../../user/user-state/user.selectors';
 
 
 @Component({
@@ -25,49 +29,38 @@ export class LandingPageUserComponent implements OnInit{
   userProfile$: Observable<UserProfileModel | undefined>;
 
   constructor(
+    private dateTimeUtil: DateTimeUtil,
     private router: Router,
     private store: Store<AppState>
   ) {}
 
   ngOnInit(): void {
+    this.store.dispatch(new LandingPageTasksRequested());
     let dateTimeObj = new Date();
     this.dateModel.year = dateTimeObj.getUTCFullYear();
     this.dateModel.month = dateTimeObj.getUTCMonth() + 1;
     this.dateModel.day = dateTimeObj.getUTCDate();
+    let todayDateStr = this.getTodayDateString();
+    this.todaysTasks$ = this.store.pipe(
+      select(selectSingleTasksByDate(todayDateStr)));
     this.userProfile$ = this.store.pipe(select(selectUserProfile));
   }
 
   getTodayDateString(): string {
-    let monthStr;
-    if (this.dateModel.month > 0 && this.dateModel.month < 10) {
-      monthStr = '0' + this.dateModel.month.toString();
-    } else {
-      monthStr = this.dateModel.month.toString();
-    }
-    let dayOfMonthStr;
-    if (this.dateModel.day > 0 && this.dateModel.day < 10) {
-      dayOfMonthStr = '0' + this.dateModel.day.toString();
-    } else {
-      dayOfMonthStr = this.dateModel.day.toString();
-    }
-    let dateString = `${this.dateModel.year}-${monthStr}-${dayOfMonthStr}`;
+    const dateString = this.dateTimeUtil.getDateString(
+      this.dateModel.day,
+      this.dateModel.month,
+      this.dateModel.year
+    );
     return dateString;
   }
 
   navToSelectedDate(): void {
-    let monthStr;
-    if (this.dateModel.month > 0 && this.dateModel.month < 10) {
-      monthStr = '0' + this.dateModel.month.toString();
-    } else {
-      monthStr = this.dateModel.month.toString();
-    }
-    let dayOfMonthStr;
-    if (this.dateModel.day > 0 && this.dateModel.day < 10) {
-      dayOfMonthStr = '0' + this.dateModel.day.toString();
-    } else {
-      dayOfMonthStr = this.dateModel.day.toString();
-    }
-    let dateString = `${this.dateModel.year}-${monthStr}-${dayOfMonthStr}`;
+    let dateString = this.dateTimeUtil.getDateString(
+      this.dateModel.day,
+      this.dateModel.month,
+      this.dateModel.year
+    );
     console.log(dateString);
     this.router.navigate(['/', 'authenticated-user', 'tasks', 'daily', dateString]);
   }

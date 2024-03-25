@@ -20,13 +20,18 @@ import {
 } from './authenticated-layout/authenticated-header/authenticated-header.component';
 import { AuthenticatedUserComponent } from './authenticated-user/authenticated-user.component';
 import { CreateTaskComponent } from './tasks/single/create/create-task/create-task.component';
-import { CreateTaskFormComponent } from './tasks/single/create/create-task-form/create-task-form.component';
-import { UserProfileComponent } from './user/user-profile/user-profile.component';
-import { EditProfileFormComponent } from './user/edit-profile-form/edit-profile-form.component';
+import { 
+  CreateTaskFormComponent 
+} from './tasks/single/create/create-task-form/create-task-form.component';
+import { 
+  EditProfileFormComponent 
+} from './user/edit-profile-form/edit-profile-form.component';
 import { LandingPageComponent } from './landing/landing-page/landing-page.component';
 import { 
   LandingPageUserComponent 
 } from './landing/landing-page-user/landing-page-user.component';
+import { UserProfileComponent } from './user/user-profile/user-profile.component';
+
 
 
 @NgModule({
