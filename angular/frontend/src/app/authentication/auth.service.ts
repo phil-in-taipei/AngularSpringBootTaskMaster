@@ -211,7 +211,8 @@ export class AuthService {
           console.log(dtRfrshTken);
           this.saveAuthData(this.refresh, this.refreshExpTime,
             this.token, this.tokenExpTime);
-          this.router.navigate(['authenticated-user', 'user-profile']);
+          //this.router.navigate(['authenticated-user', 'user-profile']);
+          this.router.navigate(['authenticated-user', 'landing']);
         } else {
           console.log('the tokens are not in the response:')
           console.log(response);

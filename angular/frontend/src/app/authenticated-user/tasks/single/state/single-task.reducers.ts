@@ -42,6 +42,24 @@ export function singleTasksReducer(
 
     switch(action.type) {
 
+        case SingleTaskActionTypes.LandingPageTasksLoaded:
+            return adapter.upsertMany(action.payload.singleTasks, {...state,
+                errorMessage: undefined,
+                landingPageSingleTasksLoaded: true
+            });
+
+        case SingleTaskActionTypes.LandingPageTasksRequestCancelled:
+            console.log(action.payload);
+            let landingPageErrorMessage: string = "Error submitting task!";
+            if (action.payload.err.error.message) {
+                landingPageErrorMessage = action.payload.err.error.message;
+            }
+            return {
+                ...state,  successMessage: undefined,
+                    errorMessage: landingPageErrorMessage
+            }
+        
+
         case SingleTaskActionTypes.SingleTaskCreatedWithDailyBatchAdded:
             return adapter.upsertMany(action.payload.dailyTasks, {...state,
                 errorMessage: undefined,
