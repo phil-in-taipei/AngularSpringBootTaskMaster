@@ -10,7 +10,10 @@ import {
 export enum SingleTaskActionTypes {
     LandingPageTasksLoaded = '[User Landing Page] Landing Page Daily Tasks Loaded',
     LandingPageTasksRequestCancelled = '[User Landing Page] Landing Page Tasks Request Cancelled',    
-    LandingPageTasksRequested = '[User Landing Page] Landing Daily Tasks Batch Requested',    
+    LandingPageTasksRequested = '[User Landing Page] Landing Daily Tasks Batch Requested',
+    DailyTasksRequested = '[Daily Tasks Page] Daily Batch Requested',
+    DailyTasksRequestCancelled= '[Daily Tasks Page] Daily Batch Request Cancelled',
+    DailyTasksLoaded = '[Daily Tasks API] Daily Batch Loaded',  
     SingleTasksCleared = '[View User Logout] All Single Tasks Removed',
     SingleTaskCreateSubmitted = '[Create Single Task Page] Single Task Submitted',
     SingleTaskCreatedWithDailyBatchAdded = '[Create Single Task Page] Newly Created Task with Daily Batch Added',
@@ -34,6 +37,26 @@ export class LandingPageTasksRequestCancelled implements Action {
 
 export class LandingPageTasksRequested implements Action {
     readonly type = SingleTaskActionTypes.LandingPageTasksRequested;
+}
+
+export class DailyTasksLoaded implements Action {
+    readonly type = SingleTaskActionTypes.DailyTasksLoaded;
+  
+    constructor(
+        public payload: { singleTasks: SingleTaskModel[] }
+    ) {}
+}
+
+export class DailyTasksRequested implements Action {
+    readonly type = SingleTaskActionTypes.DailyTasksRequested;
+  
+    constructor(public payload: { date: string }) {}
+}
+
+export class DailyTasksRequestCancelled implements Action {
+    readonly type = SingleTaskActionTypes.DailyTasksRequestCancelled;
+  
+    constructor(public payload: {  err: any }) {}
 }
 
 export class SingleTasksCleared implements Action {
@@ -68,7 +91,8 @@ export class SingleTaskMessagesCleared implements Action {
 
 export type SingleTaskActions =  LandingPageTasksLoaded | 
     LandingPageTasksRequestCancelled | LandingPageTasksRequested | 
-    SingleTasksCleared | 
+    DailyTasksLoaded | DailyTasksRequested |
+    DailyTasksRequestCancelled |SingleTasksCleared | 
     SingleTaskCreateSubmitted | SingleTaskCreationCancelled |
     SingleTaskCreatedWithDailyBatchAdded |
     SingleTaskMessagesCleared;

@@ -42,6 +42,22 @@ export function singleTasksReducer(
 
     switch(action.type) {
 
+        case SingleTaskActionTypes.DailyTasksLoaded:
+            return adapter.upsertMany(action.payload.singleTasks, {...state,
+                errorMessage: undefined,
+                landingPageSingleTasksLoaded: true
+            });
+
+        case SingleTaskActionTypes.DailyTasksRequestCancelled:
+            let dailyTasksErrorMessage: string = "Error fetching daily tasks!";
+            if (action.payload.err.error.message) {
+                dailyTasksErrorMessage = action.payload.err.error.message;
+            }
+            return {
+                ...state,  successMessage: undefined,
+                errorMessage: dailyTasksErrorMessage
+            }
+
         case SingleTaskActionTypes.LandingPageTasksLoaded:
             return adapter.upsertMany(action.payload.singleTasks, {...state,
                 errorMessage: undefined,
@@ -50,7 +66,7 @@ export function singleTasksReducer(
 
         case SingleTaskActionTypes.LandingPageTasksRequestCancelled:
             console.log(action.payload);
-            let landingPageErrorMessage: string = "Error submitting task!";
+            let landingPageErrorMessage: string = "Error fetching daily tasks!";
             if (action.payload.err.error.message) {
                 landingPageErrorMessage = action.payload.err.error.message;
             }
@@ -69,29 +85,25 @@ export function singleTasksReducer(
         case SingleTaskActionTypes.SingleTasksCleared:
             return initialSingleTasksState;
 
-
         case SingleTaskActionTypes.SingleTaskCreationCancelled:
             console.log(action.payload);
             let userErrorMessage: string = "Error submitting task!";
             if (action.payload.err.error.message) {
-                    //console.log(action.payload.err.error.message)
                 userErrorMessage = action.payload.err.error.message;
             }
             return {
                 ...state,  successMessage: undefined,
                 errorMessage: userErrorMessage
             }
-    
-     
-    
 
         case SingleTaskActionTypes.SingleTaskMessagesCleared:
             return {...state,  successMessage: undefined,
                 errorMessage: undefined
             }
+        
         default: {
-            return state
-        }
+                return state
+            }
     }    
 
 }

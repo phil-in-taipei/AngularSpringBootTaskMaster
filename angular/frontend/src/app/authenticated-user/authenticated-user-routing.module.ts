@@ -3,11 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthenticatedUserComponent } from './authenticated-user/authenticated-user.component';
 import { UserProfileComponent } from './user/user-profile/user-profile.component';
 import { CreateTaskComponent } from './tasks/single/create/create-task/create-task.component';
+import { DailyListComponent } from './tasks/single/list/daily-list/daily-list.component';
 import { LandingPageComponent } from './landing/landing-page/landing-page.component';
 
 const routes: Routes = [
   { path: '', component: AuthenticatedUserComponent, children: [ 
       { path: 'create-task', component: CreateTaskComponent },
+      { path: 'tasks-daily/:date', component: DailyListComponent },
       { path: 'landing', component: LandingPageComponent },
       { path: 'user-profile', component: UserProfileComponent },
       { path: 'weekly', loadChildren: () => import('./tasks/weekly/weekly.module')

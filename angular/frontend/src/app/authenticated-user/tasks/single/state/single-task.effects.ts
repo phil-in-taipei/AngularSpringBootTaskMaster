@@ -8,6 +8,8 @@ import { catchError, filter, map,
 } from "rxjs/operators";
 
 import {
+    DailyTasksLoaded, DailyTasksRequested,
+    DailyTasksRequestCancelled,
     LandingPageTasksLoaded, LandingPageTasksRequested,
     LandingPageTasksRequestCancelled, 
     SingleTaskActionTypes, SingleTaskCreateSubmitted, 
@@ -20,6 +22,25 @@ import { SingleTaskService } from '../service/single-task.service';
 
 @Injectable()
 export class SingleTaskEffects {
+
+    fetchDailyTasks$ = createEffect(() => {
+        return this.actions$
+          .pipe(
+            ofType<DailyTasksRequested>(SingleTaskActionTypes.DailyTasksRequested),
+            mergeMap(action => this.singleTaskService.fetchSingleTasksByDate(action.payload.date)
+              .pipe(
+                map(singleTasks => new DailyTasksLoaded({ singleTasks })),
+                catchError(err => {
+                  this.store.dispatch(
+                      new DailyTasksRequestCancelled({ err })
+                  );
+                  return of();
+                })
+              )
+            )
+          )
+      });
+
    
     fetchLandingPageTasks$ = createEffect(() => {
         return this.actions$
