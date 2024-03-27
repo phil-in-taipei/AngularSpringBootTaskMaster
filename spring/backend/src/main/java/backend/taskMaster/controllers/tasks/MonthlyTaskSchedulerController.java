@@ -23,7 +23,6 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 public class MonthlyTaskSchedulerController {
 
-
     @Autowired
     MonthlyTaskSchedulingService monthlyTaskSchedulingService;
 
@@ -31,7 +30,7 @@ public class MonthlyTaskSchedulerController {
     UserDetailsServiceImplementation userService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createTask(
+    public ResponseEntity<?> createMonthlyTaskScheduler(
             @RequestBody MonthlySchedulerPostRequest request,
             Authentication authentication
     ) {

@@ -47,9 +47,6 @@ import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 class BasicTaskControllerTest {
 
     @MockBean
-    AuthenticationService authenticationService;
-
-    @MockBean
     JwtService jwtService;
 
     @Autowired

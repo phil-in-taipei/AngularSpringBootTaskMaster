@@ -3,6 +3,7 @@ package backend.taskMaster;
 import backend.taskMaster.models.user.Role;
 import backend.taskMaster.models.user.User;
 import backend.taskMaster.repositories.tasks.task.SingleTaskRepo;
+import backend.taskMaster.repositories.tasks.taskSchedulers.MonthlyTaskSchedulerRepo;
 import backend.taskMaster.repositories.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -25,6 +26,9 @@ public class TaskMasterApplicationTest implements CommandLineRunner {
     @Autowired
     SingleTaskRepo singleTaskRepo;
 
+    @Autowired
+    MonthlyTaskSchedulerRepo monthlyTaskSchedulerRepo;
+
     //@Autowired
     //private UserDetailsServiceImplementation userService;
 
@@ -43,6 +47,7 @@ public class TaskMasterApplicationTest implements CommandLineRunner {
         userRepository.deleteByUsername("Test User");
         userRepository.deleteByUsername("Test Admin");
         singleTaskRepo.deleteAll();
+        monthlyTaskSchedulerRepo.deleteAll();
         if (userRepository.findAll().isEmpty()) {
             System.out.println("The user repo is empty. Creating mock users");
             User testUser = User.builder()
