@@ -31,17 +31,19 @@ export class DailyListComponent implements OnInit{
 
   ngOnInit(): void {
     this.dateFromRouteData = this.route.snapshot.params['date'];
+
     this.dailyTasks$ = this.store.pipe(
       select(selectSingleTasksByDate(this.dateFromRouteData)))
-      .pipe(map((dailyTasks: SingleTaskModel[] | undefined) => {
-        if (dailyTasks !== undefined) {
-          if (!dailyTasks.length) {
+      .pipe(map((singleTasks: SingleTaskModel[] | undefined) => {
+        if (singleTasks !== undefined) {
+          if (!singleTasks.length) {
             this.store.dispatch(new DailyTasksRequested(
               {date: this.dateFromRouteData }
             ));
           }
         }
-        return dailyTasks;
+        return singleTasks;
       }));
   }
+
 }

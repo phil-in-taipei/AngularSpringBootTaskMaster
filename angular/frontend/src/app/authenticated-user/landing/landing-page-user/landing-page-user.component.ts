@@ -62,6 +62,6 @@ export class LandingPageUserComponent implements OnInit{
       this.dateModel.year
     );
     console.log(dateString);
-    this.router.navigate(['/', 'authenticated-user', 'tasks', 'daily', dateString]);
+    this.router.navigate(['/', 'authenticated-user', 'tasks-daily', dateString]);
   }
 }
