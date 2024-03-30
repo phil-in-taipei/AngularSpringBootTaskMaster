@@ -23,6 +23,7 @@ import { CreateTaskComponent } from './tasks/single/create/create-task/create-ta
 import { 
   CreateTaskFormComponent 
 } from './tasks/single/create/create-task-form/create-task-form.component';
+import { DailyListComponent } from './tasks/single/list/daily-list/daily-list.component';
 import { 
   EditProfileFormComponent 
 } from './user/edit-profile-form/edit-profile-form.component';
@@ -41,6 +42,7 @@ import { UserProfileComponent } from './user/user-profile/user-profile.component
     AuthenticatedUserComponent,
     CreateTaskComponent,
     CreateTaskFormComponent,
+    DailyListComponent,
     EditProfileFormComponent,
     LandingPageComponent,
     LandingPageUserComponent,

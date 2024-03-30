@@ -6,12 +6,12 @@ import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/reducers';
 import { SingleTaskModel } from 'src/app/models/single-task.model';
 import { DailyTasksRequested } from '../../state/single-task.actions';
+import { DateTimeUtil } from 'src/app/shared-utils/date-time.util';
 import { selectSingleTasksByDate } from '../../state/single-task.selectors';
 
 @Component({
   selector: 'app-daily-list',
-  standalone: true,
-  imports: [],
+  standalone: false,
   templateUrl: './daily-list.component.html',
   styleUrl: './daily-list.component.css'
 })
@@ -24,13 +24,16 @@ export class DailyListComponent implements OnInit{
 
 
   constructor(
-    private route: ActivatedRoute, 
+    private route: ActivatedRoute,
+    private dateTimeUtil: DateTimeUtil,
     private router: Router,
     private store: Store<AppState>
   ) { }
 
   ngOnInit(): void {
     this.dateFromRouteData = this.route.snapshot.params['date'];
+    this.tmrwRouterStr = this.getTmrwRouterStr(this.dateFromRouteData);
+    this.ystrdyRouterStr = this.getYstrdyRouterStr(this.dateFromRouteData);
 
     this.dailyTasks$ = this.store.pipe(
       select(selectSingleTasksByDate(this.dateFromRouteData)))
@@ -43,6 +46,72 @@ export class DailyListComponent implements OnInit{
           }
         }
         return singleTasks;
+      }));
+
+  }
+
+  getTmrwRouterStr(dateFromRouteData: string) {
+    let date = new Date(dateFromRouteData);
+    let tomorrow = new Date(date);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    let dateTimeObj = tomorrow;
+    return this.dateTimeUtil.getDateString(
+      dateTimeObj.getUTCDate(),
+      dateTimeObj.getUTCMonth() + 1,
+      dateTimeObj.getUTCFullYear()
+    );
+  }
+
+  getYstrdyRouterStr(dateFromRouteData: string) {
+    let date = new Date(dateFromRouteData);
+    let yesterday = new Date(date);
+    yesterday.setDate(yesterday.getDate() - 1);
+    let dateTimeObj = yesterday;
+    return this.dateTimeUtil.getDateString(
+      dateTimeObj.getUTCDate(),
+      dateTimeObj.getUTCMonth() + 1,
+      dateTimeObj.getUTCFullYear()
+    );
+  }
+
+
+  navToTmrrow() {
+    console.log(this.tmrwRouterStr);
+    this.router.navigate(['/', 'authenticated-user', 'tasks-daily', this.tmrwRouterStr]);
+    this.dateFromRouteData = this.tmrwRouterStr;
+    this.tmrwRouterStr = this.getTmrwRouterStr(this.dateFromRouteData);
+    this.ystrdyRouterStr = this.getYstrdyRouterStr(this.dateFromRouteData);
+    this.dailyTasks$ = this.store.pipe(
+      select(selectSingleTasksByDate(this.dateFromRouteData)))
+      .pipe(map((tasks: SingleTaskModel[] | undefined) => {
+        if (tasks !== undefined) {
+          if (!tasks.length) {
+            this.store.dispatch(new DailyTasksRequested(
+              {date: this.dateFromRouteData }
+            ));
+          }
+        }
+        return tasks;
+      }));
+  }
+
+  navToYsdtrdy() {
+    console.log(this.ystrdyRouterStr);
+    this.router.navigate(['/', 'authenticated-user', 'tasks-daily', this.ystrdyRouterStr]);
+    this.dateFromRouteData = this.ystrdyRouterStr;
+    this.tmrwRouterStr = this.getTmrwRouterStr(this.dateFromRouteData);
+    this.ystrdyRouterStr = this.getYstrdyRouterStr(this.dateFromRouteData);
+    this.dailyTasks$ = this.store.pipe(
+      select(selectSingleTasksByDate(this.dateFromRouteData)))
+      .pipe(map((tasks: SingleTaskModel[] | undefined) => {
+        if (tasks !== undefined) {
+          if (!tasks.length) {
+            this.store.dispatch(new DailyTasksRequested(
+              {date: this.dateFromRouteData }
+            ));
+          }
+        }
+        return tasks;
       }));
   }
 
