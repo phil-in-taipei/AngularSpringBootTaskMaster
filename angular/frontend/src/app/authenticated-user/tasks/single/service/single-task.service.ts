@@ -31,6 +31,15 @@ export class SingleTaskService {
         })
   }
 
+  fetchSingleTasksByMonth(month: number, year: number) {
+    let token = this.authService.getAuthToken();
+    return this.http.get<SingleTaskModel[]>(
+      `${environment.apiUrl}/api/task/month-year/${month}/${year}`,
+        {
+          headers: new HttpHeaders({ 'Authorization': `Bearer ${token}` })
+        })
+  }
+
   fetchTodaysSingleTasks() {
     let dateTimeObj = new Date();
     const date = this.dateTimeUtil.getDateString(
