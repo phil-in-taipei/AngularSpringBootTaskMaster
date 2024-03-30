@@ -13,7 +13,10 @@ export enum SingleTaskActionTypes {
     LandingPageTasksRequested = '[User Landing Page] Landing Daily Tasks Batch Requested',
     DailyTasksRequested = '[Daily Tasks Page] Daily Batch Requested',
     DailyTasksRequestCancelled= '[Daily Tasks Page] Daily Batch Request Cancelled',
-    DailyTasksLoaded = '[Daily Tasks API] Daily Batch Loaded',  
+    DailyTasksLoaded = '[Daily Tasks API] Daily Batch Loaded',
+    MonthlyTasksRequested = '[Monthly Tasks Select Page] Monthly Batch Requested',
+    MonthlyTasksRequestCancelled= '[Monthly Tasks Page] Monthly Batch Request Cancelled',
+    MonthlyTasksLoaded = '[Monthly Tasks API] Monthly Batch Loaded', 
     SingleTasksCleared = '[View User Logout] All Single Tasks Removed',
     SingleTaskCreateSubmitted = '[Create Single Task Page] Single Task Submitted',
     SingleTaskCreatedWithDailyBatchAdded = '[Create Single Task Page] Newly Created Task with Daily Batch Added',
@@ -59,6 +62,28 @@ export class DailyTasksRequestCancelled implements Action {
     constructor(public payload: {  err: any }) {}
 }
 
+export class MonthlyTasksRequested implements Action {
+    readonly type = SingleTaskActionTypes.MonthlyTasksRequested;
+  
+    constructor(
+        public payload: { month: number, year: number 
+    }) {}
+}
+
+export class MonthlyTasksRequestCancelled implements Action {
+    readonly type = SingleTaskActionTypes.MonthlyTasksRequestCancelled;
+  
+    constructor(public payload: {  err: any }) {}
+}
+
+export class MonthlyTasksLoaded implements Action {
+    readonly type = SingleTaskActionTypes.MonthlyTasksLoaded;
+  
+    constructor(
+        public payload: { monthlyTasks: SingleTaskModel[] }
+    ) {}
+}
+
 export class SingleTasksCleared implements Action {
     readonly type = SingleTaskActionTypes.SingleTasksCleared;
 }
@@ -90,7 +115,9 @@ export class SingleTaskMessagesCleared implements Action {
 }
 
 export type SingleTaskActions =  LandingPageTasksLoaded | 
-    LandingPageTasksRequestCancelled | LandingPageTasksRequested | 
+    LandingPageTasksRequestCancelled | LandingPageTasksRequested |
+    MonthlyTasksRequested | MonthlyTasksRequestCancelled |
+    MonthlyTasksLoaded |
     DailyTasksLoaded | DailyTasksRequested |
     DailyTasksRequestCancelled |SingleTasksCleared | 
     SingleTaskCreateSubmitted | SingleTaskCreationCancelled |
