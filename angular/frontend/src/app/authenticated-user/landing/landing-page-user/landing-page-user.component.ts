@@ -4,7 +4,7 @@ import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 
 import { AppState } from 'src/app/reducers';
-import { DateTimeUtil } from 'src/app/shared-utils/date-time.util';
+import { getDateString } from 'src/app/shared-utils/date-time.util';
 import { 
   LandingPageTasksRequested 
 } from '../../tasks/single/state/single-task.actions';
@@ -29,7 +29,6 @@ export class LandingPageUserComponent implements OnInit{
   userProfile$: Observable<UserProfileModel | undefined>;
 
   constructor(
-    private dateTimeUtil: DateTimeUtil,
     private router: Router,
     private store: Store<AppState>
   ) {}
@@ -47,7 +46,7 @@ export class LandingPageUserComponent implements OnInit{
   }
 
   getTodayDateString(): string {
-    const dateString = this.dateTimeUtil.getDateString(
+    const dateString = getDateString(
       this.dateModel.day,
       this.dateModel.month,
       this.dateModel.year
@@ -56,7 +55,7 @@ export class LandingPageUserComponent implements OnInit{
   }
 
   navToSelectedDate(): void {
-    let dateString = this.dateTimeUtil.getDateString(
+    let dateString = getDateString(
       this.dateModel.day,
       this.dateModel.month,
       this.dateModel.year

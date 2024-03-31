@@ -2,6 +2,10 @@ import {createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
 import { SingleTaskModel } from 'src/app/models/single-task.model';
 
 import { SingleTaskActions, SingleTaskActionTypes } from './single-task.actions';
+import { 
+    getFirstDateofMonthStr, 
+    getLastDateOfMonthStr 
+} from 'src/app/shared-utils/date-time.util';
 
 function compareSingleTasksByDate(
     a:SingleTaskModel, b:SingleTaskModel) {
@@ -18,6 +22,7 @@ function compareSingleTasksByDate(
 };
 
 export interface SingleTasksState extends EntityState<SingleTaskModel> {
+    dateRange: [string, string] | undefined;
     errorMessage: string | undefined,
     monthlySingleTasksLoaded: boolean,
     landingPageSingleTasksLoaded: boolean,
@@ -30,6 +35,7 @@ export const adapter: EntityAdapter<SingleTaskModel> =
     );
 
 export const initialSingleTasksState: SingleTasksState = adapter.getInitialState({
+    dateRange: undefined,
     errorMessage: undefined,
     monthlySingleTasksLoaded: false,
     landingPageSingleTasksLoaded: false,
@@ -65,16 +71,40 @@ export function singleTasksReducer(
             });
 
         case SingleTaskActionTypes.LandingPageTasksRequestCancelled:
-            console.log(action.payload);
             let landingPageErrorMessage: string = "Error fetching daily tasks!";
             if (action.payload.err.error.message) {
                 landingPageErrorMessage = action.payload.err.error.message;
             }
             return {
                 ...state,  successMessage: undefined,
-                    errorMessage: landingPageErrorMessage
+                errorMessage: landingPageErrorMessage
             }
-        
+
+        case SingleTaskActionTypes.MonthlyTasksRequested:
+            let month:number = +action.payload.month;
+            let year:number = +action.payload.year;
+            let firstDate = getFirstDateofMonthStr(month, year);
+            let lastDate = getLastDateOfMonthStr(month, year);
+            return {
+                ...state,  dateRange: [firstDate, lastDate],
+                monthlySingleTasksLoaded:false 
+            }
+
+        case SingleTaskActionTypes.MonthlyTasksRequestCancelled:
+            let monthlyPageErrorMessage: string = "Error fetching monthly tasks!";
+            if (action.payload.err.error.message) {
+                monthlyPageErrorMessage = action.payload.err.error.message;
+            }
+            return {
+                ...state,  successMessage: undefined,
+                errorMessage: monthlyPageErrorMessage
+            }
+
+        case SingleTaskActionTypes.MonthlyTasksLoaded:
+            return adapter.upsertMany(action.payload.monthlyTasks, {...state,
+                errorMessage: undefined,
+                monthlySingleTasksLoadedTasksLoaded: true
+            });
 
         case SingleTaskActionTypes.SingleTaskCreatedWithDailyBatchAdded:
             return adapter.upsertMany(action.payload.dailyTasks, {...state,
@@ -97,7 +127,8 @@ export function singleTasksReducer(
             }
 
         case SingleTaskActionTypes.SingleTaskMessagesCleared:
-            return {...state,  successMessage: undefined,
+            return {
+                ...state,  successMessage: undefined,
                 errorMessage: undefined
             }
         

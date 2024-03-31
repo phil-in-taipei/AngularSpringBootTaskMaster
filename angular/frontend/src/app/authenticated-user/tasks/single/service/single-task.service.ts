@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { environment } from '../../../../../environments/environment';
 import { AuthService } from 'src/app/authentication/auth.service';
-import { DateTimeUtil } from 'src/app/shared-utils/date-time.util';
+import { getDateString } from 'src/app/shared-utils/date-time.util';
 import { 
   SingleTaskCreateModel, 
   SingleTaskRescheduleModel, 
@@ -19,7 +19,6 @@ export class SingleTaskService {
   constructor(
     private http: HttpClient,
     private authService: AuthService,
-    private dateTimeUtil: DateTimeUtil
   ) { }
 
   fetchSingleTasksByDate(date: string) {
@@ -42,7 +41,7 @@ export class SingleTaskService {
 
   fetchTodaysSingleTasks() {
     let dateTimeObj = new Date();
-    const date = this.dateTimeUtil.getDateString(
+    const date = getDateString(
       dateTimeObj.getUTCDate(),
       dateTimeObj.getUTCMonth() + 1,
       dateTimeObj.getUTCFullYear()

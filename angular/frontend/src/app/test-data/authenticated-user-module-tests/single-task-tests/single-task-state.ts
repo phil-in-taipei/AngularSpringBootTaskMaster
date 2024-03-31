@@ -80,6 +80,7 @@ export const statePriorToNewSingleTaskSubmitted = {
     singleTasks: {
       ids: marchIDsPriorToSubmission,
       entities: marchEntitiesPriorToSubmission,
+      dateRange: undefined,
       errorMessage: undefined,
       landingPageSingleTasksLoaded: true,
       monthlySingleTasksLoaded: true,
@@ -91,6 +92,7 @@ export const stateAfterNewSingleTaskSubmitted = {
     singleTasks: {
       ids: marchIDs,
       entities: marchEntities,
+      dateRange: undefined,
       errorMessage: undefined,
       landingPageSingleTasksLoaded: true,
       monthlySingleTasksLoaded: true,
@@ -102,6 +104,7 @@ export const stateAfterNewSingleTaskSubmissionFailure = {
     income: {
       ids: marchIDsPriorToSubmission,
       entities: marchEntitiesPriorToSubmission,
+      dateRange: undefined,
       errorMessage: newSingleTaskFailureMessage,
       landingPageSingleTasksLoaded: true,
       monthlySingleTasksLoaded: true,

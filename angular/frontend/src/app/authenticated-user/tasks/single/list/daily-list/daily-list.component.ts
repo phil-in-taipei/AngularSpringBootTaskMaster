@@ -6,7 +6,7 @@ import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/reducers';
 import { SingleTaskModel } from 'src/app/models/single-task.model';
 import { DailyTasksRequested } from '../../state/single-task.actions';
-import { DateTimeUtil } from 'src/app/shared-utils/date-time.util';
+import { getDateString } from 'src/app/shared-utils/date-time.util';
 import { selectSingleTasksByDate } from '../../state/single-task.selectors';
 
 @Component({
@@ -25,7 +25,6 @@ export class DailyListComponent implements OnInit{
 
   constructor(
     private route: ActivatedRoute,
-    private dateTimeUtil: DateTimeUtil,
     private router: Router,
     private store: Store<AppState>
   ) { }
@@ -55,7 +54,7 @@ export class DailyListComponent implements OnInit{
     let tomorrow = new Date(date);
     tomorrow.setDate(tomorrow.getDate() + 1);
     let dateTimeObj = tomorrow;
-    return this.dateTimeUtil.getDateString(
+    return getDateString(
       dateTimeObj.getUTCDate(),
       dateTimeObj.getUTCMonth() + 1,
       dateTimeObj.getUTCFullYear()
@@ -67,7 +66,7 @@ export class DailyListComponent implements OnInit{
     let yesterday = new Date(date);
     yesterday.setDate(yesterday.getDate() - 1);
     let dateTimeObj = yesterday;
-    return this.dateTimeUtil.getDateString(
+    return getDateString(
       dateTimeObj.getUTCDate(),
       dateTimeObj.getUTCMonth() + 1,
       dateTimeObj.getUTCFullYear()
