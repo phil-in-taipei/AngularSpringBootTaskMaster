@@ -13,7 +13,10 @@ import {
     LandingPageTasksLoaded, LandingPageTasksRequested,
     LandingPageTasksRequestCancelled, 
     SingleTaskActionTypes, SingleTaskCreateSubmitted, 
-    SingleTaskCreatedWithDailyBatchAdded, SingleTaskCreationCancelled
+    SingleTaskCreatedWithDailyBatchAdded, SingleTaskCreationCancelled,
+    MonthlyTasksRequested,
+    MonthlyTasksLoaded,
+    MonthlyTasksRequestCancelled
 } from './single-task.actions';
 import { 
     selectLandingPageTasksLoaded 
@@ -27,7 +30,9 @@ export class SingleTaskEffects {
         return this.actions$
           .pipe(
             ofType<DailyTasksRequested>(SingleTaskActionTypes.DailyTasksRequested),
-            mergeMap(action => this.singleTaskService.fetchSingleTasksByDate(action.payload.date)
+            mergeMap(action => this.singleTaskService.fetchSingleTasksByDate(
+                action.payload.date
+              )
               .pipe(
                 map(singleTasks => new DailyTasksLoaded({ singleTasks })),
                 catchError(err => {
@@ -59,6 +64,28 @@ export class SingleTaskEffects {
                 })
               )
             )
+          )
+      });
+
+      fetchMonthlyTasks$ = createEffect(() => {
+        return this.actions$
+          .pipe(
+            ofType<MonthlyTasksRequested>(SingleTaskActionTypes
+              .MonthlyTasksRequested),
+                  mergeMap(({payload}) => this.singleTaskService
+                    .fetchSingleTasksByMonth(payload.month, payload.year)
+                        .pipe(
+                            map(monthlyTasks => new MonthlyTasksLoaded(
+                                { monthlyTasks })
+                            ),
+                            catchError(err => {
+                                this.store.dispatch(
+                                  new MonthlyTasksRequestCancelled({ err })
+                                );
+                                return of();
+                            })
+                        )
+                )
           )
       });
 

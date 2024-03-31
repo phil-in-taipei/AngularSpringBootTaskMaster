@@ -1,0 +1,27 @@
+h1, h4, h5, h6 {
+    text-align: center;
+}
+  
+hr.thick-br {
+    border: 2px solid #758d97;
+ }
+  
+table {
+    color: #758d97;
+}
+  
+.small-scr-tbl {
+    display: none;
+}
+  
+@media screen and (max-width: 767px) {
+    #edit {
+      display: none;
+    }
+    .large-scr-tbl {
+      display: none;
+    }
+    .small-scr-tbl {
+      display: block;
+    }
+}

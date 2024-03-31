@@ -29,6 +29,11 @@ export const selectLandingPageTasksLoaded = createSelector(
     selectSingleTasksState,
     singleTasksState => singleTasksState.landingPageSingleTasksLoaded
 );
+
+export const selectMonthlyDateRange = createSelector(
+    selectSingleTasksState,
+    singleTasksState => singleTasksState.dateRange
+  );
               
 export const selectSingleTasksByMonthLoaded = createSelector(
     selectSingleTasksState,

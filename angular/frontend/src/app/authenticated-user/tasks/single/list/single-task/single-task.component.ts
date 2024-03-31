@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-single-task',
-  standalone: true,
-  imports: [],
+  standalone: false,
   templateUrl: './single-task.component.html',
   styleUrl: './single-task.component.css'
 })

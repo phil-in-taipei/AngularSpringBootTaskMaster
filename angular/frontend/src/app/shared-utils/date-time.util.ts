@@ -71,6 +71,17 @@ export function getSecondDateofMonthStr(month: number, year: number):string {
   return dateStr
 }
 
+export function getYearsOptions(): number[] {
+  let nextYear = new Date().getFullYear() + 2;
+  const firstYear = 2021;
+  let years = []
+  for (let i = firstYear; i < nextYear; i++) {
+    console.log(i)
+    years.push(i)
+  }
+  return years;
+}
+
 export const monthsAndIntegers: [string, number][] = [
   ['January', 1],
   ['February', 2],

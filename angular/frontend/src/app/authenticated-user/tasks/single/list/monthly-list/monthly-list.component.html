@@ -1,1 +1,27 @@
-<p>monthly-list works!</p>
+<div *ngIf="showMonthlySelectForm" class="container content">
+    <div>
+      <hr class="thick-br"/>
+      <div *ngIf="monthlyDateRange$ | async as monthlyDateRange;else no_previous_dates">
+        <h5>Reselect Monthly Spending Records</h5>
+          <app-reselect-monthly-tasks
+            [monthlyDateRange]=monthlyDateRange
+            (closeMonthlySelectFormEvent)="closeMonthlySelectFormHander($event)">
+          </app-reselect-monthly-tasks>
+      </div>
+      <ng-template #no_previous_dates>
+        <h5>Select Monthly Tasks</h5>
+          <app-select-monthly-tasks
+            (closeMonthlySelectFormEvent)="closeMonthlySelectFormHander($event)">
+          </app-select-monthly-tasks>
+      </ng-template>
+      <hr class="thick-br"/>
+    </div>
+</div>
+
+<div *ngIf="monthlyTasks$ | async as tasks" class="container content">
+    <div class="large-scr-tbl" [hidden]="showMonthlySelectForm"
+    [style.opacity]="showMonthlySelectForm ? '0' : '1'"
+    [style.visibility]="showMonthlySelectForm ? 'hidden' : 'visible'">
+    <hr class="thick-br"/>
+    <h5>{{ tasks.length }} Task(s) Scheduled This Month</h5>
+</div>

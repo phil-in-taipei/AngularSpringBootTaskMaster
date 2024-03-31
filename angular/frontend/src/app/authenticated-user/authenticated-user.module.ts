@@ -31,6 +31,18 @@ import { LandingPageComponent } from './landing/landing-page/landing-page.compon
 import { 
   LandingPageUserComponent 
 } from './landing/landing-page-user/landing-page-user.component';
+import { 
+  MonthlyListComponent 
+} from './tasks/single/list/monthly-list/monthly-list.component';
+import { 
+  ReselectMonthlyTasksComponent 
+} from './tasks/single/list/reselect-monthly-tasks/reselect-monthly-tasks.component';
+import { 
+  SelectMonthlyTasksComponent 
+} from './tasks/single/list/select-monthly-tasks/select-monthly-tasks.component';
+import { 
+  SingleTaskComponent 
+} from './tasks/single/list/single-task/single-task.component';
 import { UserProfileComponent } from './user/user-profile/user-profile.component';
 
 
@@ -46,6 +58,10 @@ import { UserProfileComponent } from './user/user-profile/user-profile.component
     EditProfileFormComponent,
     LandingPageComponent,
     LandingPageUserComponent,
+    MonthlyListComponent,
+    ReselectMonthlyTasksComponent,
+    SelectMonthlyTasksComponent,
+    SingleTaskComponent,
     UserProfileComponent
   ],
   imports: [
