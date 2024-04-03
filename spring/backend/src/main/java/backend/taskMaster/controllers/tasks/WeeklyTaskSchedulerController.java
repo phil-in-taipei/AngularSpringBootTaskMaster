@@ -2,9 +2,11 @@ package backend.taskMaster.controllers.tasks;
 
 import backend.taskMaster.models.errors.ApiError;
 import backend.taskMaster.models.tasks.apiData.MonthlySchedulerPostRequest;
+import backend.taskMaster.models.tasks.apiData.WeeklySchedulerPostRequest;
 import backend.taskMaster.models.tasks.taskSchedulers.MonthlyTaskScheduler;
+import backend.taskMaster.models.tasks.taskSchedulers.WeeklyTaskScheduler;
 import backend.taskMaster.models.user.User;
-import backend.taskMaster.services.tasks.MonthlyTaskSchedulingService;
+import backend.taskMaster.services.tasks.WeeklyTaskSchedulingService;
 import backend.taskMaster.services.user.UserDetailsServiceImplementation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,32 +17,37 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/monthly")
+@RequestMapping("/api/weekly")
 @RequiredArgsConstructor
-public class MonthlyTaskSchedulerController {
-
-    @Autowired
-    MonthlyTaskSchedulingService monthlyTaskSchedulingService;
+public class WeeklyTaskSchedulerController {
 
     @Autowired
     UserDetailsServiceImplementation userService;
 
+    @Autowired
+    WeeklyTaskSchedulingService weeklyTaskSchedulingService;
+
+
     @PostMapping("/create")
     public ResponseEntity<?> createMonthlyTaskScheduler(
-            @RequestBody MonthlySchedulerPostRequest request,
+            @RequestBody WeeklySchedulerPostRequest request,
             Authentication authentication
     ) {
         System.out.println(request.toString());
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         try {
-            User user = userService.loadUserByUsername(userDetails.getUsername());
-            MonthlyTaskScheduler monthlyTaskScheduler =
-                monthlyTaskSchedulingService
-                        .saveMonthlyTaskScheduler(new MonthlyTaskScheduler(
-                                request.getMonthlyTaskName(),
-                                request.getDayOfMonth(),
-                                user
-                        ));
+            User user = userService.loadUserByUsername(
+                    userDetails.getUsername()
+            );
+            WeeklyTaskScheduler monthlyTaskScheduler =
+                    weeklyTaskSchedulingService
+                            .saveWeeklyTaskScheduler(
+                                    new WeeklyTaskScheduler(
+                                            request.getWeeklyTaskName(),
+                                            request.getDayOfWeek(),
+                                            user
+                                    )
+                            );
             monthlyTaskScheduler.generateTemplateSelectorString();
             return new ResponseEntity<>(
                     monthlyTaskScheduler,
@@ -63,8 +70,8 @@ public class MonthlyTaskSchedulerController {
         UserDetails user = (UserDetails) authentication.getPrincipal();
         try {
             return new ResponseEntity<>(
-                    monthlyTaskSchedulingService
-                            .getAllUsersMonthlyTaskSchedulers(user.getUsername()),
+                    weeklyTaskSchedulingService
+                            .getAllUsersWeeklyTaskSchedulers(user.getUsername()),
                     HttpStatus.OK);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(
@@ -72,5 +79,6 @@ public class MonthlyTaskSchedulerController {
             );
         }
     }
+
 
 }

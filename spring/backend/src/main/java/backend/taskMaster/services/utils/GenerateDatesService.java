@@ -49,4 +49,97 @@ public class GenerateDatesService {
         }
         return dates;
     }
+
+    @Loggable
+    public List<LocalDate> getWeeklySchedulingDatesByQuarter(
+            DayOfWeek dayofWeek, Integer year,
+            QuarterlySchedulingEnum quarter) {
+        List<LocalDate> dates = new ArrayList<>();
+
+        // dateInQuarter first gets the starting point LocalDate, and then is continually modified
+        // to be one week later and added to the ArrayList until the date is in the next quarter
+        LocalDate dateInQuarter = getFirstDayOfWeekByYearAndQuarter(
+                dayofWeek, year, quarter);
+        switch (quarter) {
+            case Q1:
+                int Q21stMonth = 4;
+                while (dateInQuarter.getMonthValue() < Q21stMonth) {
+                    dates.add(dateInQuarter);
+                    dateInQuarter = dateInQuarter.plusWeeks(1);
+                }
+                break;
+            case Q2:
+                int Q31stMonth = 7;
+                while (dateInQuarter.getMonthValue() < Q31stMonth) {
+                    //System.out.println(dateInQuarter);
+                    dates.add(dateInQuarter);
+                    dateInQuarter = dateInQuarter.plusWeeks(1);
+                }
+                break;
+            case Q3:
+                int Q41stMonth = 10;
+                while (dateInQuarter.getMonthValue() < Q41stMonth) {
+                    //System.out.println(dateInQuarter);
+                    dates.add(dateInQuarter);
+                    dateInQuarter = dateInQuarter.plusWeeks(1);
+                }
+                break;
+            default:
+                int nextYearValue = year + 1;
+                while (dateInQuarter.getYear() < nextYearValue) {
+                    //System.out.println(dateInQuarter);
+                    dates.add(dateInQuarter);
+                    dateInQuarter = dateInQuarter.plusWeeks(1);
+                }
+                break;
+        }
+        return dates;
+    }
+
+    @Loggable
+    public LocalDate getFirstDayOfWeekByYearAndQuarter(
+            DayOfWeek dayofWeek, Integer year,
+            QuarterlySchedulingEnum quarter
+    ) { // for each quarter getting the LocalDate by day of week often produces a date from
+        // the prior month, so each quarter has an if block to determine if this has happened
+        // and if so calibrates the date to be one week later -- in the desired year/quarter
+        LocalDate firstDayOfQuarter;
+        switch (quarter) {
+            case Q1:
+                LocalDate ldQ1 = LocalDate.of(year, 1, 1);
+                ldQ1 = ldQ1.with(dayofWeek);
+                if (ldQ1.getMonthValue() == 12
+                        && ldQ1.getYear() < year) {
+                    ldQ1 =  ldQ1.plusWeeks(1);
+                }
+                firstDayOfQuarter = ldQ1;
+                break;
+            case Q2:
+                LocalDate ldQ2 = LocalDate.of(year, 4, 1);
+                ldQ2 = ldQ2.with(dayofWeek);
+                if (ldQ2.getMonthValue() < 4) {
+                    ldQ2 = ldQ2.plusWeeks(1);
+                }
+                firstDayOfQuarter = ldQ2;
+                break;
+            case Q3:
+                LocalDate ldQ3 = LocalDate.of(year, 7, 1);
+                ldQ3 = ldQ3.with(dayofWeek);
+                if (ldQ3.getMonthValue() < 7) {
+                    ldQ3 = ldQ3.plusWeeks(1);
+                }
+                firstDayOfQuarter = ldQ3;
+                break;
+            default:
+                LocalDate ldQ4 = LocalDate.of(year, 10, 1);
+                ldQ4 = ldQ4.with(dayofWeek);
+                if (ldQ4.with(dayofWeek).getMonthValue() < 10) {
+                    ldQ4 = ldQ4.plusWeeks(1);
+                }
+                firstDayOfQuarter = ldQ4;
+                break;
+
+        }
+        return firstDayOfQuarter;
+    }
 }

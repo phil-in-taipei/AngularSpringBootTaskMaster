@@ -1,15 +1,11 @@
 package backend.taskMaster.models.tasks.taskSchedulers;
 
 import backend.taskMaster.models.tasks.appliedSchedulers.MonthlyTaskAppliedQuarterly;
-import backend.taskMaster.models.tasks.task.TaskStatusEnum;
 import backend.taskMaster.models.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Set;
 
 @Entity
@@ -63,7 +59,7 @@ public class MonthlyTaskScheduler {
     @Transient
     private String templateSelectorString;
 
-    // this is for forms in thymeleaf to have a readable String
+    // this is for forms in frontend to have a readable String
     public void generateTemplateSelectorString() {
         String ordinalNumber = "th";
         if (dayOfMonth == 1 || dayOfMonth == 21 || dayOfMonth == 31) {
