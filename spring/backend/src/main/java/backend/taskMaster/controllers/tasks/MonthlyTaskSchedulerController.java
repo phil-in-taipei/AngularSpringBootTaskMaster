@@ -2,6 +2,9 @@ package backend.taskMaster.controllers.tasks;
 
 import backend.taskMaster.models.errors.ApiError;
 import backend.taskMaster.models.tasks.apiData.MonthlySchedulerPostRequest;
+import backend.taskMaster.models.tasks.apiData.RecurringTaskAppliedQuarterlyPostRequest;
+import backend.taskMaster.models.tasks.appliedSchedulers.MonthlyTaskAppliedQuarterly;
+import backend.taskMaster.models.tasks.appliedSchedulers.QuarterlySchedulingEnum;
 import backend.taskMaster.models.tasks.taskSchedulers.MonthlyTaskScheduler;
 import backend.taskMaster.models.user.User;
 import backend.taskMaster.services.tasks.MonthlyTaskSchedulingService;
@@ -66,6 +69,60 @@ public class MonthlyTaskSchedulerController {
                     monthlyTaskSchedulingService
                             .getAllUsersMonthlyTaskSchedulers(user.getUsername()),
                     HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(
+                    new ApiError("There was an error. Please try again")
+            );
+        }
+    }
+
+    @GetMapping("/applied-quarterly")
+    public ResponseEntity<?> getUsersMonthlyTaskSchedulersAppliedQuarterly(
+            Authentication authentication
+    ) {
+        UserDetails user = (UserDetails) authentication.getPrincipal();
+        try {
+            return new ResponseEntity<>(
+                    monthlyTaskSchedulingService
+                            .getAllUsersMonthlyTasksAppliedQuarterly(
+                                    user.getUsername()
+                            ),
+                    HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(
+                    new ApiError("There was an error. Please try again")
+            );
+        }
+    }
+
+    // In the form the user selects the monthly task scheduler along with the year and quarter
+    // In the service method, the scheduling of the monthly tasks will be triggered for the quarter
+    @PostMapping("/apply-quarterly/{quarter}/{year}")
+    public ResponseEntity<?> saveNewQuarterlyMonthlyTask(
+            @RequestBody RecurringTaskAppliedQuarterlyPostRequest request,
+            @PathVariable(name = "quarter") String quarter,
+            @PathVariable(name = "year") int year
+    ) {
+        try {
+            System.out.println(request);
+            System.out.println(quarter);
+            System.out.println(year);
+            MonthlyTaskScheduler monthlyTask = monthlyTaskSchedulingService
+                    .getMonthlyTaskScheduler(
+                        request.getRecurringTaskSchedulerId()
+                    );
+            MonthlyTaskAppliedQuarterly qMonthlyTask = new MonthlyTaskAppliedQuarterly();
+            qMonthlyTask.setMonthlyTaskScheduler(monthlyTask);
+            qMonthlyTask.setQuarter(QuarterlySchedulingEnum.valueOf(quarter));
+            qMonthlyTask.setYear(year);
+            return new ResponseEntity<>(
+                    monthlyTaskSchedulingService
+                            .saveMonthlyTaskAppliedQuarterly(qMonthlyTask),
+                    HttpStatus.CREATED
+            );
+
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new ApiError(e.getMessage()));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(
                     new ApiError("There was an error. Please try again")

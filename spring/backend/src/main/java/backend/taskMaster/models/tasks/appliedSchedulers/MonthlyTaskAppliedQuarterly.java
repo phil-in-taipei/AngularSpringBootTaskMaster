@@ -1,5 +1,6 @@
 package backend.taskMaster.models.tasks.appliedSchedulers;
 import backend.taskMaster.models.tasks.taskSchedulers.MonthlyTaskScheduler;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -50,4 +51,5 @@ public class MonthlyTaskAppliedQuarterly {
                 ", monthlyTaskScheduler=" + monthlyTaskScheduler +
                 '}';
     }
+
 }
