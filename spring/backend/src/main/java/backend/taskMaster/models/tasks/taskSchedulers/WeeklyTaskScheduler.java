@@ -35,6 +35,7 @@ public class WeeklyTaskScheduler {
     // orphanRemoval deletes related quarterly applications
     // of the WeeklyTaskScheduler upon deletion
     @OneToMany(mappedBy = "weeklyTaskScheduler", orphanRemoval = true)
+    @JsonIgnore
     private Set<WeeklyTaskAppliedQuarterly> weeklyTaskAppliedQuarterly;
 
     public WeeklyTaskScheduler(

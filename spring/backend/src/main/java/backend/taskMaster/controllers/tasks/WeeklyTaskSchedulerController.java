@@ -2,7 +2,10 @@ package backend.taskMaster.controllers.tasks;
 
 import backend.taskMaster.models.errors.ApiError;
 import backend.taskMaster.models.tasks.apiData.MonthlySchedulerPostRequest;
+import backend.taskMaster.models.tasks.apiData.RecurringTaskAppliedQuarterlyPostRequest;
 import backend.taskMaster.models.tasks.apiData.WeeklySchedulerPostRequest;
+import backend.taskMaster.models.tasks.appliedSchedulers.QuarterlySchedulingEnum;
+import backend.taskMaster.models.tasks.appliedSchedulers.WeeklyTaskAppliedQuarterly;
 import backend.taskMaster.models.tasks.taskSchedulers.MonthlyTaskScheduler;
 import backend.taskMaster.models.tasks.taskSchedulers.WeeklyTaskScheduler;
 import backend.taskMaster.models.user.User;
@@ -27,6 +30,52 @@ public class WeeklyTaskSchedulerController {
     @Autowired
     WeeklyTaskSchedulingService weeklyTaskSchedulingService;
 
+    @GetMapping("/applied-quarterly")
+    public ResponseEntity<?> getUsersMonthlyTaskSchedulersAppliedQuarterly(
+            Authentication authentication
+    ) {
+        UserDetails user = (UserDetails) authentication.getPrincipal();
+        try {
+            return new ResponseEntity<>(
+                    weeklyTaskSchedulingService
+                            .getAllUsersWeeklyTasksAppliedQuarterly(
+                                    user.getUsername()
+                            ),
+                    HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(
+                    new ApiError("There was an error. Please try again")
+            );
+        }
+    }
+
+    @PostMapping("/apply-quarterly/{quarter}/{year}")
+    public ResponseEntity<?> saveNewQuarterlyMonthlyTask(
+            @RequestBody RecurringTaskAppliedQuarterlyPostRequest request,
+            @PathVariable(name = "quarter") String quarter,
+            @PathVariable(name = "year") int year
+    ) {
+        try {
+            WeeklyTaskScheduler weeklyTaskScheduler = weeklyTaskSchedulingService.getWeeklyTaskScheduler(
+                    request.getRecurringTaskSchedulerId()
+            );
+            WeeklyTaskAppliedQuarterly qWeeklyTask = new WeeklyTaskAppliedQuarterly();
+            qWeeklyTask.setWeeklyTaskScheduler(weeklyTaskScheduler);
+            qWeeklyTask.setQuarter(QuarterlySchedulingEnum.valueOf(quarter));
+            qWeeklyTask.setYear(year);
+            return new ResponseEntity<>(
+                    weeklyTaskSchedulingService
+                            .saveWeeklyTaskAppliedQuarterly(qWeeklyTask),
+                    HttpStatus.CREATED
+            );
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new ApiError(e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(
+                    new ApiError("There was an error. Please try again")
+            );
+        }
+    }
 
     @PostMapping("/create")
     public ResponseEntity<?> createMonthlyTaskScheduler(
@@ -61,8 +110,6 @@ public class WeeklyTaskSchedulerController {
             );
         }
     }
-
-
     @GetMapping("/schedulers")
     public ResponseEntity<?> getUsersMonthlyTaskSchedulers(
             Authentication authentication
@@ -79,6 +126,5 @@ public class WeeklyTaskSchedulerController {
             );
         }
     }
-
 
 }
