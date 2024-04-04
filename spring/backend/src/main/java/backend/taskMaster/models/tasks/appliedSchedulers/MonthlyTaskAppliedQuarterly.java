@@ -1,6 +1,7 @@
 package backend.taskMaster.models.tasks.appliedSchedulers;
 import backend.taskMaster.models.tasks.taskSchedulers.MonthlyTaskScheduler;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -40,6 +41,9 @@ public class MonthlyTaskAppliedQuarterly {
     private Integer year;
 
     @ManyToOne(optional = false)
+    //@JsonIgnoreProperties(
+    //        {"monthlyTaskName", "dayOfMonth", "templateSelectorString"}
+    //)
     private MonthlyTaskScheduler monthlyTaskScheduler;
 
     @Override

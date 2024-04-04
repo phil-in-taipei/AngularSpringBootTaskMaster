@@ -1,6 +1,7 @@
 package backend.taskMaster.models.tasks.appliedSchedulers;
 
 import backend.taskMaster.models.tasks.taskSchedulers.WeeklyTaskScheduler;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,9 +10,10 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(uniqueConstraints=
-@UniqueConstraint(columnNames =
-        {"quarter", "year", "weekly_task_scheduler_id"}))
+@Table(uniqueConstraints=@UniqueConstraint(
+        columnNames =
+        {"quarter", "year", "weekly_task_scheduler_id"}
+))
 @Getter
 @Setter
 @Builder
@@ -40,6 +42,9 @@ public class WeeklyTaskAppliedQuarterly {
     private Integer year;
 
     @ManyToOne(optional = false)
+    //@JsonIgnoreProperties(
+    //        {"weeklyTaskName", "dayOfWeek", "templateSelectorString"}
+    //)
     private WeeklyTaskScheduler weeklyTaskScheduler;
 
     @Override
