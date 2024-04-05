@@ -1,10 +1,8 @@
 package backend.taskMaster.controllers.tasks;
 
 import backend.taskMaster.models.errors.ApiError;
-import backend.taskMaster.models.tasks.apiData.MonthlySchedulerPostRequest;
-import backend.taskMaster.models.tasks.apiData.RecurringTaskAppliedQuarterlyPostRequest;
-import backend.taskMaster.models.tasks.apiData.WeeklySchedulerPostRequest;
-import backend.taskMaster.models.tasks.apiData.WeeklyTaskAppliedQuarterlyDTO;
+import backend.taskMaster.models.tasks.apiData.*;
+import backend.taskMaster.models.tasks.appliedSchedulers.MonthlyTaskAppliedQuarterly;
 import backend.taskMaster.models.tasks.appliedSchedulers.QuarterlySchedulingEnum;
 import backend.taskMaster.models.tasks.appliedSchedulers.WeeklyTaskAppliedQuarterly;
 import backend.taskMaster.models.tasks.taskSchedulers.MonthlyTaskScheduler;
@@ -42,6 +40,38 @@ public class WeeklyTaskSchedulerController {
         try {
             List<WeeklyTaskAppliedQuarterly> entities = weeklyTaskSchedulingService
                     .getAllUsersWeeklyTasksAppliedQuarterly(
+                            user.getUsername()
+                    );
+            List<WeeklyTaskAppliedQuarterlyDTO> responseData = new ArrayList<>();
+            for (WeeklyTaskAppliedQuarterly entity : entities) {
+                responseData.add(new WeeklyTaskAppliedQuarterlyDTO(
+                        entity.getId(),
+                        entity.getQuarter(),
+                        entity.getYear(),
+                        entity.getWeeklyTaskScheduler().getId()));
+            }
+            return new ResponseEntity<>(responseData, HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(
+                    new ApiError("There was an error. Please try again")
+            );
+        }
+    }
+
+    @GetMapping("/applied-quarterly/{quarter}/{year}")
+    public ResponseEntity<?>
+        getUsersWeeklyTaskSchedulersAppliedQuarterlyByQuarterAndYear(
+            @PathVariable(name = "quarter") String quarter,
+            @PathVariable(name = "year") int year,
+            Authentication authentication
+    ) {
+        UserDetails user = (UserDetails) authentication.getPrincipal();
+        try {
+            List<WeeklyTaskAppliedQuarterly> entities = weeklyTaskSchedulingService
+                    .getUsersWeeklyTasksAppliedQuarterlyByQuarterAndYear(
+                            QuarterlySchedulingEnum.valueOf(
+                                    quarter),
+                            year,
                             user.getUsername()
                     );
             List<WeeklyTaskAppliedQuarterlyDTO> responseData = new ArrayList<>();
@@ -121,6 +151,57 @@ public class WeeklyTaskSchedulerController {
             );
         }
     }
+
+    @RequestMapping(
+            value="/delete/{taskId}", method=RequestMethod.DELETE
+    )
+    public ResponseEntity<?> deleteWeeklyTaskScheduler(
+            @PathVariable(name = "taskId") Long taskId
+    ) {
+        if (weeklyTaskSchedulingService
+                .getWeeklyTaskScheduler(taskId) == null
+        ) {
+            return new ResponseEntity<>(
+                    new ApiError("Deletion Failed. Item not found"),
+                    HttpStatus.NOT_FOUND
+            );
+        }
+        weeklyTaskSchedulingService.deleteWeeklyTaskScheduler(taskId);
+        return new ResponseEntity<>(
+                new TaskDeletionResponse(
+                        taskId,
+                        "Weekly task scheduler successfully deleted!"
+                )
+                , HttpStatus.OK
+        );
+    }
+
+    @RequestMapping(
+            value="/delete-applied-quarterly/{taskId}",
+            method=RequestMethod.DELETE
+    )
+    public ResponseEntity<?> deleteWeeklyTaskAppliedQuarterly(
+            @PathVariable(name = "taskId") Long taskId
+    ) {
+        if (weeklyTaskSchedulingService
+                .getWeeklyTaskAppliedQuarterly(taskId) == null
+        ) {
+            return new ResponseEntity<>(
+                    new ApiError("Deletion Failed. Item not found"),
+                    HttpStatus.NOT_FOUND
+            );
+        }
+        weeklyTaskSchedulingService
+                .deleteWeeklyTaskAppliedQuarterly(taskId);
+        return new ResponseEntity<>(
+                new TaskDeletionResponse(
+                        taskId, "Weekly task application successfully deleted!"
+                )
+                , HttpStatus.OK
+        );
+    }
+
+
     @GetMapping("/schedulers")
     public ResponseEntity<?> getUsersWeeklyTaskSchedulers(
             Authentication authentication

@@ -4,6 +4,7 @@ import backend.taskMaster.models.errors.ApiError;
 import backend.taskMaster.models.tasks.apiData.MonthlySchedulerPostRequest;
 import backend.taskMaster.models.tasks.apiData.MonthlyTaskAppliedQuarterlyDTO;
 import backend.taskMaster.models.tasks.apiData.RecurringTaskAppliedQuarterlyPostRequest;
+import backend.taskMaster.models.tasks.apiData.TaskDeletionResponse;
 import backend.taskMaster.models.tasks.appliedSchedulers.MonthlyTaskAppliedQuarterly;
 import backend.taskMaster.models.tasks.appliedSchedulers.QuarterlySchedulingEnum;
 import backend.taskMaster.models.tasks.taskSchedulers.MonthlyTaskScheduler;
@@ -58,6 +59,39 @@ public class MonthlyTaskSchedulerController {
         }
     }
 
+    @GetMapping("/applied-quarterly/{quarter}/{year}")
+    public ResponseEntity<?>
+        getUsersMonthlyTaskSchedulersAppliedQuarterlyByQuarterAndYear(
+            @PathVariable(name = "quarter") String quarter,
+            @PathVariable(name = "year") int year,
+            Authentication authentication
+    ) {
+        UserDetails user = (UserDetails) authentication.getPrincipal();
+        try {
+            List<MonthlyTaskAppliedQuarterly> entities = monthlyTaskSchedulingService
+                    .getUsersMonthlyTasksAppliedQuarterlyByQuarterAndYear(
+                            QuarterlySchedulingEnum.valueOf(
+                                    quarter),
+                            year,
+                            user.getUsername()
+                    );
+            List<MonthlyTaskAppliedQuarterlyDTO> responseData = new ArrayList<>();
+            for (MonthlyTaskAppliedQuarterly entity : entities) {
+                responseData.add(new MonthlyTaskAppliedQuarterlyDTO(
+                        entity.getId(),
+                        entity.getQuarter(),
+                        entity.getYear(),
+                        entity.getMonthlyTaskScheduler().getId()));
+            }
+            return new ResponseEntity<>(responseData, HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(
+                    new ApiError("There was an error. Please try again")
+            );
+        }
+    }
+
+
     // In the form the user selects the monthly task scheduler along with the year and quarter
     // In the service method, the scheduling of the monthly tasks will be triggered for the quarter
     @PostMapping("/apply-quarterly/{quarter}/{year}")
@@ -89,6 +123,8 @@ public class MonthlyTaskSchedulerController {
         }
     }
 
+
+
     @PostMapping("/create")
     public ResponseEntity<?> createMonthlyTaskScheduler(
             @RequestBody MonthlySchedulerPostRequest request,
@@ -117,6 +153,53 @@ public class MonthlyTaskSchedulerController {
                     new ApiError("There was an error. Please try again")
             );
         }
+    }
+
+    @RequestMapping(
+            value="/delete/{taskId}", method=RequestMethod.DELETE
+    )
+    public ResponseEntity<?> deleteMonthlyTaskScheduler(
+            @PathVariable(name = "taskId") Long taskId
+    ) {
+        if (monthlyTaskSchedulingService
+                .getMonthlyTaskScheduler(taskId) == null
+        ) {
+            return new ResponseEntity<>(
+                    new ApiError("Deletion Failed. Item not found") ,
+                    HttpStatus.NOT_FOUND
+            );
+        }
+        monthlyTaskSchedulingService.deleteMonthlyTaskScheduler(taskId);
+        return new ResponseEntity<>(
+                new TaskDeletionResponse(
+                        taskId,
+                        "Monthly task scheduler successfully deleted!"
+                )
+                , HttpStatus.OK);
+    }
+
+    @RequestMapping(
+            value="/delete-applied-quarterly/{taskId}", method=RequestMethod.DELETE
+    )
+    public ResponseEntity<?> deleteMonthlyTaskAppliedQuarterly(
+            @PathVariable(name = "taskId") Long taskId
+    ) {
+        if (monthlyTaskSchedulingService
+                .getMonthlyTaskAppliedQuarterly(taskId) == null
+        ) {
+            return new ResponseEntity<>(
+                    new ApiError("Deletion Failed. Item not found"),
+                    HttpStatus.NOT_FOUND
+            );
+        }
+        monthlyTaskSchedulingService
+                .deleteMonthlyTaskAppliedQuarterly(taskId);
+        return new ResponseEntity<>(
+                new TaskDeletionResponse(
+                        taskId, "Monthly task application successfully deleted!"
+                )
+                , HttpStatus.OK
+        );
     }
 
     @GetMapping("/schedulers")

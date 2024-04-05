@@ -33,6 +33,7 @@ public class MonthlyTaskScheduler {
 
     // orphanRemoval deletes related quarterly applications
     // of the MonthlyTaskScheduler upon deletion
+    // json ignore prevents circular reference
     @OneToMany(mappedBy = "monthlyTaskScheduler", orphanRemoval = true)
     @JsonIgnore
     private Set<MonthlyTaskAppliedQuarterly> monthlyTaskAppliedQuarterly;

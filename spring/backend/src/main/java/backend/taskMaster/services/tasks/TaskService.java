@@ -28,8 +28,6 @@ public class TaskService {
         return task;
     }
 
-
-
     // This enables user to delete a task
     @Loggable
     public void deleteTask(Long id) {
@@ -75,7 +73,7 @@ public class TaskService {
         );
     }
 
-    // Gets a maintenance task by id. Used to check a task exists prior to deletion and to get a
+    // Gets a task by id. Used to check a task exists prior to deletion and to get a
     // Maintenance task for editing (adding comments and/or rescheduling)
     @Loggable
     public SingleTask getTask(Long id) {

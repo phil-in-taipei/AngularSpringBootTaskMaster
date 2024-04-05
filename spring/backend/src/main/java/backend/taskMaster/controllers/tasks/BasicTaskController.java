@@ -34,8 +34,6 @@ public class BasicTaskController {
             @RequestBody TaskPostRequest request,
             Authentication authentication
     ) {
-        System.out.println("Making a request to register new user");
-        System.out.println(request.toString());
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         try {
             User user = userService.loadUserByUsername(userDetails.getUsername());
@@ -96,7 +94,7 @@ public class BasicTaskController {
         }
     }
 
-    @RequestMapping("/delete/{taskId}")
+    @RequestMapping(value="/delete/{taskId}", method=RequestMethod.DELETE)
     public ResponseEntity<?> deleteTask(@PathVariable(name = "taskId") Long taskId) {
         if (taskService.getTask(taskId) == null) {
             return new ResponseEntity<>(
