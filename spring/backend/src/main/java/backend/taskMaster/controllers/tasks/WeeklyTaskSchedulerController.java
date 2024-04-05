@@ -4,6 +4,7 @@ import backend.taskMaster.models.errors.ApiError;
 import backend.taskMaster.models.tasks.apiData.MonthlySchedulerPostRequest;
 import backend.taskMaster.models.tasks.apiData.RecurringTaskAppliedQuarterlyPostRequest;
 import backend.taskMaster.models.tasks.apiData.WeeklySchedulerPostRequest;
+import backend.taskMaster.models.tasks.apiData.WeeklyTaskAppliedQuarterlyDTO;
 import backend.taskMaster.models.tasks.appliedSchedulers.QuarterlySchedulingEnum;
 import backend.taskMaster.models.tasks.appliedSchedulers.WeeklyTaskAppliedQuarterly;
 import backend.taskMaster.models.tasks.taskSchedulers.MonthlyTaskScheduler;
@@ -19,6 +20,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/weekly")
 @RequiredArgsConstructor
@@ -31,17 +35,24 @@ public class WeeklyTaskSchedulerController {
     WeeklyTaskSchedulingService weeklyTaskSchedulingService;
 
     @GetMapping("/applied-quarterly")
-    public ResponseEntity<?> getUsersMonthlyTaskSchedulersAppliedQuarterly(
+    public ResponseEntity<?> getUsersWeeklyTaskSchedulersAppliedQuarterly(
             Authentication authentication
     ) {
         UserDetails user = (UserDetails) authentication.getPrincipal();
         try {
-            return new ResponseEntity<>(
-                    weeklyTaskSchedulingService
-                            .getAllUsersWeeklyTasksAppliedQuarterly(
-                                    user.getUsername()
-                            ),
-                    HttpStatus.OK);
+            List<WeeklyTaskAppliedQuarterly> entities = weeklyTaskSchedulingService
+                    .getAllUsersWeeklyTasksAppliedQuarterly(
+                            user.getUsername()
+                    );
+            List<WeeklyTaskAppliedQuarterlyDTO> responseData = new ArrayList<>();
+            for (WeeklyTaskAppliedQuarterly entity : entities) {
+                responseData.add(new WeeklyTaskAppliedQuarterlyDTO(
+                        entity.getId(),
+                        entity.getQuarter(),
+                        entity.getYear(),
+                        entity.getWeeklyTaskScheduler().getId()));
+            }
+            return new ResponseEntity<>(responseData, HttpStatus.OK);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(
                     new ApiError("There was an error. Please try again")
@@ -50,7 +61,7 @@ public class WeeklyTaskSchedulerController {
     }
 
     @PostMapping("/apply-quarterly/{quarter}/{year}")
-    public ResponseEntity<?> saveNewQuarterlyMonthlyTask(
+    public ResponseEntity<?> saveNewQuarterlyWeeklyTask(
             @RequestBody RecurringTaskAppliedQuarterlyPostRequest request,
             @PathVariable(name = "quarter") String quarter,
             @PathVariable(name = "year") int year
@@ -78,7 +89,7 @@ public class WeeklyTaskSchedulerController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createMonthlyTaskScheduler(
+    public ResponseEntity<?> createWeeklyTaskScheduler(
             @RequestBody WeeklySchedulerPostRequest request,
             Authentication authentication
     ) {
@@ -111,7 +122,7 @@ public class WeeklyTaskSchedulerController {
         }
     }
     @GetMapping("/schedulers")
-    public ResponseEntity<?> getUsersMonthlyTaskSchedulers(
+    public ResponseEntity<?> getUsersWeeklyTaskSchedulers(
             Authentication authentication
     ) {
         UserDetails user = (UserDetails) authentication.getPrincipal();

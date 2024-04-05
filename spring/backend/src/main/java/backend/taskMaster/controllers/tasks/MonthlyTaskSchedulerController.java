@@ -2,6 +2,7 @@ package backend.taskMaster.controllers.tasks;
 
 import backend.taskMaster.models.errors.ApiError;
 import backend.taskMaster.models.tasks.apiData.MonthlySchedulerPostRequest;
+import backend.taskMaster.models.tasks.apiData.MonthlyTaskAppliedQuarterlyDTO;
 import backend.taskMaster.models.tasks.apiData.RecurringTaskAppliedQuarterlyPostRequest;
 import backend.taskMaster.models.tasks.appliedSchedulers.MonthlyTaskAppliedQuarterly;
 import backend.taskMaster.models.tasks.appliedSchedulers.QuarterlySchedulingEnum;
@@ -16,6 +17,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/monthly")
@@ -34,12 +38,19 @@ public class MonthlyTaskSchedulerController {
     ) {
         UserDetails user = (UserDetails) authentication.getPrincipal();
         try {
-            return new ResponseEntity<>(
-                    monthlyTaskSchedulingService
-                            .getAllUsersMonthlyTasksAppliedQuarterly(
-                                    user.getUsername()
-                            ),
-                    HttpStatus.OK);
+            List<MonthlyTaskAppliedQuarterly> entities = monthlyTaskSchedulingService
+                    .getAllUsersMonthlyTasksAppliedQuarterly(
+                            user.getUsername()
+                    );
+            List<MonthlyTaskAppliedQuarterlyDTO> responseData = new ArrayList<>();
+            for (MonthlyTaskAppliedQuarterly entity : entities) {
+                responseData.add(new MonthlyTaskAppliedQuarterlyDTO(
+                        entity.getId(),
+                        entity.getQuarter(),
+                        entity.getYear(),
+                        entity.getMonthlyTaskScheduler().getId()));
+            }
+            return new ResponseEntity<>(responseData, HttpStatus.OK);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(
                     new ApiError("There was an error. Please try again")
