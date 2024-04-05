@@ -1,1 +1,41 @@
-<p>single-task works!</p>
+<tr class="row" >
+    <th class="col">
+        <h5 class="text-secondary">
+            <a [routerLink]="['/authenticated-user/tasks-daily', singleTask.date]">
+              {{ singleTask.date }}
+            </a>
+        </h5>
+    </th>
+    <th class="col">
+      <h5 class="text-secondary">
+        {{ singleTask.taskName }}
+      </h5>
+    </th>
+    <th class="col">
+      <div *ngIf="!deletionPopupVisible; else delAccount" class="col text-left">
+        <button
+          class="btn btn-sm btn-outline-secondary"
+          (click)="showDeletionPopup()"
+          >
+          Remove
+        </button>
+      </div>
+      <ng-template #delAccount class="row">
+        <div class="col text-secondary">
+          <button
+            class="btn btn-sm btn-outline-secondary"
+            (click)="hideDeletionPopup()">
+            Don't Delete
+          </button>
+        </div>
+        <div class="col text-secondary">
+          <button
+            class="btn btn-sm btn-outline-danger"
+            (click)="onRemoveTask()"
+            >
+            Confirm Delete
+          </button>
+        </div>
+      </ng-template>
+    </th>
+</tr>

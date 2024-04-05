@@ -14,9 +14,9 @@ import {
     LandingPageTasksRequestCancelled, 
     SingleTaskActionTypes, SingleTaskCreateSubmitted, 
     SingleTaskCreatedWithDailyBatchAdded, SingleTaskCreationCancelled,
-    MonthlyTasksRequested,
-    MonthlyTasksLoaded,
-    MonthlyTasksRequestCancelled
+    SingleTaskDeletionCancelled, SingleTaskDeletionRequested, 
+    SingleTaskDeletionSaved, MonthlyTasksRequested,
+    MonthlyTasksLoaded, MonthlyTasksRequestCancelled
 } from './single-task.actions';
 import { 
     selectLandingPageTasksLoaded 
@@ -25,6 +25,29 @@ import { SingleTaskService } from '../service/single-task.service';
 
 @Injectable()
 export class SingleTaskEffects {
+
+    deleteSingleTask$ = createEffect(() => {
+      return this.actions$
+          .pipe(
+              ofType<SingleTaskDeletionRequested>(
+                SingleTaskActionTypes.SingleTaskDeletionRequested),
+                  mergeMap(action => this.singleTaskService
+                      .deleteSingleTask(action.payload.id)
+                          .pipe(
+                              map(deletionResponse => new SingleTaskDeletionSaved(
+                                  deletionResponse)
+                              ),
+                              catchError(err => {
+                                  this.store.dispatch(
+                                      new SingleTaskDeletionCancelled({ err })
+                                  );
+                                  return of();
+                              })
+                          )
+                  )
+          )
+      });
+
 
     fetchDailyTasks$ = createEffect(() => {
         return this.actions$

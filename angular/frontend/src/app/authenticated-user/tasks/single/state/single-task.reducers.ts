@@ -126,6 +126,26 @@ export function singleTasksReducer(
                 errorMessage: userErrorMessage
             }
 
+
+        case SingleTaskActionTypes.SingleTaskDeletionCancelled:
+            let deletionErrMsg: string = "Error! Task Deletion Failed!";
+            if (action.payload.err.error.Error) {
+                deletionErrMsg = action.payload.err.error.Error;
+            }
+            return {
+                ...state,  successMessage: undefined,
+                errorMessage: deletionErrMsg
+            }
+    
+        case SingleTaskActionTypes.SingleTaskDeletionSaved:
+            return adapter.removeOne(action.payload.id, 
+                { 
+                    ...state,
+                    errorMessage: undefined,
+                    successMessage: action.payload.message
+                }
+            );
+    
         case SingleTaskActionTypes.SingleTaskMessagesCleared:
             return {
                 ...state,  successMessage: undefined,

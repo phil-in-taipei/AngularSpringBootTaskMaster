@@ -21,6 +21,9 @@ export enum SingleTaskActionTypes {
     SingleTaskCreateSubmitted = '[Create Single Task Page] Single Task Submitted',
     SingleTaskCreatedWithDailyBatchAdded = '[Create Single Task Page] Newly Created Task with Daily Batch Added',
     SingleTaskCreationCancelled = '[Create Single Task Page] Single Task Creation Cancelled',
+    SingleTaskDeletionCancelled = '[Single Task Page] Removal of Single Task Cancelled',
+    SingleTaskDeletionRequested = '[Single Task Page]  Removal of Single Task Requested',
+    SingleTaskDeletionSaved = '[Single Tasks Page] Single Task Removed',
     SingleTaskMessagesCleared = '[Single Task Edit, and Submission Pages] Single Task Messages Cleared',
 };
 
@@ -110,6 +113,25 @@ export class SingleTaskCreationCancelled implements Action {
     constructor(public payload: {  err: any }) {}
 }
 
+export class SingleTaskDeletionCancelled implements Action {
+    readonly type = SingleTaskActionTypes.SingleTaskDeletionCancelled;
+  
+    constructor(public payload: {  err: any }) {}
+}
+
+export class SingleTaskDeletionRequested implements Action {
+    readonly type = SingleTaskActionTypes.SingleTaskDeletionRequested;
+  
+    constructor(public payload: { id: number }) {}
+}
+
+export class SingleTaskDeletionSaved implements Action {
+    readonly type = SingleTaskActionTypes.SingleTaskDeletionSaved;
+  
+    constructor(public payload: { id: number, message: string }) {}
+}
+
+
 export class SingleTaskMessagesCleared implements Action {
     readonly type = SingleTaskActionTypes.SingleTaskMessagesCleared;
 }
@@ -122,4 +144,5 @@ export type SingleTaskActions =  LandingPageTasksLoaded |
     DailyTasksRequestCancelled |SingleTasksCleared | 
     SingleTaskCreateSubmitted | SingleTaskCreationCancelled |
     SingleTaskCreatedWithDailyBatchAdded |
-    SingleTaskMessagesCleared;
+    SingleTaskDeletionCancelled | SingleTaskDeletionRequested |
+    SingleTaskDeletionSaved | SingleTaskMessagesCleared;

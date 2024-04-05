@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { environment } from '../../../../../environments/environment';
 import { AuthService } from 'src/app/authentication/auth.service';
+import { DeletionResponse } from 'src/app/models/deletion-response';
 import { getDateString } from 'src/app/shared-utils/date-time.util';
 import { 
   SingleTaskCreateModel, 
@@ -20,6 +21,15 @@ export class SingleTaskService {
     private http: HttpClient,
     private authService: AuthService,
   ) { }
+
+  deleteSingleTask(id: number) {
+    let token = this.authService.getAuthToken();
+    return this.http.delete<DeletionResponse>(
+      `${environment.apiUrl}/api/task/delete/${id}`,
+        {
+          headers: new HttpHeaders({ 'Authorization': `Bearer ${token}` })
+        })
+    }
 
   fetchSingleTasksByDate(date: string) {
     let token = this.authService.getAuthToken();

@@ -1,0 +1,13 @@
+table {
+    color: grey;
+    text-align: left;
+}
+  
+h3 {
+    color: grey;
+    text-align: left;
+}
+  
+.small-scr-tbl {
+    display: none;
+}
