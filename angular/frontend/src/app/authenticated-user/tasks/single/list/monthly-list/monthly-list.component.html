@@ -23,18 +23,19 @@
     [style.opacity]="showMonthlySelectForm ? '0' : '1'"
     [style.visibility]="showMonthlySelectForm ? 'hidden' : 'visible'">
     <hr class="thick-br"/>
+    <h3>Monthly Classes</h3>
     <h5>{{ tasks.length }} Task(s) Scheduled This Month</h5>
     <hr class="thin-br"/>
     <div class="large-scr-tbl">
       <table class="table">
-          <thead class="table-dark">
+          <thead>
             <tr class="row">
               <th class="col"><h5 class="text-secondary">Date</h5></th>
               <th class="col"><h5 class="text-secondary">Task Name</h5></th>
               <th class="col"><h5 class="text-secondary">Delete</h5></th>
             </tr>
           </thead>
-          <tbody class="table-dark">
+          <tbody>
             <div *ngFor="let singleTask of tasks" >
               <app-single-task [singleTask]=singleTask>
               </app-single-task>

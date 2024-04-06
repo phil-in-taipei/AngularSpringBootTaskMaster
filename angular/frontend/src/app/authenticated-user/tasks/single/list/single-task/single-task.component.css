@@ -1,11 +1,6 @@
-table {
-    color: grey;
-    text-align: left;
-}
-  
-h3 {
-    color: grey;
-    text-align: left;
+
+.row {
+    text-align: center;
 }
   
 .small-scr-tbl {
