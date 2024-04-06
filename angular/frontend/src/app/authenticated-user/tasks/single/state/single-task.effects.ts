@@ -9,13 +9,13 @@ import { catchError, filter, map,
 
 import {
     DailyTasksLoaded, DailyTasksRequested,
-    DailyTasksRequestCancelled,
-    LandingPageTasksLoaded, LandingPageTasksRequested,
-    LandingPageTasksRequestCancelled, 
+    DailyTasksRequestCancelled, LandingPageTasksLoaded, 
+    LandingPageTasksRequested, LandingPageTasksRequestCancelled, 
     SingleTaskActionTypes, SingleTaskCreateSubmitted, 
     SingleTaskCreatedWithDailyBatchAdded, SingleTaskCreationCancelled,
     SingleTaskDeletionCancelled, SingleTaskDeletionRequested, 
-    SingleTaskDeletionSaved, MonthlyTasksRequested,
+    SingleTaskDeletionSaved, SingleTaskEditCancelled, 
+    SingleTaskEditSubmitted, SingleTaskEditUpdated, MonthlyTasksRequested,
     MonthlyTasksLoaded, MonthlyTasksRequestCancelled
 } from './single-task.actions';
 import { 
@@ -111,6 +111,33 @@ export class SingleTaskEffects {
                 )
           )
       });
+
+
+      rescheduleSingleTask$ = createEffect(() => {
+        return this.actions$
+            .pipe(
+                ofType<SingleTaskEditSubmitted>(
+                    SingleTaskActionTypes.SingleTaskEditSubmitted),
+                    mergeMap(action => this.singleTaskService
+                        .rescheduleSingleTask(
+                            action.payload.id,
+                            action.payload.singleTask
+                            ).pipe(catchError(err => {
+                                this.store.dispatch(
+                                    new SingleTaskEditCancelled({ err })
+                                );
+                                return of();
+                            }),
+                        )
+                  ),
+                  map(singleTask => new SingleTaskEditUpdated(
+                    { singleTask:
+                        { id: singleTask.id, changes: singleTask }
+                    }),
+                )
+            )
+    });
+
 
     submitSingleTask$ = createEffect(() => {
         return this.actions$

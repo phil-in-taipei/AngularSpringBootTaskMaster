@@ -24,6 +24,9 @@ export enum SingleTaskActionTypes {
     SingleTaskDeletionCancelled = '[Single Task Page] Removal of Single Task Cancelled',
     SingleTaskDeletionRequested = '[Single Task Page]  Removal of Single Task Requested',
     SingleTaskDeletionSaved = '[Single Tasks Page] Single Task Removed',
+    SingleTaskEditCancelled= '[Edit Single Task Page] Edit Single Task Cancelled',
+    SingleTaskEditSubmitted = '[Edit Single Task Page] Edited Single Task Submitted',
+    SingleTaskEditUpdated = '[Task Detail Page] Edited Single Task Updated',
     SingleTaskMessagesCleared = '[Single Task Edit, and Submission Pages] Single Task Messages Cleared',
 };
 
@@ -130,7 +133,25 @@ export class SingleTaskDeletionSaved implements Action {
   
     constructor(public payload: { id: number, message: string }) {}
 }
+export class SingleTaskEditCancelled implements Action {
+    readonly type = SingleTaskActionTypes.SingleTaskEditCancelled;
+  
+    constructor(public payload: {  err: any }) {}
+}
 
+export class SingleTaskEditSubmitted implements Action {
+    readonly type = SingleTaskActionTypes.SingleTaskEditSubmitted;
+
+    constructor(public payload: 
+        {  id: number, singleTask: SingleTaskRescheduleModel }) {}
+}
+
+export class SingleTaskEditUpdated implements Action {
+    readonly type = SingleTaskActionTypes.SingleTaskEditUpdated;
+  
+    constructor(public payload: {  singleTask: Update<SingleTaskModel> }) {
+    }
+}
 
 export class SingleTaskMessagesCleared implements Action {
     readonly type = SingleTaskActionTypes.SingleTaskMessagesCleared;
@@ -139,10 +160,10 @@ export class SingleTaskMessagesCleared implements Action {
 export type SingleTaskActions =  LandingPageTasksLoaded | 
     LandingPageTasksRequestCancelled | LandingPageTasksRequested |
     MonthlyTasksRequested | MonthlyTasksRequestCancelled |
-    MonthlyTasksLoaded |
-    DailyTasksLoaded | DailyTasksRequested |
+    MonthlyTasksLoaded | DailyTasksLoaded | DailyTasksRequested |
     DailyTasksRequestCancelled |SingleTasksCleared | 
     SingleTaskCreateSubmitted | SingleTaskCreationCancelled |
-    SingleTaskCreatedWithDailyBatchAdded |
-    SingleTaskDeletionCancelled | SingleTaskDeletionRequested |
-    SingleTaskDeletionSaved | SingleTaskMessagesCleared;
+    SingleTaskCreatedWithDailyBatchAdded | SingleTaskDeletionCancelled | 
+    SingleTaskDeletionRequested | SingleTaskDeletionSaved | 
+    SingleTaskEditCancelled | SingleTaskEditSubmitted | 
+    SingleTaskEditUpdated | SingleTaskMessagesCleared;

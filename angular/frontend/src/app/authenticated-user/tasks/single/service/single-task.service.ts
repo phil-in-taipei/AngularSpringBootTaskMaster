@@ -22,7 +22,9 @@ export class SingleTaskService {
     private authService: AuthService,
   ) { }
 
-  deleteSingleTask(id: number) {
+  deleteSingleTask(
+    id: number
+  ): Observable<DeletionResponse> {
     let token = this.authService.getAuthToken();
     return this.http.delete<DeletionResponse>(
       `${environment.apiUrl}/api/task/delete/${id}`,
@@ -31,7 +33,9 @@ export class SingleTaskService {
         })
     }
 
-  fetchSingleTasksByDate(date: string) {
+  fetchSingleTasksByDate(
+    date: string
+  ): Observable<SingleTaskModel[]> {
     let token = this.authService.getAuthToken();
     return this.http.get<SingleTaskModel[]>(
       `${environment.apiUrl}/api/task/date/${date}`,
@@ -40,7 +44,9 @@ export class SingleTaskService {
         })
   }
 
-  fetchSingleTasksByMonth(month: number, year: number) {
+  fetchSingleTasksByMonth(
+    month: number, year: number
+  ): Observable<SingleTaskModel[]> {
     let token = this.authService.getAuthToken();
     return this.http.get<SingleTaskModel[]>(
       `${environment.apiUrl}/api/task/month-year/${month}/${year}`,
@@ -49,7 +55,7 @@ export class SingleTaskService {
         })
   }
 
-  fetchTodaysSingleTasks() {
+  fetchTodaysSingleTasks(): Observable<SingleTaskModel[]> {
     let dateTimeObj = new Date();
     const date = getDateString(
       dateTimeObj.getUTCDate(),

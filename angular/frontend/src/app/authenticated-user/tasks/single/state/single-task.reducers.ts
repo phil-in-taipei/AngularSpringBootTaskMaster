@@ -145,7 +145,28 @@ export function singleTasksReducer(
                     successMessage: action.payload.message
                 }
             );
+
+
+        case SingleTaskActionTypes.SingleTaskEditCancelled:
+            let editErrMessage: string = "Error! Task Rescheduling Failed!";
+            if (action.payload.err.error.Error) {
+                console.log(action.payload.err.error.Error)
+                editErrMessage = action.payload.err.error.Error;
+            }
+            return {
+                ...state,  successMessage: undefined,
+                errorMessage: editErrMessage
+            }
     
+        case SingleTaskActionTypes.SingleTaskEditUpdated:
+            return adapter.updateOne(action.payload.singleTask, 
+                {
+                    ...state,
+                    errorMessage:undefined,
+                    successMessage: 'You have successfully rescheduled the task!'
+                }
+            );
+     
         case SingleTaskActionTypes.SingleTaskMessagesCleared:
             return {
                 ...state,  successMessage: undefined,
