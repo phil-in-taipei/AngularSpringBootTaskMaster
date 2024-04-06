@@ -38,11 +38,17 @@ import {
   ReselectMonthlyTasksComponent 
 } from './tasks/single/list/reselect-monthly-tasks/reselect-monthly-tasks.component';
 import { 
+  RescheduleTaskFormComponent 
+} from './tasks/single/detail/reschedule-task-form/reschedule-task-form.component';
+import { 
   SelectMonthlyTasksComponent 
 } from './tasks/single/list/select-monthly-tasks/select-monthly-tasks.component';
 import { 
   SingleTaskComponent 
 } from './tasks/single/list/single-task/single-task.component';
+import { 
+  TaskDetailComponent 
+} from './tasks/single/detail/task-detail/task-detail.component';
 import { UserProfileComponent } from './user/user-profile/user-profile.component';
 
 
@@ -60,8 +66,10 @@ import { UserProfileComponent } from './user/user-profile/user-profile.component
     LandingPageUserComponent,
     MonthlyListComponent,
     ReselectMonthlyTasksComponent,
+    RescheduleTaskFormComponent,
     SelectMonthlyTasksComponent,
     SingleTaskComponent,
+    TaskDetailComponent,
     UserProfileComponent
   ],
   imports: [

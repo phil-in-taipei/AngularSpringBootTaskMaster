@@ -6,10 +6,12 @@ import { CreateTaskComponent } from './tasks/single/create/create-task/create-ta
 import { DailyListComponent } from './tasks/single/list/daily-list/daily-list.component';
 import { LandingPageComponent } from './landing/landing-page/landing-page.component';
 import { MonthlyListComponent } from './tasks/single/list/monthly-list/monthly-list.component';
+import { TaskDetailComponent } from './tasks/single/detail/task-detail/task-detail.component';
 
 const routes: Routes = [
   { path: '', component: AuthenticatedUserComponent, children: [ 
       { path: 'create-task', component: CreateTaskComponent },
+      { path: 'task/:id', component: TaskDetailComponent },
       { path: 'tasks-daily/:date', component: DailyListComponent },
       { path: 'tasks-monthly', component: MonthlyListComponent },
       { path: 'landing', component: LandingPageComponent },

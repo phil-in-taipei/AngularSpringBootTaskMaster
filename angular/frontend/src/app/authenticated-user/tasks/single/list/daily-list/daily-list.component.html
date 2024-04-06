@@ -55,7 +55,11 @@
                 <p>{{ task.date }}</p>
               </th>
               <th class="col">
-                <p>{{ task.taskName }}</p>
+                <p>
+                  <a [routerLink]="['/authenticated-user/task', task.id]">
+                    {{ task.taskName }}
+                  </a>
+                </p>
               </th>
               <th class="col">
                 <p>{{ task.status }}</p>
