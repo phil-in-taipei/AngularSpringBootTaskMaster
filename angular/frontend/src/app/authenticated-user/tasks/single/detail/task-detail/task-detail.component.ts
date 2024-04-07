@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
-import { Observable, map } from "rxjs";
+import { Observable } from "rxjs";
 import { select, Store } from '@ngrx/store';
 
 import { AppState } from 'src/app/reducers';
@@ -18,13 +18,16 @@ import { SingleTaskModel } from 'src/app/models/single-task.model';
   templateUrl: './task-detail.component.html',
   styleUrl: './task-detail.component.css'
 })
-export class TaskDetailComponent {
+export class TaskDetailComponent implements OnInit{
 
   idFromRouteData:number;
   singleTask$: Observable<SingleTaskModel | undefined>;
   errMsg$: Observable<string | undefined>;
   successMsg$: Observable<string | undefined>;
   formVisible: boolean = false;
+  taskRevised: boolean = false;
+  revisedDate: string;
+  revisedComments: string;
 
   constructor(
     private route: ActivatedRoute, 
@@ -55,6 +58,16 @@ export class TaskDetailComponent {
 
   closeFormHander($event: boolean) {
     this.formVisible = $event;
+  }
+
+  updatedDateHandler($event: string) {
+    this.revisedDate = $event;
+    this.taskRevised = true;
+  }
+
+  updatedCommentsHandler($event: string) {
+    this.revisedComments = $event;
+    this.taskRevised = true;
   }
 
 }

@@ -1,11 +1,21 @@
 <br />
 <div *ngIf="(singleTask$ | async) as singleTask else homepage_link">
+    <div *ngIf="!taskRevised else revisedButton">
+      <div class="text-center">
+        <button class="btn btn-sm btn-outline-secondary text" id="forwardDateButton" 
+        [routerLink]="['/', 'authenticated-user', 'tasks-daily', singleTask.date]">
+            Return to {{ singleTask.date }} Tasks
+        </button>
+      </div>
+    </div>
+    <ng-template #revisedButton>
     <div class="text-center">
-      <button class="btn btn-sm btn-outline-secondary text"
-      [routerLink]="['/', 'authenticated-user', 'tasks-daily', singleTask.date]">
-          Return to {{ singleTask.date }} Tasks
+      <button class="btn btn-sm btn-outline-secondary text" id="forwardDateButton" 
+      [routerLink]="['/', 'authenticated-user', 'tasks-daily', revisedDate]">
+          Navigate to {{ revisedDate }}
       </button>
     </div>
+    </ng-template>
     <div *ngIf="errMsg$ | async as errMsg" class="p-1 m-1">
       <div class="alert alert-warning alert-dismissible fade show" role="alert">
         <h3>{{ errMsg }}</h3>
@@ -39,12 +49,21 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>{{ singleTask.date }}</td>
-                            <td> {{ singleTask.taskName }}</td>
-                            <td>{{ singleTask.comments }}</td>
-                            <td>{{ singleTask.status }}</td>
+                
+                        <tr *ngIf="!taskRevised  else revisedTask">
+                          <td>{{ singleTask.date }}</td>
+                          <td> {{ singleTask.taskName }}</td>
+                          <td>{{ singleTask.comments }}</td>
+                          <td>{{ singleTask.status }}</td>
                         </tr>
+                        <ng-template #revisedTask>
+                          <tr>
+                            <td>{{ revisedDate }}</td>
+                            <td> {{ singleTask.taskName }}</td>
+                            <td>{{ revisedComments }}</td>
+                            <td>{{ "DEFERRED" }}</td>
+                          </tr>
+                        </ng-template>
                         </tbody>
                     </table>
                 </div>
@@ -64,6 +83,8 @@
             <app-reschedule-task-form
                 [singleTask]=singleTask
                 (closeFormEvent)="closeFormHander($event)"
+                (updateCommentsEvent)="updatedCommentsHandler($event)"
+                (updateDateEvent)="updatedDateHandler($event)"
             ></app-reschedule-task-form>
             </div>
         </div>

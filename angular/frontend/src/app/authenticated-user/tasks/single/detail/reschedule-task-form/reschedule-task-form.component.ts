@@ -1,9 +1,15 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
 import { AppState } from 'src/app/reducers';
-import { SingleTaskEditSubmitted } from '../../state/single-task.actions';
-import { SingleTaskModel } from 'src/app/models/single-task.model';
+import { getDateString } from 'src/app/shared-utils/date-time.util';
+import { 
+  SingleTaskEditCancelled, SingleTaskEditSubmitted 
+} from '../../state/single-task.actions';
+import { 
+  SingleTaskModel, SingleTaskRescheduleModel 
+} from 'src/app/models/single-task.model';
 
 @Component({
   selector: 'app-reschedule-task-form',
@@ -13,9 +19,44 @@ import { SingleTaskModel } from 'src/app/models/single-task.model';
 })
 export class RescheduleTaskFormComponent {
 
+  dateModel: Date;
   @Input() singleTask: SingleTaskModel;
   @Output() closeFormEvent = new EventEmitter<boolean>();
+  @Output() updateCommentsEvent = new EventEmitter<string>();
+  @Output() updateDateEvent = new EventEmitter<string>();
 
   constructor(private store: Store<AppState>) { }
+
+  onSubmitSingleTask(form: NgForm) {
+
+    if (form.invalid) {
+      this.store.dispatch(new SingleTaskEditCancelled({err: {
+        error: {
+          message: "The form values were not properly filled in!"
+        }
+      }} ));
+      form.reset();
+      return;
+    }
+    let submissionForm: SingleTaskRescheduleModel = {
+      date: getDateString(
+        form.value.date.day, 
+        form.value.date.month, 
+        form.value.date.year
+        ),
+      comments: form.value.comments,
+    }
+    this.store.dispatch(new SingleTaskEditSubmitted(
+      { 
+        id: this.singleTask.id,
+        singleTask: submissionForm 
+      }
+    ));
+    form.resetForm();
+    this.closeFormEvent.emit(false);
+    this.updateCommentsEvent.emit(submissionForm.comments);
+    this.updateDateEvent.emit(submissionForm.date);
+  }
+
 
 }
