@@ -1,6 +1,24 @@
 <br />
-<div *ngIf="(singleTask$ | async) as singleTask else homepage_link">
-    <div *ngIf="!taskRevised else revisedButton">
+<div *ngIf="errMsg$ | async as errMsg" class="p-1 m-1">
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <h3>{{ errMsg }}</h3>
+    <button type="button" class="btn-close" (click)="onClearStatusMsgs()"
+    data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  <hr class="thick-br"/>
+</div>
+
+<div *ngIf="successMsg$ | async as successMsg" class="p-1 m-1">
+  <hr class="thick-br"/>
+  <div class="alert alert-secondary alert-dismissible fade show" role="alert">
+    <h6>{{ successMsg }}</h6>
+    <button type="button" class="btn-close" (click)="onClearStatusMsgs()"
+    data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  <hr class="thick-br"/>
+</div>
+<div *ngIf="(singleTask$ | async) as singleTask; else homepage_link">
+    <div *ngIf="!taskRevised; else revisedButton">
       <div class="text-center">
         <button class="btn btn-sm btn-outline-secondary text" id="forwardDateButton" 
         [routerLink]="['/', 'authenticated-user', 'tasks-daily', singleTask.date]">
@@ -16,24 +34,6 @@
       </button>
     </div>
     </ng-template>
-    <div *ngIf="errMsg$ | async as errMsg" class="p-1 m-1">
-      <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <h3>{{ errMsg }}</h3>
-        <button type="button" class="btn-close" (click)="onClearStatusMsgs()"
-        data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-      <hr class="thick-br"/>
-    </div>
-
-    <div *ngIf="successMsg$ | async as successMsg" class="p-1 m-1">
-      <hr class="thick-br"/>
-      <div class="alert alert-secondary alert-dismissible fade show" role="alert">
-        <h6>{{ successMsg }}</h6>
-        <button type="button" class="btn-close" (click)="onClearStatusMsgs()"
-        data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-      <hr class="thick-br"/>
-    </div>
     <div class="mt-4 p-5 rounded">
         <div class="p-3 rounded-lg m-2">
             <div class="container text-center bg-light">
@@ -50,7 +50,7 @@
                         </thead>
                         <tbody>
                 
-                        <tr *ngIf="!taskRevised  else revisedTask">
+                        <tr *ngIf="!taskRevised; else revisedTask">
                           <td>{{ singleTask.date }}</td>
                           <td> {{ singleTask.taskName }}</td>
                           <td>{{ singleTask.comments }}</td>
