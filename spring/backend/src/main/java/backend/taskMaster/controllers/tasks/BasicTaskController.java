@@ -29,10 +29,12 @@ public class BasicTaskController {
     @Autowired
     UserDetailsServiceImplementation userService;
 
-    @PatchMapping("/confirm/{taskId}")
+    @RequestMapping("/confirm/{id}")
     public ResponseEntity<?> confirmTaskCompletion(
-            @PathVariable(name = "taskId") Long taskId
+            @PathVariable(name = "id") Long taskId
     ) {
+        System.out.println("************calling method in controller****************");
+
         try {
             SingleTask task = taskService.getTask(taskId);
             return new ResponseEntity<>(

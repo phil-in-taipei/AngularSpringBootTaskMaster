@@ -61,7 +61,17 @@
                   </a>
                 </p>
               </th>
-              <th class="col">
+              <th *ngIf="task.status !== 'COMPLETED'" class="col">
+                <p (click)="onConfirmTaskCompletion(task.id)" id="confirm-link">
+                  <!--<button
+                  class="btn btn-sm btn-outline-secondary"
+                  (click)="onConfirmTaskCompletion(task.id)"
+                  > -->
+                  {{task.status}}
+                <!--</button> -->
+                </p>
+              </th>
+              <th *ngIf="task.status === 'COMPLETED'" class="col">
                 <p>{{ task.status }}</p>
               </th>
             </tr>

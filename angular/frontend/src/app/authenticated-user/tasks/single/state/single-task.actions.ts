@@ -18,6 +18,9 @@ export enum SingleTaskActionTypes {
     MonthlyTasksRequestCancelled= '[Monthly Tasks Page] Monthly Batch Request Cancelled',
     MonthlyTasksLoaded = '[Monthly Tasks API] Monthly Batch Loaded', 
     SingleTasksCleared = '[View User Logout] All Single Tasks Removed',
+    SingleTaskConfirmationCancelled = '[Single Task Page] Confirmation of Single Task Completion Cancelled',
+    SingleTaskConfirmationRequested = '[Single Task Page]  Confirmation of Single Task Completion Requested',
+    SingleTaskConfirmationSaved = '[Single Tasks Page] Single Task Completion Confirmed',
     SingleTaskCreateSubmitted = '[Create Single Task Page] Single Task Submitted',
     SingleTaskCreatedWithDailyBatchAdded = '[Create Single Task Page] Newly Created Task with Daily Batch Added',
     SingleTaskCreationCancelled = '[Create Single Task Page] Single Task Creation Cancelled',
@@ -94,6 +97,27 @@ export class SingleTasksCleared implements Action {
     readonly type = SingleTaskActionTypes.SingleTasksCleared;
 }
 
+export class SingleTaskConfirmationCancelled implements Action {
+    readonly type = SingleTaskActionTypes.SingleTaskConfirmationCancelled;
+  
+    constructor(public payload: {  err: any }) {}
+}
+
+export class SingleTaskConfirmationRequested implements Action {
+    readonly type = SingleTaskActionTypes.SingleTaskConfirmationRequested;
+  
+    constructor(
+        public payload: { id: number }
+    ){}
+};
+
+export class SingleTaskConfirmationSaved implements Action {
+    readonly type = SingleTaskActionTypes.SingleTaskConfirmationSaved;
+  
+    constructor(public payload: {  singleTask: Update<SingleTaskModel> }) {
+    }
+}
+
 export class SingleTaskCreateSubmitted implements Action {
     readonly type = SingleTaskActionTypes.SingleTaskCreateSubmitted;
   
@@ -162,8 +186,10 @@ export type SingleTaskActions =  LandingPageTasksLoaded |
     MonthlyTasksRequested | MonthlyTasksRequestCancelled |
     MonthlyTasksLoaded | DailyTasksLoaded | DailyTasksRequested |
     DailyTasksRequestCancelled |SingleTasksCleared | 
-    SingleTaskCreateSubmitted | SingleTaskCreationCancelled |
-    SingleTaskCreatedWithDailyBatchAdded | SingleTaskDeletionCancelled | 
-    SingleTaskDeletionRequested | SingleTaskDeletionSaved | 
-    SingleTaskEditCancelled | SingleTaskEditSubmitted | 
-    SingleTaskEditUpdated | SingleTaskMessagesCleared;
+    SingleTaskConfirmationCancelled | SingleTaskConfirmationRequested | 
+    SingleTaskConfirmationSaved | SingleTaskCreateSubmitted | 
+    SingleTaskCreationCancelled | SingleTaskCreatedWithDailyBatchAdded | 
+    SingleTaskDeletionCancelled | SingleTaskDeletionRequested | 
+    SingleTaskDeletionSaved | SingleTaskEditCancelled | 
+    SingleTaskEditSubmitted | SingleTaskEditUpdated | 
+    SingleTaskMessagesCleared;

@@ -8,9 +8,10 @@ import { catchError, filter, map,
 } from "rxjs/operators";
 
 import {
-    DailyTasksLoaded, DailyTasksRequested,
-    DailyTasksRequestCancelled, LandingPageTasksLoaded, 
-    LandingPageTasksRequested, LandingPageTasksRequestCancelled, 
+    DailyTasksLoaded, DailyTasksRequested, DailyTasksRequestCancelled, 
+    LandingPageTasksLoaded, LandingPageTasksRequested, 
+    LandingPageTasksRequestCancelled, SingleTaskConfirmationCancelled, 
+    SingleTaskConfirmationRequested, SingleTaskConfirmationSaved,
     SingleTaskActionTypes, SingleTaskCreateSubmitted, 
     SingleTaskCreatedWithDailyBatchAdded, SingleTaskCreationCancelled,
     SingleTaskDeletionCancelled, SingleTaskDeletionRequested, 
@@ -25,7 +26,31 @@ import { SingleTaskService } from '../service/single-task.service';
 
 @Injectable()
 export class SingleTaskEffects {
-
+    
+    confirmTaskCompletion$ = createEffect(() => {
+        return this.actions$
+            .pipe(
+                ofType<SingleTaskConfirmationRequested>(
+                  SingleTaskActionTypes.SingleTaskConfirmationRequested),
+                    mergeMap(action => this.singleTaskService
+                        .confirmTaskCompletion(action.payload.id)
+                            .pipe(
+                                map(singleTask => new SingleTaskConfirmationSaved({ 
+                                    singleTask:
+                                    { id: singleTask.id, changes: singleTask }
+                                })
+                                ),
+                                catchError(err => {
+                                    this.store.dispatch(
+                                        new SingleTaskConfirmationCancelled({ err })
+                                    );
+                                    return of();
+                                })
+                            )
+                    )
+            )
+        });
+  
     deleteSingleTask$ = createEffect(() => {
       return this.actions$
           .pipe(
@@ -73,7 +98,9 @@ export class SingleTaskEffects {
     fetchLandingPageTasks$ = createEffect(() => {
         return this.actions$
           .pipe(
-            ofType<LandingPageTasksRequested>(SingleTaskActionTypes.LandingPageTasksRequested),
+            ofType<LandingPageTasksRequested>(
+                SingleTaskActionTypes.LandingPageTasksRequested
+            ),
             withLatestFrom(this.store.pipe(select(selectLandingPageTasksLoaded))),
             filter(([action, landingPageTasksLoaded]) => !landingPageTasksLoaded),
             mergeMap(action => this.singleTaskService.fetchTodaysSingleTasks()

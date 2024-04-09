@@ -1,10 +1,19 @@
 a {
   color: #0098da;
-text-decoration: none;
+  text-decoration: none;
 }
 
 a:hover {
 color: #010b3e;
+}
+
+#confirm-link {
+  color: #0098da;
+  text-decoration: none;
+}
+
+#confirm-link:hover {
+  color: #010b3e;
 }
 
 h5, h3 {
@@ -30,20 +39,20 @@ table td {
 }
   
   
+.small-scr {
+  display: none;
+}
+  
+.capitalize {
+  text-transform: capitalize;
+}
+  
+@media screen and (max-width: 767px) {
   .small-scr {
+    display: block;
+  }
+  
+  .large-scr {
     display: none;
   }
-  
-  .capitalize {
-    text-transform: capitalize;
-  }
-  
-  @media screen and (max-width: 767px) {
-    .small-scr {
-      display: block;
-    }
-  
-    .large-scr {
-      display: none;
-    }
   }

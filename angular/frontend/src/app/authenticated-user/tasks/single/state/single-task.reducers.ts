@@ -106,6 +106,26 @@ export function singleTasksReducer(
                 monthlySingleTasksLoadedTasksLoaded: true
             });
 
+        case SingleTaskActionTypes.SingleTaskConfirmationCancelled:
+            let taskConfirmationErrorMessage: string = "Error confirming task completion!";
+                if (action.payload.err.error.message) {
+                    taskConfirmationErrorMessage = action.payload.err.error.message;
+                }
+                return {
+                    ...state,  successMessage: undefined,
+                    errorMessage: taskConfirmationErrorMessage
+                }
+
+    
+        case SingleTaskActionTypes.SingleTaskConfirmationSaved:
+            return adapter.updateOne(action.payload.singleTask, 
+                {
+                    ...state,
+                    errorMessage:undefined,
+                    successMessage: undefined
+                }
+            );
+          
         case SingleTaskActionTypes.SingleTaskCreatedWithDailyBatchAdded:
             return adapter.upsertMany(action.payload.dailyTasks, {...state,
                 errorMessage: undefined,
@@ -126,7 +146,6 @@ export function singleTasksReducer(
                 errorMessage: userErrorMessage
             }
 
-
         case SingleTaskActionTypes.SingleTaskDeletionCancelled:
             let deletionErrMsg: string = "Error! Task Deletion Failed!";
             if (action.payload.err.error.Error) {
@@ -145,7 +164,6 @@ export function singleTasksReducer(
                     successMessage: action.payload.message
                 }
             );
-
 
         case SingleTaskActionTypes.SingleTaskEditCancelled:
             let editErrMessage: string = "Error! Task Rescheduling Failed!";

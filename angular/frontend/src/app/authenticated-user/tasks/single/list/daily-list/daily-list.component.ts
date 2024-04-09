@@ -5,7 +5,9 @@ import { select, Store } from '@ngrx/store';
 
 import { AppState } from 'src/app/reducers';
 import { SingleTaskModel } from 'src/app/models/single-task.model';
-import { DailyTasksRequested } from '../../state/single-task.actions';
+import { 
+  DailyTasksRequested, SingleTaskConfirmationRequested
+} from '../../state/single-task.actions';
 import { getDateString } from 'src/app/shared-utils/date-time.util';
 import { selectSingleTasksByDate } from '../../state/single-task.selectors';
 
@@ -113,5 +115,14 @@ export class DailyListComponent implements OnInit{
         return tasks;
       }));
   }
+
+  onConfirmTaskCompletion(id: number) {
+    const payload = { id: +id };
+    this.store.dispatch(
+      new SingleTaskConfirmationRequested(payload)
+    );
+  }
+
+
 
 }
