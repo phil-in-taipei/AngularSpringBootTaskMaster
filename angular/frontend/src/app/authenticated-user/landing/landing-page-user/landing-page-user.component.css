@@ -11,6 +11,16 @@
     color: #010b3e;
   }
   
+  #confirmation {
+    color: #0098da;
+    text-decoration: none;
+  }
+  
+  #confirmation:hover {
+    color: #010b3e;
+  }
+  
+  
   h5, h3 {
     color: #758d97;
     text-align: center;

@@ -54,7 +54,12 @@
           <th class="col">
             <p>{{ task.taskName }}</p>
           </th>
-          <th class="col">
+          <th *ngIf="task.status !== 'COMPLETED'" class="col">
+            <p (click)="onConfirmTaskCompletion(task.id)" id="confirmation">
+              {{task.status}}
+            </p>
+          </th>
+          <th *ngIf="task.status === 'COMPLETED'" class="col">
             <p>{{ task.status }}</p>
           </th>
         </tr>

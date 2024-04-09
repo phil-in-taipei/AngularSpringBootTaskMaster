@@ -12,6 +12,9 @@ import {
   selectSingleTasksByDate 
 } from '../../tasks/single/state/single-task.selectors';
 import { selectUserProfile } from '../../user/user-state/user.selectors';
+import { 
+  SingleTaskConfirmationRequested 
+} from '../../tasks/single/state/single-task.actions';
 import { SingleTaskModel } from 'src/app/models/single-task.model';
 import { UserProfileModel } from 'src/app/models/user-profile.model';
 
@@ -60,6 +63,15 @@ export class LandingPageUserComponent implements OnInit{
       this.dateModel.month,
       this.dateModel.year
     );
-    this.router.navigate(['/', 'authenticated-user', 'tasks-daily', dateString]);
+    this.router.navigate(
+      ['/', 'authenticated-user', 'tasks-daily', dateString]
+    );
+  }
+
+  onConfirmTaskCompletion(id: number) {
+    const payload = { id: +id };
+    this.store.dispatch(
+      new SingleTaskConfirmationRequested(payload)
+    );
   }
 }

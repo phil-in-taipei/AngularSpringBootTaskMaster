@@ -1,5 +1,11 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
+      <a class="navbar-brand" 
+        routerLink="/authenticated-user/landing" 
+        routerLinkActive
+      >
+        Task Master
+      </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
         data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
         aria-expanded="false" aria-label="Toggle navigation">
@@ -9,9 +15,6 @@
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li><a class="nav-link" 
             routerLink="/authenticated-user/user-profile" routerLinkActive>Profile</a>
-          </li>
-          <li><a class="nav-link" 
-            routerLink="/authenticated-user/landing" routerLinkActive>Landing</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle mydropnav"
