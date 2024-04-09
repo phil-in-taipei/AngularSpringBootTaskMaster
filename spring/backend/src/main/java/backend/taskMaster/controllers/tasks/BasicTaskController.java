@@ -29,6 +29,23 @@ public class BasicTaskController {
     @Autowired
     UserDetailsServiceImplementation userService;
 
+    @PatchMapping("/confirm/{taskId}")
+    public ResponseEntity<?> confirmTaskCompletion(
+            @PathVariable(name = "taskId") Long taskId
+    ) {
+        try {
+            SingleTask task = taskService.getTask(taskId);
+            return new ResponseEntity<>(
+                    taskService.confirmTaskCompletion(task),
+                    HttpStatus.OK);
+
+        } catch (NullPointerException | IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(
+                    new ApiError("There was an error. Please try again")
+            );
+        }
+    }
+
     @PostMapping("/create")
     public ResponseEntity<?> createTask(
             @RequestBody TaskPostRequest request,
@@ -56,7 +73,9 @@ public class BasicTaskController {
     }
 
     @GetMapping("/current-month")
-    public ResponseEntity<?> getUserTasksForCurrentMonth(Authentication authentication) {
+    public ResponseEntity<?> getUserTasksForCurrentMonth(
+            Authentication authentication
+    ) {
         UserDetails user = (UserDetails) authentication.getPrincipal();
         LocalDate today = LocalDate.now();
         LocalDate monthBegin = today.withDayOfMonth(1);
@@ -129,8 +148,6 @@ public class BasicTaskController {
             );
         }
     }
-
-
 
     @PatchMapping("/reschedule/{taskId}")
     public ResponseEntity<?> rescheduleTask(

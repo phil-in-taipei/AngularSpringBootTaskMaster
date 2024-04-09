@@ -70,12 +70,12 @@
             </div>
             <br />
             
-                <div class="d-grid gap-2">
-                  <button (click)="toggleForm()"
-                    class="btn btn-sm btn-outline-secondary">
-                    {{ formVisible ? "Nevermind, I'll update it later" : "Click Here to Reschedule" }}
-                  </button>
-                </div>
+            <div class="d-grid gap-2">
+              <button (click)="toggleForm()"
+                class="btn btn-sm btn-outline-secondary">
+                  {{ formVisible ? "Nevermind, I'll update it later" : "Click Here to Reschedule" }}
+              </button>
+            </div>
 
             <div class="container" [hidden]="!formVisible"
             [style.opacity]="!formVisible ? '0' : '1'"

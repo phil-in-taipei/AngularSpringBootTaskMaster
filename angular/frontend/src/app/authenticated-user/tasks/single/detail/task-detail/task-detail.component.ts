@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 import { select, Store } from '@ngrx/store';
 
 import { AppState } from 'src/app/reducers';
@@ -21,9 +21,9 @@ import { SingleTaskModel } from 'src/app/models/single-task.model';
 export class TaskDetailComponent implements OnInit{
 
   idFromRouteData:number;
-  singleTask$: Observable<SingleTaskModel | undefined>;
-  errMsg$: Observable<string | undefined>;
-  successMsg$: Observable<string | undefined>;
+  singleTask$: Observable<SingleTaskModel | undefined> = of(undefined);
+  errMsg$: Observable<string | undefined> = of(undefined);
+  successMsg$: Observable<string | undefined> = of(undefined);
   formVisible: boolean = false;
   taskRevised: boolean = false;
   revisedDate: string;

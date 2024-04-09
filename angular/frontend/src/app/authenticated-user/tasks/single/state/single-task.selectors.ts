@@ -19,8 +19,6 @@ export const selectSingleTasksById = (id:number) => createSelector(
   export const selectSingleTasksByDate = (date: string) => createSelector(
     selectAllSingleTasks,
     singleTasksState => {
-        console.log('selecting by date;;;;;')
-        console.log(date)
         return singleTasksState.filter(singleTask => singleTask.date == date);
     }
   );
