@@ -1,7 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 import { WeeklyRoutingModule } from './weekly-routing.module';
-
+import { WeeklyTasksEffects } from './state/weekly-task.effects';
+import { weeklyTasksReducer } from './state/weekly-task.reducers';
 import { 
   CreateWeeklyTaskComponent 
 } from './create/create-weekly-task/create-weekly-task.component';
@@ -26,7 +30,10 @@ import {
   ],
   imports: [
     CommonModule,
-    WeeklyRoutingModule
+    FormsModule,
+    WeeklyRoutingModule,
+    StoreModule.forFeature('weeklyTasks', weeklyTasksReducer),
+    EffectsModule.forFeature([WeeklyTasksEffects]),
   ]
 })
 export class WeeklyModule { }
