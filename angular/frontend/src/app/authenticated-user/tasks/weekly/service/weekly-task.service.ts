@@ -20,6 +20,19 @@ export class WeeklyTaskService {
     private authService: AuthService,
   ) { }
 
+
+  deleteWeeklyTaskScheduler(
+    id: number
+  ): Observable<DeletionResponse> {
+    let token = this.authService.getAuthToken();
+    return this.http.delete<DeletionResponse>(
+      `${environment.apiUrl}/api/weekly/delete/${id}`,
+        {
+          headers: new HttpHeaders({ 'Authorization': `Bearer ${token}` })
+        })
+    }
+
+
   fetchWeeklyTaskSchedulers(): Observable<WeeklyTaskModel[]> {
     let token = this.authService.getAuthToken();
     return this.http.get<WeeklyTaskModel[]>(

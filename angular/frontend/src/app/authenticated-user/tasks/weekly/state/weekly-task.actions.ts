@@ -50,7 +50,7 @@ export class WeeklyTaskSchedulerAdded implements Action {
     readonly type = WeeklyTaskSchedulersActionTypes.WeeklyTaskSchedulerAdded;
   
     constructor(
-        public payload: { weeklyTaskSchedulers: WeeklyTaskModel[] }
+        public payload: { weeklyTaskScheduler: WeeklyTaskModel }
     ) {}
 }
 
