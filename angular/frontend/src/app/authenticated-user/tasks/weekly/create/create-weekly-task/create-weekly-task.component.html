@@ -1,6 +1,8 @@
 <br />
-<h3>Create a Weekly Task Scheduler</h3>
-<div *ngIf="errMsg$ | async as errMsg">
+<div class="container">
+  <h3>Create Weekly Task Scheduler</h3>
+</div>
+<div *ngIf="errMsg$ | async as errMsg" class="container">
   <div class="alert alert-danger alert-dismissible fade show" role="alert">
     <h4 class="text-danger">{{ errMsg }}</h4>
     <button type="button" class="btn-close" (click)="onClearStatusMsgs()"
@@ -8,7 +10,7 @@
   </div>
 </div>
 
-<div *ngIf="successMsg$ | async as successMsg">
+<div *ngIf="successMsg$ | async as successMsg" class="container">
   <div class="alert alert-secondary alert-dismissible fade show" role="alert">
     <h6>{{ successMsg }}</h6>
     <button type="button" class="btn-close" (click)="onClearStatusMsgs()"

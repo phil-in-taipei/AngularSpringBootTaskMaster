@@ -27,7 +27,7 @@ export class CreateWeeklyTaskComponent {
       select(weeklyTaskErrorMsg)
     );
     this.successMsg$ = this.store.pipe(
-      select(weeklyTaskErrorMsg)
+      select(weeklyTaskSuccessMsg)
     );
   }
 
