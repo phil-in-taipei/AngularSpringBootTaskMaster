@@ -1,4 +1,13 @@
 import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { Store } from '@ngrx/store';
+
+import { AppState } from 'src/app/reducers';
+import { WeeklyTaskCreateModel } from 'src/app/models/weekly-task.model';
+import { 
+  WeeklyTaskSchedulerCreateSubmitted, 
+  WeeklyTaskSchedulerCreationCancelled 
+} from '../../state/weekly-task.actions';
 
 @Component({
   selector: 'app-create-weekly-task-form',
@@ -7,5 +16,38 @@ import { Component } from '@angular/core';
   styleUrl: './create-weekly-task-form.component.css'
 })
 export class CreateWeeklyTaskFormComponent {
+
+  daysOfWeek: string[] = [
+    'SUNDAY',
+    'MONDAY',
+    'TUESDAY',
+    'WEDNESDAY',
+    'THURSDAY',
+    'FRIDAY',
+    'SATURDAY'
+  ];
+
+  constructor(private store: Store<AppState>) { }
+
+  onSubmitWeeklyTask(form: NgForm) {
+
+    if (form.invalid) {
+      this.store.dispatch(new WeeklyTaskSchedulerCreationCancelled({err: {
+        error: {
+          message: "The form values were not properly filled in!"
+        }
+      }} ));
+      form.reset();
+      return;
+    }
+    let submissionForm: WeeklyTaskCreateModel = {
+      dayOfWeek: form.value.dayOfWeek,
+      weeklyTaskName: form.value.weeklyTaskName,
+    }
+    this.store.dispatch(new WeeklyTaskSchedulerCreateSubmitted(
+      { weeklyTask: submissionForm }
+    ));
+    form.resetForm();
+  }
 
 }

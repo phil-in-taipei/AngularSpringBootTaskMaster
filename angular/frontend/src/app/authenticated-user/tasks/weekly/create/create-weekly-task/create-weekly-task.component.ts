@@ -1,4 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+import { Observable, of } from "rxjs";
+
+import { AppState } from 'src/app/reducers';
+import { 
+  weeklyTaskErrorMsg, weeklyTaskSuccessMsg 
+} from '../../state/weekly-task.selectors';
+import { WeeklyTasksMessagesCleared } from '../../state/weekly-task.actions';
 
 @Component({
   selector: 'app-create-weekly-task',
@@ -7,5 +15,24 @@ import { Component } from '@angular/core';
   styleUrl: './create-weekly-task.component.css'
 })
 export class CreateWeeklyTaskComponent {
+
+  errMsg$: Observable<string | undefined> = of(undefined);
+  successMsg$: Observable<string | undefined> = of(undefined);
+
+  constructor(private store: Store<AppState>) { }
+
+  ngOnInit(): void {
+    this.store.dispatch(new WeeklyTasksMessagesCleared());
+    this.errMsg$ = this.store.pipe(
+      select(weeklyTaskErrorMsg)
+    );
+    this.successMsg$ = this.store.pipe(
+      select(weeklyTaskErrorMsg)
+    );
+  }
+
+  onClearStatusMsgs() {
+    this.store.dispatch(new WeeklyTasksMessagesCleared());
+  }
 
 }

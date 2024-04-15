@@ -22,7 +22,6 @@ export class WeeklyTaskListComponent {
 
   constructor(private store: Store<AppState>) { }
 
-
   ngOnInit(): void {
     this.weeklyTaskSchedulers$ = this.store.pipe(
       select(selectAllWeeklyTaskSchedulers)
@@ -32,5 +31,5 @@ export class WeeklyTaskListComponent {
     );
   }
 
-  
+
 }

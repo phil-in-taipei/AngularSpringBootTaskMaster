@@ -15,8 +15,8 @@ import { SingleTaskMessagesCleared } from '../../state/single-task.actions';
 })
 export class CreateTaskComponent implements OnInit {
 
-  singleTaskSubmitErrMsg$: Observable<string | undefined>;
-  singleTaskSubmitSuccessMsg$: Observable<string | undefined>;
+  singleTaskSubmitErrMsg$: Observable<string | undefined> = of(undefined);
+  singleTaskSubmitSuccessMsg$: Observable<string | undefined> = of(undefined);
 
   constructor(private store: Store<AppState>) { }
 
