@@ -6,7 +6,7 @@ import * as fromWeeklyTasks from './weekly-task.reducers';
 export const selectWeeklyTasksState = 
             createFeatureSelector<WeeklyTasksState>("weeklyTasks");
 
-export const selectAllSingleTasks = createSelector(
+export const selectAllWeeklyTaskSchedulers = createSelector(
         selectWeeklyTasksState,
         fromWeeklyTasks.selectAll
     );

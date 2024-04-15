@@ -18,7 +18,7 @@ import { SingleTaskModel } from 'src/app/models/single-task.model';
 export class MonthlyListComponent {
 
   monthlyTasks$: Observable<SingleTaskModel[] | undefined> = of(undefined);
-  spendingRecordsdLoaded$: Observable<boolean> = of(false);
+  tasksLoaded$: Observable<boolean> = of(false);
   monthlyDateRange$: Observable<[string, string] | undefined> = of(undefined);
   showMonthlySelectForm: Boolean = true;
 
@@ -31,7 +31,7 @@ export class MonthlyListComponent {
     this.monthlyDateRange$ = this.store.pipe(
       select(selectMonthlyDateRange)
     );
-    this.spendingRecordsdLoaded$ = this.store.pipe(
+    this.tasksLoaded$ = this.store.pipe(
       select(selectSingleTasksByMonthLoaded)
     );
   }

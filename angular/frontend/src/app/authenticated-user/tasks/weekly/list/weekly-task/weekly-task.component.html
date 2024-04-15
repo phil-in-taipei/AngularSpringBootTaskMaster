@@ -1,1 +1,45 @@
-<p>weekly-task works!</p>
+<tr class="row" >
+    <th class="col">
+        <h5 class="text-secondary">
+            {{ weeklyTaskScheduler.dayOfWeek }}
+        </h5>
+    </th>
+    <th class="col">
+      <h5 class="text-secondary">
+        {{ weeklyTaskScheduler.weeklyTaskName }}
+      </h5>
+    </th>
+    <th class="col">
+      <div *ngIf="!deletionPopupVisible; else delAccount" class="col text-left">
+        <h5>
+          <button
+            class="btn btn-sm btn-outline-secondary"
+            (click)="showDeletionPopup()"
+            >
+            Remove
+          </button>
+        </h5>
+      </div>
+      <ng-template #delAccount class="row">
+        <div class="col text-secondary">
+          <h5>
+            <button
+              class="btn btn-sm btn-outline-secondary"
+              (click)="hideDeletionPopup()">
+              Cancel Deletion
+            </button>
+          </h5>
+        </div>
+        <div class="col text-secondary">
+          <h5>
+            <button
+              class="btn btn-sm btn-outline-danger"
+              (click)="onRemoveTask()"
+              >
+              Confirm Removal
+            </button>
+          </h5>
+        </div>
+      </ng-template>
+    </th>
+</tr>
