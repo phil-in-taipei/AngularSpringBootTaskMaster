@@ -10,7 +10,7 @@
       </h5>
     </th>
     <th class="col">
-      <div *ngIf="!deletionPopupVisible; else delAccount" class="col text-left">
+      <div *ngIf="!deletionPopupVisible; else delWeeklyTask" class="col text-left">
         <h5>
           <button
             class="btn btn-sm btn-outline-secondary"
@@ -20,7 +20,7 @@
           </button>
         </h5>
       </div>
-      <ng-template #delAccount class="row">
+      <ng-template #delWeeklyTask class="row">
         <div class="col text-secondary">
           <h5>
             <button

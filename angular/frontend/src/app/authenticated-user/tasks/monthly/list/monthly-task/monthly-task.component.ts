@@ -1,4 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Store } from '@ngrx/store';
+
+import { AppState } from 'src/app/reducers';
+
+import {
+  MonthlyTaskSchedulerDeletionRequested
+} from '../../state/monthly-task.actions';
+import { MonthlyTaskModel } from 'src/app/models/monthly-task.model';
 
 @Component({
   selector: 'app-monthly-task',
@@ -7,5 +15,26 @@ import { Component } from '@angular/core';
   styleUrl: './monthly-task.component.css'
 })
 export class MonthlyTaskComponent {
+
+  @Input() monthlyTaskScheduler: MonthlyTaskModel;
+
+  deletionPopupVisible: boolean = false;
+
+  constructor(private store: Store<AppState>) { }
+
+  showDeletionPopup() {
+    this.deletionPopupVisible = true;
+  }
+
+  hideDeletionPopup() {
+    this.deletionPopupVisible = false;
+  }
+
+  onRemoveTask() {
+    const payload = { id: +this.monthlyTaskScheduler.id };
+    this.store.dispatch(
+      new MonthlyTaskSchedulerDeletionRequested(payload)
+    );
+  }
 
 }

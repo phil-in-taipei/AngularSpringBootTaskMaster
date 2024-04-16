@@ -1,1 +1,25 @@
-<p>monthly-task-list works!</p>
+<div *ngIf="monthlyTaskSchedulers$ | async as tasks" class="container content">
+    <div class="large-scr-tbl">
+      <hr class="thick-br"/>
+      <h3>Monthly Task Schedulers</h3>
+      <h5>{{ tasks.length }} Monthly Task Schedulers(s)</h5>
+      <hr class="thin-br"/>
+      <div class="large-scr-tbl">
+        <table class="table">
+          <thead>
+            <tr class="row">
+              <th class="col"><h5 class="text-secondary">Day of Month</h5></th>
+              <th class="col"><h5 class="text-secondary">Task Name</h5></th>
+              <th class="col"><h5 class="text-secondary">Delete</h5></th>
+            </tr>
+          </thead>
+          <tbody>
+            <div *ngFor="let monthlyTaskScheduler of tasks; trackBy: trackByFn">
+              <app-monthly-task [monthlyTaskScheduler]=monthlyTaskScheduler>
+              </app-monthly-task>
+            </div>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>

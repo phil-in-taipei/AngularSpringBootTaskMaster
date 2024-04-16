@@ -1,1 +1,45 @@
-<p>monthly-task works!</p>
+<tr class="row" >
+    <th class="col">
+        <h5 class="text-secondary">
+            {{ monthlyTaskScheduler.dayOfMonth }}
+        </h5>
+    </th>
+    <th class="col">
+      <h5 class="text-secondary">
+        {{ monthlyTaskScheduler.monthlyTaskName }}
+      </h5>
+    </th>
+    <th class="col">
+      <div *ngIf="!deletionPopupVisible; else delMonthlyTask" class="col text-left">
+        <h5>
+          <button
+            class="btn btn-sm btn-outline-secondary"
+            (click)="showDeletionPopup()"
+            >
+            Remove
+          </button>
+        </h5>
+      </div>
+      <ng-template #delMonthlyTask class="row">
+        <div class="col text-secondary">
+          <h5>
+            <button
+              class="btn btn-sm btn-outline-secondary"
+              (click)="hideDeletionPopup()">
+              Cancel Deletion
+            </button>
+          </h5>
+        </div>
+        <div class="col text-secondary">
+          <h5>
+            <button
+              class="btn btn-sm btn-outline-danger"
+              (click)="onRemoveTask()"
+              >
+              Confirm Removal
+            </button>
+          </h5>
+        </div>
+      </ng-template>
+    </th>
+</tr>

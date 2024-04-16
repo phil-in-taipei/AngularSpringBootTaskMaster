@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Observable, of } from "rxjs";
 import {select, Store } from '@ngrx/store';
 
@@ -46,5 +46,9 @@ export class MonthlyListComponent {
     } else {
       this.showMonthlySelectForm = true;
     }
+  }
+
+  trackByFn(index: number, item: any) {
+    return item.id;
   }
 }

@@ -1,4 +1,13 @@
 import { Component } from '@angular/core';
+import { Observable, of } from "rxjs";
+import {select, Store } from '@ngrx/store';
+
+import { AppState } from 'src/app/reducers';
+
+import { 
+  selectAllMonthlyTaskSchedulers, selectMonthlyTasksLoaded 
+} from '../../state/monthly-task.selectors';
+import { MonthlyTaskModel } from 'src/app/models/monthly-task.model';
 
 @Component({
   selector: 'app-monthly-task-list',
@@ -7,5 +16,23 @@ import { Component } from '@angular/core';
   styleUrl: './monthly-task-list.component.css'
 })
 export class MonthlyTaskListComponent {
+
+  monthlyTaskSchedulers$: Observable<MonthlyTaskModel[] | undefined> = of(undefined);
+  schedulersLoaded$: Observable<boolean> = of(false);
+
+  constructor(private store: Store<AppState>) { }
+
+  ngOnInit(): void {
+    this.monthlyTaskSchedulers$ = this.store.pipe(
+      select(selectAllMonthlyTaskSchedulers)
+    );
+    this.schedulersLoaded$ = this.store.pipe(
+      select(selectMonthlyTasksLoaded)
+    );
+  }
+
+  trackByFn(index: number, item: any) {
+    return item.id;
+  }
 
 }

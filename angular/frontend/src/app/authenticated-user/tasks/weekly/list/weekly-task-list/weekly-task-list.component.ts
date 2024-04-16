@@ -15,7 +15,7 @@ import { WeeklyTaskModel } from 'src/app/models/weekly-task.model';
   templateUrl: './weekly-task-list.component.html',
   styleUrl: './weekly-task-list.component.css'
 })
-export class WeeklyTaskListComponent {
+export class WeeklyTaskListComponent implements OnInit{
 
   weeklyTaskSchedulers$: Observable<WeeklyTaskModel[] | undefined> = of(undefined);
   schedulersLoaded$: Observable<boolean> = of(false);
@@ -31,5 +31,8 @@ export class WeeklyTaskListComponent {
     );
   }
 
+  trackByFn(index: number, item: any) {
+    return item.id;
+  }
 
 }

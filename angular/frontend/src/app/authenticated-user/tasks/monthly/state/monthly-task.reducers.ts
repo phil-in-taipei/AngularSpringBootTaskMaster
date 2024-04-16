@@ -71,6 +71,15 @@ export function monthlyTasksReducer(
         errorMessage: monthlyTasksErrorMessage
       }
 
+    case MonthlyTaskSchedulersActionTypes.MonthlyTaskSchedulerDeletionSaved:
+      return adapter.removeOne(action.payload.id, 
+          { 
+              ...state,
+              errorMessage: undefined,
+              successMessage: action.payload.message
+          }
+        );
+
     case MonthlyTaskSchedulersActionTypes.MonthlyTaskSchedulersLoaded:
       return adapter.upsertMany(action.payload.monthlyTasks, { ...state,
         errorMessage: undefined,

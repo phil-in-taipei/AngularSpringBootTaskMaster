@@ -14,7 +14,7 @@
             </tr>
           </thead>
           <tbody>
-            <div *ngFor="let weeklyTaskScheduler of weeklyTaskSchedulers" >
+            <div *ngFor="let weeklyTaskScheduler of weeklyTaskSchedulers; trackBy: trackByFn" >
               <app-weekly-task [weeklyTaskScheduler]=weeklyTaskScheduler>
               </app-weekly-task>
             </div>

@@ -36,7 +36,7 @@
             </tr>
           </thead>
           <tbody>
-            <div *ngFor="let singleTask of tasks" >
+            <div *ngFor="let singleTask of tasks; trackBy: trackByFn" >
               <app-single-task [singleTask]=singleTask>
               </app-single-task>
             </div>

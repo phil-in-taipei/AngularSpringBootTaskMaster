@@ -62,7 +62,15 @@ export function weeklyTasksReducer(
             case WeeklyTaskSchedulersActionTypes.WeeklyTaskSchedulersCleared:
                 return initialWeeklyTasksState;
         
-
+            case WeeklyTaskSchedulersActionTypes.WeeklyTaskSchedulerDeletionSaved:
+                return adapter.removeOne(action.payload.id, 
+                    { 
+                        ...state,
+                        errorMessage: undefined,
+                        successMessage: action.payload.message
+                    }
+                );
+              
             case WeeklyTaskSchedulersActionTypes.WeeklyTaskSchedulersRequestCancelled:
                 let weeklyTasksErrorMessage: string = "Error fetching weekly tasks!";
                 if (action.payload.err.error.message) {
