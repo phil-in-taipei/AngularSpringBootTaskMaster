@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 import { MonthlyRoutingModule } from './monthly-routing.module';
 
 import { 
@@ -13,6 +16,8 @@ import { MonthlyTaskComponent } from './list/monthly-task/monthly-task.component
 import { 
   MonthlyTaskListComponent 
 } from './list/monthly-task-list/monthly-task-list.component';
+import { MonthlyTasksEffects } from './state/monthly-tasks.effects.spec';
+import { monthlyTasksReducer } from './state/monthly-task.reducers';
 
 
 
@@ -26,7 +31,10 @@ import {
   ],
   imports: [
     CommonModule,
-    MonthlyRoutingModule
+    FormsModule,
+    MonthlyRoutingModule,
+    StoreModule.forFeature('monthlyTasks', monthlyTasksReducer),
+    EffectsModule.forFeature([MonthlyTasksEffects]),
   ]
 })
 export class MonthlyModule { }

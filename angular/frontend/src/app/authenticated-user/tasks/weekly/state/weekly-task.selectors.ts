@@ -19,12 +19,12 @@ export const selectWeeklyTaskSchedulerById = (id:number) => createSelector(
 export const selectWeeklyTasksLoaded = createSelector(
     selectWeeklyTasksState,
     weeklyTasksState => weeklyTasksState.weeklyTasksLoaded
-);
+    );
     
 export const weeklyTaskErrorMsg = createSelector(
     selectWeeklyTasksState,
     weeklyTasksState => weeklyTasksState.errorMessage
-);
+    );
       
 export const weeklyTaskSuccessMsg = createSelector(
         selectWeeklyTasksState,
