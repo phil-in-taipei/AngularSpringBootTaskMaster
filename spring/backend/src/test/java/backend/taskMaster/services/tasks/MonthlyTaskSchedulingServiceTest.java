@@ -218,5 +218,5 @@ class MonthlyTaskSchedulingServiceTest {
                             testMonthlyTaskAppliedQuarterly);
         });
     }
-    
+
 }
