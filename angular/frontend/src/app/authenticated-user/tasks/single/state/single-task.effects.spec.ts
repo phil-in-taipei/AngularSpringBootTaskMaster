@@ -19,7 +19,7 @@ import { SingleTaskEffects } from './single-task.effects';
 import { SingleTaskService } from '../service/single-task.service';
 import { SingleTaskCreateModel, SingleTaskModel } from 'src/app/models/single-task.model';
 
-fdescribe('SingleTaskEffects', () => {
+describe('SingleTaskEffects', () => {
     let effects: SingleTaskEffects;
     let singleTaskService: SingleTaskService;
 

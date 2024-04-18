@@ -2,7 +2,7 @@ import {
     initialSingleTasksState, singleTasksReducer 
 } from "./single-task.reducers";
 import { 
-    singleTaskCreateRequest, singleTaskMarch25thData,
+    singleTaskMarch25thData,
 } from "src/app/test-data/authenticated-user-module-tests/single-task-tests/single-task-data";
 import { 
     statePriorToNewSingleTaskSubmitted,
@@ -15,7 +15,7 @@ import {
     SingleTaskCreationCancelled
 } from "./single-task.actions";
 
-fdescribe('incomeSourcesReducer', () => {
+describe('incomeSourcesReducer', () => {
     it('returns an initial state when cleared', () =>{
         const state = singleTasksReducer(
             initialSingleTasksState, 
