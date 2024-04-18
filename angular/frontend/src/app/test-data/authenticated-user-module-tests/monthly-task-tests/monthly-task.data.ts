@@ -23,7 +23,7 @@ export const testMonthlyTask2: MonthlyTaskModel = {
 
 export const testMonthlyTask3: MonthlyTaskModel = {
     id: 3,
-  monthlyTaskName: monthlyTaskCreateRequest.monthlyTaskName,
+    monthlyTaskName: monthlyTaskCreateRequest.monthlyTaskName,
     dayOfMonth: monthlyTaskCreateRequest.dayOfMonth,
   };
   
@@ -40,5 +40,4 @@ export const monthlyTaskDeletionResponse: DeletionResponse = {
   id: testMonthlyTask3.id,
   message: "Monthly task scheduler successfully deleted!"
 }
-
 

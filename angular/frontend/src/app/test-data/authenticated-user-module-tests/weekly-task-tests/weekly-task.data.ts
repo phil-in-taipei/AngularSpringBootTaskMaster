@@ -37,9 +37,7 @@ export const weeklyTaskDataAfterPost: WeeklyTaskModel[] = [
     testWeeklyTask2,
     testWeeklyTask3,
 ];
-  
-  // No update needed for weeklyTaskDataAfterPost since order doesn't affect functionality
-  
+    
 export const weeklyTaskDeletionResponse: DeletionResponse = {
     id: testWeeklyTask3.id,
     message: "Weekly task scheduler successfully deleted!",
