@@ -61,6 +61,16 @@ export function weeklyTasksReducer(
         
             case WeeklyTaskSchedulersActionTypes.WeeklyTaskSchedulersCleared:
                 return initialWeeklyTasksState;
+
+            case WeeklyTaskSchedulersActionTypes.WeeklyTaskSchedulerDeletionCancelled:
+                let errMsg: string = "Error! Monthly Task Deletion Failed!";
+                if (action.payload.err.error.Error) {
+                    errMsg = action.payload.err.error.Error;
+                }
+                return {
+                    ...state,  successMessage: undefined,
+                    errorMessage: errMsg
+                 }
         
             case WeeklyTaskSchedulersActionTypes.WeeklyTaskSchedulerDeletionSaved:
                 return adapter.removeOne(action.payload.id, 

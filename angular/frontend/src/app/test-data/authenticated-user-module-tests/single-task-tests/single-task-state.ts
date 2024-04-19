@@ -101,7 +101,7 @@ export const stateAfterNewSingleTaskSubmitted = {
 };
 
 export const stateAfterNewSingleTaskSubmissionFailure = {
-    income: {
+    singleTasks: {
       ids: marchIDsPriorToSubmission,
       entities: marchEntitiesPriorToSubmission,
       dateRange: undefined,

@@ -15,7 +15,7 @@ import {
     SingleTaskCreationCancelled
 } from "./single-task.actions";
 
-describe('incomeSourcesReducer', () => {
+describe('singleTasksReducer', () => {
     it('returns an initial state when cleared', () =>{
         const state = singleTasksReducer(
             initialSingleTasksState, 
@@ -35,14 +35,14 @@ describe('incomeSourcesReducer', () => {
     });
 
     it('returns the state with originally loaded single tasks entity and indicates that ' 
-        + 'submission of a new income source has been unsucessful', () => {
+        + 'submission of a new single task has been unsucessful', () => {
         const state = singleTasksReducer(
             statePriorToNewSingleTaskSubmitted.singleTasks, 
         new SingleTaskCreationCancelled({ err: {error: {
             Error: "Error submitting task!"
         } } }));
        expect(state).toEqual(
-        stateAfterNewSingleTaskSubmissionFailure.income
+        stateAfterNewSingleTaskSubmissionFailure.singleTasks
         );
     });
 

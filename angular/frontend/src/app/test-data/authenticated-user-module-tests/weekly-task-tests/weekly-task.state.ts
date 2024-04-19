@@ -22,16 +22,38 @@ const entitiesPriorToSubmission: Dictionary<WeeklyTaskModel> = {
   };
   
 const entities: Dictionary<WeeklyTaskModel> = {
-    '1': weeklyTaskData[0],
-    '2': weeklyTaskData[1],
+    '1': weeklyTaskDataAfterPost[0],
+    '2': weeklyTaskDataAfterPost[1],
     '3': weeklyTaskDataAfterPost[2],
   };
-  
+
+const deletionFailureMessage: string = "Error! Weekly Task Scheduler Deletion Failed!";
+const deletionSuccessMessage: string = 'Weekly Task Scheduler successfully deleted!';
 const fetchFailureMessage: string = 'Error fetching weekly tasks!';
 const submissionFailureMessage: string = "Error submitting weekly task scheduler!";
 const submissionSuccessMessage: string = 'Weekly Task Scheduler successfully submitted!';
   
-  
+
+export const stateFollowingNewWeeklyTaskDeletion = {
+  weeklyTasks: {
+    ids: weeklyTaskIdsPriorToSubmission,
+    entities: entitiesPriorToSubmission,
+    errorMessage: undefined,
+    weeklyTasksLoaded: true,
+    successMessage: deletionSuccessMessage
+  }
+};
+
+export const stateFollowingNewWeeklyTaskDeletionFailure = {
+  weeklyTasks: {
+    ids: weeklyTaskIds,
+    entities: entities,
+    errorMessage: deletionFailureMessage,
+    weeklyTasksLoaded: true,
+    successMessage: undefined
+  }
+};
+
 export const statePriorToNewWeeklyTaskSubmission = {
     weeklyTasks: {
       ids: weeklyTaskIdsPriorToSubmission,
@@ -46,10 +68,8 @@ export const stateAfterNewWeeklyTaskSubmission = {
     weeklyTasks: {
       ids: weeklyTaskIds,
       entities: entities,
-      dateRange: undefined,
       errorMessage: undefined,
-      landingPageSingleTasksLoaded: true,
-      weeklySingleTasksLoaded: true,
+      weeklyTasksLoaded: true,
       successMessage: submissionSuccessMessage
     }
   };

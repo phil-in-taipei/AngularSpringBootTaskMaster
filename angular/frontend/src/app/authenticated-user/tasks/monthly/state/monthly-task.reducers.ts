@@ -71,6 +71,17 @@ export function monthlyTasksReducer(
         errorMessage: monthlyTasksErrorMessage
       }
 
+    case MonthlyTaskSchedulersActionTypes.MonthlyTaskSchedulerDeletionCancelled:
+      let errMsg: string = "Error! Monthly Task Deletion Failed!";
+      if (action.payload.err.error.Error) {
+          errMsg = action.payload.err.error.Error;
+      }
+      return {
+          ...state,  successMessage: undefined,
+          errorMessage: errMsg
+      }
+
+
     case MonthlyTaskSchedulersActionTypes.MonthlyTaskSchedulerDeletionSaved:
       return adapter.removeOne(action.payload.id, 
           { 
