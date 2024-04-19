@@ -72,9 +72,13 @@ const aprilEntitiesPostDeletion:Dictionary<SingleTaskModel> = {
 
 };
 
-const deletedSingleTaskSuccessMessage: string = 'You have successfully deleted a task!';
+const confirmationFailureMessage: string = 'Error confirming task completion!';
+const deletionSuccessMessage: string = 'You have successfully deleted a task!';
+const deletionFailureMessage: string = 'Error! Task Deletion Failed!';
 const newSingleTaskFailureMessage: string = "Error submitting task!";
 const newSingleTaskSuccessMessage: string = 'Task successfully submitted!';
+const rescheduleFailureMessage: string = "Error! Task Rescheduling Failed!";
+const rescheduleSuccessMessage: string = 'You have successfully rescheduled the task!';
 
 export const statePriorToNewSingleTaskSubmitted = {
     singleTasks: {
