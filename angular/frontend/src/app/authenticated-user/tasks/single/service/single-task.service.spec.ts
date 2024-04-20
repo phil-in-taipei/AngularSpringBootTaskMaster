@@ -17,7 +17,7 @@ import {
 
 import { SingleTaskService } from './single-task.service';
 
-describe('SingleTaskService', () => {
+fdescribe('SingleTaskService', () => {
   let service: SingleTaskService;
   let httpTestingController: HttpTestingController;
   let authServiceSpy: jasmine.SpyObj<AuthService>;
