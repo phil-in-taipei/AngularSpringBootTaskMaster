@@ -1,4 +1,7 @@
 import { 
+    DeletionResponse 
+} from "src/app/models/deletion-response";
+import { 
     SingleTaskModel, SingleTaskCreateModel,
     SingleTaskRescheduleModel
 } from "src/app/models/single-task.model";
@@ -7,6 +10,11 @@ export const singleTaskCreateRequest: SingleTaskCreateModel = {
     taskName: "Test Task 1",
     date: "2024-03-25"
 };
+
+export const singleTaskDeletionResponse: DeletionResponse = {
+    id: 3,
+    message: "Task successfully deleted!"
+}
 
 export const testSingleTask1: SingleTaskModel = {
     id: 1,
@@ -68,7 +76,7 @@ export const testSingleTask3PostRescheduling: SingleTaskModel = {
     id: 3,
     taskName: "Test Task 3",
     date: singleTask3RescheduleRequest.date,        
-    status: "PENDING",
+    status: "DEFERRED",
     comments: singleTask3RescheduleRequest.comments,
     createdDateTime: "2024-03-27T10:58:38.425",
     updatedDateTime: "2024-03-27T10:58:38.425"

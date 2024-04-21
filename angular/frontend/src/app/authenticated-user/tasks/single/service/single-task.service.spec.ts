@@ -11,8 +11,9 @@ import {
 } from 'src/app/authentication/auth.service';
 
 import { 
-  singleTaskCreateRequest, singleTaskMarch25thData, 
-  singleTaskMarchData
+  singleTaskCreateRequest, singleTaskDeletionResponse,
+  singleTaskMarch25thData, 
+  singleTaskMarchData, testSingleTask3PostRescheduling
 } from 'src/app/test-data/authenticated-user-module-tests/single-task-tests/single-task-data';
 
 import { SingleTaskService } from './single-task.service';
@@ -37,6 +38,23 @@ fdescribe('SingleTaskService', () => {
     authServiceSpy = TestBed.inject(AuthService) as jasmine.SpyObj<AuthService>;
   });
 
+
+  it("should return the array of users' tasks from the api,"
+   + " which are scheduled on 3/25/2024", 
+    fakeAsync(() => {
+      authServiceSpy.getAuthToken.and.returnValue(authData.token);
+      service.fetchSingleTasksByDate("03-25-2024").subscribe(response => {
+        expect(response).toEqual(singleTaskMarch25thData);
+      });
+
+      const request = httpTestingController.expectOne({
+        method: 'GET',
+        url:`${environment.apiUrl}/api/task/date/03-25-2024`,
+      });
+
+      request.flush(singleTaskMarch25thData);
+
+  }));
 
 
   it("should return the array of users' tasks from the api, which are scheduled in 3/2024", 
@@ -74,7 +92,24 @@ fdescribe('SingleTaskService', () => {
 
   }));
 
+  it('should return a response message from backend after deletion ' 
+    + 'with a message and the single task id', 
+      fakeAsync(() => {
+        authServiceSpy.getAuthToken.and.returnValue(authData.token);
 
+        service.deleteSingleTask(3).subscribe(response => {
+          expect(response.id).toEqual(3);
+          expect(response).toEqual(singleTaskDeletionResponse);
+        });
+
+        const request = httpTestingController.expectOne({
+          method: 'DELETE',
+          url:`${environment.apiUrl}/api/task/delete/3`,
+        });
+
+        request.flush(singleTaskDeletionResponse);
+
+  }));
 
   afterEach(() => {
     httpTestingController.verify();
