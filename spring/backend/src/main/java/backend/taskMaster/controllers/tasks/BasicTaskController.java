@@ -151,7 +151,7 @@ public class BasicTaskController {
         }
     }
 
-    @PatchMapping("/reschedule/{taskId}")
+    @PostMapping("/reschedule/{taskId}")
     public ResponseEntity<?> rescheduleTask(
             @PathVariable(name = "taskId") Long taskId,
             @RequestBody TaskReschedulePatchRequest taskReschedulePatchRequest

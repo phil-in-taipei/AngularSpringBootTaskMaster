@@ -36,6 +36,7 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
@@ -182,7 +183,10 @@ class BasicTaskControllerTest {
         when(taskService.getTask(anyLong()))
                 .thenReturn(testTask1);
         mockMvc.
-                perform(request(HttpMethod.GET, "/api/task/delete/1"))
+                perform(
+                        request(HttpMethod.DELETE, "/api/task/delete/" + testTask1.getId())
+                                .with(csrf())
+                )
                 //.andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("id")
@@ -203,7 +207,11 @@ class BasicTaskControllerTest {
         when(taskService.getTask(anyLong()))
                 .thenReturn(null);
         mockMvc.
-                perform(request(HttpMethod.GET, "/api/task/delete/" + nonExistentID))
+                perform(
+                        request(HttpMethod.DELETE,
+                                "/api/task/delete/" + nonExistentID)
+                                .with(csrf())
+                )
                 //.andDo(print())
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("message")
@@ -260,7 +268,7 @@ class BasicTaskControllerTest {
         tasksOnCurrentDate.add(testTask1);
         when(taskService.saveTaskAndReturnAllOnSameDate(any(SingleTask.class)))
                 .thenReturn(tasksOnCurrentDate);
-        mockMvc.perform(patch("/api/task/reschedule/1")
+        mockMvc.perform(post("/api/task/reschedule/1")
                         .contentType("application/json")
                         .with(csrf())
                         .content(TestUtil.convertObjectToJsonBytes(reschedulePatchRequest))
@@ -284,7 +292,7 @@ class BasicTaskControllerTest {
     void rescheduleTaskFailure() throws Exception {
         when(taskService.getTask(anyLong()))
                 .thenReturn(null);
-        mockMvc.perform(patch("/api/task/reschedule/1")
+        mockMvc.perform(post("/api/task/reschedule/1")
                         .contentType("application/json")
                         .with(csrf())
                         .content(TestUtil.convertObjectToJsonBytes(reschedulePatchRequest))

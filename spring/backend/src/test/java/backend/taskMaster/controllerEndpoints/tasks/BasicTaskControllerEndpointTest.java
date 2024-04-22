@@ -112,7 +112,7 @@ public class BasicTaskControllerEndpointTest {
     void rescheduleTask() throws Exception {
         LocalDate today = LocalDate.now();
         SingleTask testTask = singleTaskRepo.findAll().get(0);
-        mockMvc.perform(patch("/api/task/reschedule/" + testTask.getId())
+        mockMvc.perform(post("/api/task/reschedule/" + testTask.getId())
                         .contentType("application/json")
                         .with(csrf())
                         .content(TestUtil.convertObjectToJsonBytes(reschedulePatchRequest))
@@ -136,7 +136,7 @@ public class BasicTaskControllerEndpointTest {
     @WithUserDetails("TestUser")
     void rescheduleTaskFailure() throws Exception {
         long nonExistentID = 12920L;
-        mockMvc.perform(patch("/api/task/reschedule/" + nonExistentID)
+        mockMvc.perform(post("/api/task/reschedule/" + nonExistentID)
                         .contentType("application/json")
                         .with(csrf())
                         .content(TestUtil.convertObjectToJsonBytes(reschedulePatchRequest))
@@ -194,7 +194,7 @@ public class BasicTaskControllerEndpointTest {
     public void deleteTask() throws Exception {
         SingleTask testTask2 = singleTaskRepo.findAll().get(1);
         mockMvc.
-                perform(request(HttpMethod.GET, "/api/task/delete/" + testTask2.getId()))
+                perform(request(HttpMethod.DELETE, "/api/task/delete/" + testTask2.getId()))
                 //.andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("id")
@@ -214,7 +214,7 @@ public class BasicTaskControllerEndpointTest {
     public void deleteTaskFailure() throws Exception {
         long nonExistentID = 12920L;
         mockMvc.
-                perform(request(HttpMethod.GET, "/api/task/delete/" + nonExistentID))
+                perform(request(HttpMethod.DELETE, "/api/task/delete/" + nonExistentID))
                 //.andDo(print())
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("message")
