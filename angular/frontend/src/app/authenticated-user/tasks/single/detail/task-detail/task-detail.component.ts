@@ -25,9 +25,6 @@ export class TaskDetailComponent implements OnInit{
   errMsg$: Observable<string | undefined> = of(undefined);
   successMsg$: Observable<string | undefined> = of(undefined);
   formVisible: boolean = false;
-  taskRevised: boolean = false;
-  revisedDate: string;
-  revisedComments: string;
 
   constructor(
     private route: ActivatedRoute, 
@@ -58,16 +55,6 @@ export class TaskDetailComponent implements OnInit{
 
   closeFormHander($event: boolean) {
     this.formVisible = $event;
-  }
-
-  updatedDateHandler($event: string) {
-    this.revisedDate = $event;
-    this.taskRevised = true;
-  }
-
-  updatedCommentsHandler($event: string) {
-    this.revisedComments = $event;
-    this.taskRevised = true;
   }
 
 }

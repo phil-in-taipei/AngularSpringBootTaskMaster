@@ -22,8 +22,6 @@ export class RescheduleTaskFormComponent {
   dateModel: Date;
   @Input() singleTask: SingleTaskModel;
   @Output() closeFormEvent = new EventEmitter<boolean>();
-  @Output() updateCommentsEvent = new EventEmitter<string>();
-  @Output() updateDateEvent = new EventEmitter<string>();
 
   constructor(private store: Store<AppState>) { }
 
@@ -54,8 +52,6 @@ export class RescheduleTaskFormComponent {
     ));
     form.resetForm();
     this.closeFormEvent.emit(false);
-    this.updateCommentsEvent.emit(submissionForm.comments);
-    this.updateDateEvent.emit(submissionForm.date);
   }
 
 

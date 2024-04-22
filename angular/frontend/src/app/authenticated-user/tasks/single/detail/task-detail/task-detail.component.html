@@ -18,7 +18,7 @@
   <hr class="thick-br"/>
 </div>
 <div *ngIf="(singleTask$ | async) as singleTask; else homepage_link">
-    <div *ngIf="!taskRevised; else revisedButton">
+    <div>
       <div class="text-center">
         <button class="btn btn-sm btn-outline-secondary text" id="forwardDateButton" 
         [routerLink]="['/', 'authenticated-user', 'tasks-daily', singleTask.date]">
@@ -26,14 +26,6 @@
         </button>
       </div>
     </div>
-    <ng-template #revisedButton>
-    <div class="text-center">
-      <button class="btn btn-sm btn-outline-secondary text" id="forwardDateButton" 
-      [routerLink]="['/', 'authenticated-user', 'tasks-daily', revisedDate]">
-          Navigate to {{ revisedDate }}
-      </button>
-    </div>
-    </ng-template>
     <div class="mt-4 p-5 rounded">
         <div class="p-3 rounded-lg m-2">
             <div class="container text-center bg-light">
@@ -49,21 +41,12 @@
                         </tr>
                         </thead>
                         <tbody>
-                
-                        <tr *ngIf="!taskRevised; else revisedTask">
-                          <td>{{ singleTask.date }}</td>
-                          <td> {{ singleTask.taskName }}</td>
-                          <td>{{ singleTask.comments }}</td>
-                          <td>{{ singleTask.status }}</td>
-                        </tr>
-                        <ng-template #revisedTask>
                           <tr>
-                            <td>{{ revisedDate }}</td>
+                            <td>{{ singleTask.date }}</td>
                             <td> {{ singleTask.taskName }}</td>
-                            <td>{{ revisedComments }}</td>
-                            <td>{{ "DEFERRED" }}</td>
+                            <td>{{ singleTask.comments }}</td>
+                            <td>{{ singleTask.status }}</td>
                           </tr>
-                        </ng-template>
                         </tbody>
                     </table>
                 </div>
@@ -83,8 +66,6 @@
             <app-reschedule-task-form
                 [singleTask]=singleTask
                 (closeFormEvent)="closeFormHander($event)"
-                (updateCommentsEvent)="updatedCommentsHandler($event)"
-                (updateDateEvent)="updatedDateHandler($event)"
             ></app-reschedule-task-form>
             </div>
         </div>

@@ -180,7 +180,7 @@ export function singleTasksReducer(
             return adapter.updateOne(action.payload.singleTask, 
                 {
                     ...state,
-                    errorMessage:undefined,
+                    errorMessage: undefined,
                     successMessage: 'You have successfully rescheduled the task!'
                 }
             );
