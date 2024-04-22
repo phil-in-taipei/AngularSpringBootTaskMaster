@@ -264,11 +264,9 @@ class BasicTaskControllerTest {
         testTask1.setComments("Test rescheduling of task");
         testTask1.setStatus(TaskStatusEnum.DEFERRED);
         testTask1.setUpdatedDateTime(LocalDateTime.now());
-        List<SingleTask> tasksOnCurrentDate = new ArrayList<>();
-        tasksOnCurrentDate.add(testTask1);
-        when(taskService.saveTaskAndReturnAllOnSameDate(any(SingleTask.class)))
-                .thenReturn(tasksOnCurrentDate);
-        mockMvc.perform(post("/api/task/reschedule/1")
+        when(taskService.saveTask(any(SingleTask.class)))
+                .thenReturn(testTask1);
+        mockMvc.perform(patch("/api/task/reschedule/1")
                         .contentType("application/json")
                         .with(csrf())
                         .content(TestUtil.convertObjectToJsonBytes(reschedulePatchRequest))
@@ -277,11 +275,11 @@ class BasicTaskControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(header().string("Content-Type", "application/json"))
                 .andExpect(content().contentType("application/json"))
-                .andExpect(jsonPath("$[0]taskName")
+                .andExpect(jsonPath("taskName")
                         .value(
                                 "Test Task 1")
                 )
-                .andExpect(jsonPath("$[0]date")
+                .andExpect(jsonPath("date")
                         .value(
                                 today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 );
@@ -292,7 +290,7 @@ class BasicTaskControllerTest {
     void rescheduleTaskFailure() throws Exception {
         when(taskService.getTask(anyLong()))
                 .thenReturn(null);
-        mockMvc.perform(post("/api/task/reschedule/1")
+        mockMvc.perform(patch("/api/task/reschedule/1")
                         .contentType("application/json")
                         .with(csrf())
                         .content(TestUtil.convertObjectToJsonBytes(reschedulePatchRequest))

@@ -112,7 +112,7 @@ public class BasicTaskControllerEndpointTest {
     void rescheduleTask() throws Exception {
         LocalDate today = LocalDate.now();
         SingleTask testTask = singleTaskRepo.findAll().get(0);
-        mockMvc.perform(post("/api/task/reschedule/" + testTask.getId())
+        mockMvc.perform(patch("/api/task/reschedule/" + testTask.getId())
                         .contentType("application/json")
                         .with(csrf())
                         .content(TestUtil.convertObjectToJsonBytes(reschedulePatchRequest))
@@ -121,11 +121,11 @@ public class BasicTaskControllerEndpointTest {
                 .andExpect(status().isOk())
                 .andExpect(header().string("Content-Type", "application/json"))
                 .andExpect(content().contentType("application/json"))
-                .andExpect(jsonPath("$[0]taskName")
+                .andExpect(jsonPath("taskName")
                         .value(
                                 "Test Task 1")
                 )
-                .andExpect(jsonPath("$[0]date")
+                .andExpect(jsonPath("date")
                         .value(
                                 today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 );
@@ -136,7 +136,7 @@ public class BasicTaskControllerEndpointTest {
     @WithUserDetails("TestUser")
     void rescheduleTaskFailure() throws Exception {
         long nonExistentID = 12920L;
-        mockMvc.perform(post("/api/task/reschedule/" + nonExistentID)
+        mockMvc.perform(patch("/api/task/reschedule/" + nonExistentID)
                         .contentType("application/json")
                         .with(csrf())
                         .content(TestUtil.convertObjectToJsonBytes(reschedulePatchRequest))

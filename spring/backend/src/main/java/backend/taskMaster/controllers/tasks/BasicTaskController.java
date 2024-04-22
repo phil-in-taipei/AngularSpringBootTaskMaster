@@ -151,7 +151,7 @@ public class BasicTaskController {
         }
     }
 
-    @PostMapping("/reschedule/{taskId}")
+    @PatchMapping("/reschedule/{taskId}")
     public ResponseEntity<?> rescheduleTask(
             @PathVariable(name = "taskId") Long taskId,
             @RequestBody TaskReschedulePatchRequest taskReschedulePatchRequest
@@ -164,7 +164,7 @@ public class BasicTaskController {
             updatedTask.setComments(taskReschedulePatchRequest.getComments());
             updatedTask.setUpdatedDateTime(LocalDateTime.now());
             return new ResponseEntity<>(
-                    taskService.saveTaskAndReturnAllOnSameDate(updatedTask),
+                    taskService.saveTask(updatedTask),
                     HttpStatus.OK);
         } catch (NullPointerException | IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(
