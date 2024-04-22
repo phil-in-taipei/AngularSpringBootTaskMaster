@@ -14,6 +14,56 @@ import backend.taskMaster.models.tasks.appliedSchedulers.QuarterlySchedulingEnum
 public class GenerateDatesService {
 
     @Loggable
+    public List<LocalDate> getIntervalSchedulingDatesByQuarter(
+            Integer interval, Integer year,
+            QuarterlySchedulingEnum quarter) {
+        List<LocalDate> dates = new ArrayList<>();
+
+        // gets the starting date (randomly generated according to interval task) and
+        // then adds a date to the ArrayList every n-th day (interval)
+        LocalDate dateInQuarter = getFirstDateForIntervalTaskByYearAndQuarter(
+                interval, year, quarter);
+        switch (quarter) {
+            case Q1:
+                int Q21stMonth = 4; // month value when dates cease to be generated
+                while (dateInQuarter.getMonthValue() < Q21stMonth) {
+                    //System.out.println(dateInQuarter);
+                    dates.add(dateInQuarter);
+                    dateInQuarter = dateInQuarter.plusDays(interval);
+                }
+                break;
+            case Q2:
+                //System.out.println("Quarter 2");
+                int Q31stMonth = 7; // month value when dates cease to be generated
+                while (dateInQuarter.getMonthValue() < Q31stMonth) {
+                    //System.out.println(dateInQuarter);
+                    dates.add(dateInQuarter);
+                    dateInQuarter = dateInQuarter.plusDays(interval);
+                }
+                break;
+            case Q3:
+                //System.out.println("Quarter 3");
+                int Q41stMonth = 10; // month value when dates cease to be generated
+                while (dateInQuarter.getMonthValue() < Q41stMonth) {
+                    //System.out.println(dateInQuarter);
+                    dates.add(dateInQuarter);
+                    dateInQuarter = dateInQuarter.plusDays(interval);
+                }
+                break;
+            default:
+                //System.out.println("Quarter 4");
+                int nextYearValue = year + 1; // year value when dates cease to be generated
+                while (dateInQuarter.getYear() < nextYearValue) {
+                    //System.out.println(dateInQuarter);
+                    dates.add(dateInQuarter);
+                    dateInQuarter = dateInQuarter.plusDays(interval);
+                }
+                break;
+        }
+        return dates;
+    }
+
+    @Loggable
     public List<LocalDate> getMonthlySchedulingDatesByQuarter(
             Integer year,
             QuarterlySchedulingEnum quarter,
@@ -141,5 +191,27 @@ public class GenerateDatesService {
 
         }
         return firstDayOfQuarter;
+    }
+
+
+    @Loggable
+    public LocalDate getFirstDateForIntervalTaskByYearAndQuarter(
+            Integer interval, Integer year, QuarterlySchedulingEnum quarter
+    ) { // this gets a random day of the week depending on how many days the interval
+        // if the interval is below 7, it gets a random day within the nth day of the week
+        // corresponding to the interval. If the interval is over 7, it just picks a random day
+        // from 1 to 7
+        DayOfWeek[] possibleDaysToBegin = new DayOfWeek[]{
+                DayOfWeek.SUNDAY, DayOfWeek.MONDAY,
+                DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY,
+                DayOfWeek.THURSDAY, DayOfWeek.FRIDAY, DayOfWeek.SATURDAY};
+        int dailyIndex = interval;
+        if (interval > 7) {
+            dailyIndex = 7;
+        }
+        int random = (int)(Math.random() * dailyIndex + 1) - 1;
+        DayOfWeek beginningDayOfWeek = possibleDaysToBegin[random];
+        return getFirstDayOfWeekByYearAndQuarter(
+                beginningDayOfWeek, year, quarter);
     }
 }
