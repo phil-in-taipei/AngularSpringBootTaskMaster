@@ -36,6 +36,16 @@ export const testSingleTask2: SingleTaskModel = {
     updatedDateTime: "2024-03-25T10:58:38.425"
 };
 
+export const testSingleTask2PostConfirmation: SingleTaskModel = {
+    id: 2,
+    taskName: "Test Task 2",
+    date: "2024-03-25",        
+    status: "COMPLETED",
+    comments: null,
+    createdDateTime: "2024-03-25T10:58:38.425",
+    updatedDateTime: "2024-04-25T10:58:38.425"
+};
+
 export const singleTaskMarch25thData: SingleTaskModel[] = [
     testSingleTask1, testSingleTask2
 ];

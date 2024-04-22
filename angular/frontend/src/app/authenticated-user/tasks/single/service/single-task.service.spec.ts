@@ -13,7 +13,8 @@ import {
 import { 
   singleTaskCreateRequest, singleTaskDeletionResponse,
   singleTaskMarch25thData, singleTask3RescheduleRequest,
-  singleTaskMarchData, testSingleTask3PostRescheduling
+  singleTaskMarchData, testSingleTask2PostConfirmation,
+  testSingleTask3PostRescheduling
 } from 'src/app/test-data/authenticated-user-module-tests/single-task-tests/single-task-data';
 
 import { SingleTaskService } from './single-task.service';
@@ -93,6 +94,25 @@ fdescribe('SingleTaskService', () => {
   }));
 
   it('should return a revised single task from backend after submitting ' 
+    + 'a request to the url endpoint to confirm completion of the single task', 
+      fakeAsync(() => {
+        authServiceSpy.getAuthToken.and.returnValue(authData.token);
+
+        service.confirmTaskCompletion(2).subscribe(response => {
+          expect(response).toEqual(testSingleTask2PostConfirmation);
+        });
+
+        const request = httpTestingController.expectOne({
+          method: 'GET',
+          url:`${environment.apiUrl}/api/task/confirm/2`,
+        });
+
+        request.flush(testSingleTask2PostConfirmation);
+
+  }));
+
+
+  it('should return a revised single task from backend after submitting ' 
     + 'data to reschedule the single task', 
       fakeAsync(() => {
         authServiceSpy.getAuthToken.and.returnValue(authData.token);
@@ -109,8 +129,6 @@ fdescribe('SingleTaskService', () => {
         request.flush(testSingleTask3PostRescheduling);
 
   }));
-
-
 
   it('should return a response message from backend after deletion ' 
     + 'with a message and the single task id', 
