@@ -123,8 +123,6 @@ public class MonthlyTaskSchedulerController {
         }
     }
 
-
-
     @PostMapping("/create")
     public ResponseEntity<?> createMonthlyTaskScheduler(
             @RequestBody MonthlySchedulerPostRequest request,

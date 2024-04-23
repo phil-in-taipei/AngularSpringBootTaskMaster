@@ -6,6 +6,7 @@ import backend.taskMaster.models.tasks.appliedSchedulers.QuarterlySchedulingEnum
 import backend.taskMaster.models.tasks.task.SingleTask;
 import backend.taskMaster.models.tasks.taskSchedulers.IntervalTaskGroup;
 import backend.taskMaster.models.tasks.taskSchedulers.IntervalTaskScheduler;
+import backend.taskMaster.models.tasks.taskSchedulers.MonthlyTaskScheduler;
 import backend.taskMaster.repositories.tasks.appliedSchedulers.IntervalTaskGroupAppliedQuarterlyRepo;
 import backend.taskMaster.repositories.tasks.taskSchedulers.IntervalTaskGroupRepo;
 import backend.taskMaster.repositories.tasks.taskSchedulers.IntervalTaskSchedulerRepo;
@@ -73,7 +74,12 @@ public class IntervalTaskGroupService {
     public List<IntervalTaskGroup> getAllUsersIntervalTaskGroups(
             String username
     ) {
-        return intervalTaskGroupRepo.findAllByTaskGroupOwnerUsername(username);
+        List<IntervalTaskGroup> intervalTaskGroups = intervalTaskGroupRepo
+                .findAllByTaskGroupOwnerUsername(username);
+        for (IntervalTaskGroup iTG : intervalTaskGroups) {
+            iTG.generateTemplateSelectorString();
+        }
+        return intervalTaskGroups;
     }
 
     // gets  a record of all interval task groups which a

@@ -2,6 +2,7 @@ package backend.taskMaster.models.tasks.taskSchedulers;
 
 import backend.taskMaster.models.user.User;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,6 +27,7 @@ public class IntervalTaskGroup {
 
 
     @ManyToOne(optional = false)
+    @JsonIgnore
     @JoinColumn
     private User taskGroupOwner;
 
@@ -36,6 +38,16 @@ public class IntervalTaskGroup {
 
     @Column(nullable = false)
     private int intervalInDays;
+
+    public IntervalTaskGroup(
+            String taskGroupName,
+            int intervalInDays,
+            User taskGroupOwner
+    ) {
+        this.taskGroupName = taskGroupName;
+        this.intervalInDays = intervalInDays;
+        this.taskGroupOwner = taskGroupOwner;
+    }
 
     @Transient
     private String templateSelectorString;
