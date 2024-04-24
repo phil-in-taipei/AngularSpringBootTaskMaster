@@ -94,9 +94,47 @@ public class IntervalTaskGroupController {
     }
 
     @RequestMapping(
-            value="/delete-group/{taskGroupId}", method=RequestMethod.DELETE
+            value="/delete-scheduler/{intervalTaskId}/{taskGroupId}", method=RequestMethod.DELETE
     )
     public ResponseEntity<?> deleteIntervalTaskGroup(
+            @PathVariable(name = "taskGroupId") Long taskGroupId,
+            @PathVariable(name = "intervalTaskId") Long intervalTaskId
+
+    ) {
+        try {
+            IntervalTaskGroup intervalTaskGroup =
+                    intervalTaskGroupService.getIntervalTaskGroup(
+                            taskGroupId
+                    );
+            IntervalTaskScheduler intervalTaskScheduler = intervalTaskGroupService
+                        .getIntervalTask(
+                            intervalTaskId
+                    );
+            List<IntervalTaskScheduler> intervalTasks = intervalTaskGroup.getIntervalTasks();
+            intervalTasks.remove(intervalTaskScheduler);
+            intervalTaskGroup.setIntervalTasks(intervalTasks);
+            intervalTaskGroupService.deleteIntervalTask(intervalTaskId);
+            return new ResponseEntity<>(
+                    intervalTaskGroupService.saveIntervalTaskGroup(intervalTaskGroup),
+                    HttpStatus.OK
+            );
+        } catch (NullPointerException e) {
+            return ResponseEntity.badRequest().body(
+                    new ApiError("The interval task group or task does not exist. Please try again")
+            );
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new ApiError(e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(
+                    new ApiError("There was an error. Please try again")
+            );
+        }
+    }
+
+    @RequestMapping(
+            value="/delete-group/{taskGroupId}", method=RequestMethod.DELETE
+    )
+    public ResponseEntity<?> deleteIntervalTaskGroupScheduler(
             @PathVariable(name = "taskGroupId") Long taskGroupId
     ) {
         if (intervalTaskGroupService
