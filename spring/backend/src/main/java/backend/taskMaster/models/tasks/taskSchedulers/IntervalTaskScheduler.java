@@ -20,4 +20,7 @@ public class IntervalTaskScheduler {
     @Column(nullable = false)
     private String intervalTaskName;
 
+    public IntervalTaskScheduler(String intervalTaskName) {
+        this.intervalTaskName = intervalTaskName;
+    }
 }
