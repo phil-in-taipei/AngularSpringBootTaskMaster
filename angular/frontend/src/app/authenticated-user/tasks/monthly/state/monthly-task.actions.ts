@@ -9,7 +9,7 @@ export enum MonthlyTaskSchedulersActionTypes {
   MonthlyTaskSchedulersRequested = '[Monthly Tasks Component View] Monthly Task Schedulers Requested',
   MonthlyTaskSchedulersRequestCancelled= '[Monthly Tasks Component View] Monthly Task Schedulers Request Cancelled',
   MonthlyTaskSchedulersLoaded = '[Monthly Task Schedulers API] Monthly Task Schedulers Loaded',
-  MonthlyTaskSchedulerCreateSubmitted = '[Create Monthly Task Page] Single Task Submitted',
+  MonthlyTaskSchedulerCreateSubmitted = '[Create Monthly Task Page] Monthly Task Submitted',
   MonthlyTaskSchedulerAdded = '[Create Monthly Task Page] Newly Created Task with Daily Batch Added',
   MonthlyTaskSchedulerCreationCancelled = '[Create Monthly Task Page] Monthly Task Creation Cancelled',
   MonthlyTaskSchedulerDeletionCancelled = '[Monthly Task Schedulers Page] Removal of Monthly Task Cancelled',
