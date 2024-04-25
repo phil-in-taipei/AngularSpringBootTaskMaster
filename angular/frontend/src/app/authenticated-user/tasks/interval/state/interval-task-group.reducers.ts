@@ -38,7 +38,7 @@ export const initialIntervalTaskGroupsState: IntervalTaskGroupsState = adapter.g
         successMessage: undefined
     });
 
-export function monthlyTasksReducer(
+export function intervalTaskGroupsReducer(
         state = initialIntervalTaskGroupsState,
         action: IntervalTaskGroupActions
     ): IntervalTaskGroupsState {

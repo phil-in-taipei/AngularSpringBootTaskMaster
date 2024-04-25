@@ -12,11 +12,20 @@ import {
 } from '../models/auth-login.model';
 import { AppState } from './../reducers';
 import { 
+  IntervalTaskGroupsCleared 
+} from '../authenticated-user/tasks/interval/state/interval-task-group.actions';
+import { 
+  MonthlyTaskSchedulersCleared
+} from '../authenticated-user/tasks/monthly/state/monthly-task.actions';
+import { 
   SingleTasksCleared 
 } from '../authenticated-user/tasks/single/state/single-task.actions';
 import { 
   UserProfileCleared 
 } from '../authenticated-user/user/user-state/user.actions';
+import { 
+  WeeklyTaskSchedulersCleared 
+} from '../authenticated-user/tasks/weekly/state/weekly-task.actions';
 
 @Injectable({
   providedIn: 'root'
@@ -94,8 +103,11 @@ export class AuthService {
   }
 
   private clearNgrxStore():void {
+    this.store.dispatch(new IntervalTaskGroupsCleared());
+    this.store.dispatch(new MonthlyTaskSchedulersCleared());
     this.store.dispatch(new UserProfileCleared());
     this.store.dispatch(new SingleTasksCleared());
+    this.store.dispatch(new WeeklyTaskSchedulersCleared());
   }
 
 

@@ -1,4 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/reducers';
+
+import { IntervalTaskGroupsRequested } from '../state/interval-task-group.actions';
 
 @Component({
   selector: 'app-interval',
@@ -6,6 +10,12 @@ import { Component } from '@angular/core';
   templateUrl: './interval.component.html',
   styleUrl: './interval.component.css'
 })
-export class IntervalComponent {
+export class IntervalComponent implements OnInit {
+
+  constructor(private store: Store<AppState>) { }
+
+  ngOnInit(): void {
+    this.store.dispatch(new IntervalTaskGroupsRequested());
+  }
 
 }
