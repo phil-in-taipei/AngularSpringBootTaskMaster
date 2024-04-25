@@ -57,7 +57,7 @@ export function monthlyTasksReducer(
                         ...state,
                         errorMessage: undefined,
                         successMessage: 'You have successfully added a task to the group!'
-                        }
+                    }
                 );
              
             case IntervalTaskGroupsActionTypes.IntervalTaskGroupCreationCancelled:
