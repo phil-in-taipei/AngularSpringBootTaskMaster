@@ -35,7 +35,7 @@ export enum IntervalTaskGroupsActionTypes {
         readonly type = IntervalTaskGroupsActionTypes.IntervalTaskGroupsLoaded;
         constructor(
             public payload: { 
-                intervalTaskGroupss: IntervalTaskGroupModel[] 
+                intervalTaskGroups: IntervalTaskGroupModel[] 
             }
         ) {}
     }
@@ -145,12 +145,12 @@ export enum IntervalTaskGroupsActionTypes {
         readonly type = IntervalTaskGroupsActionTypes.IntervalTasksMessagesCleared;
     }
     
-    export type IntervalTaskActions = IntervalTaskGroupsCleared |
+    export type IntervalTaskGroupActions = IntervalTaskGroupsCleared |
     IntervalTaskGroupsLoaded | IntervalTaskGroupsRequestCancelled |
     IntervalTaskGroupsRequested | IntervalTaskGroupCreateSubmitted |
     IntervalTaskGroupAdded | IntervalTaskGroupCreationCancelled |
-    IntervalTaskSchedulerCreateSubmitted |
-    IntervalTaskSchedulerAdded | IntervalTaskSchedulerCreationCancelled |
-    IntervalTaskGroupDeletionCancelled |IntervalTaskGroupDeletionRequested |
-    IntervalTaskGroupDeletionSaved | IntervalTasksMessagesCleared;
-    
+    IntervalTaskSchedulerCreateSubmitted | IntervalTaskSchedulerAdded | 
+    IntervalTaskSchedulerCreationCancelled | IntervalTaskGroupDeletionCancelled |
+    IntervalTaskGroupDeletionRequested | IntervalTaskGroupDeletionSaved | 
+    IntervalTaskSchedulerDeletionCancelled | IntervalTaskSchedulerDeletionRequested |
+    IntervalTaskSchedulerDeletionSaved | IntervalTasksMessagesCleared;

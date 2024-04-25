@@ -81,7 +81,6 @@ export function monthlyTasksReducer(
           errorMessage: errMsg
       }
 
-
     case MonthlyTaskSchedulersActionTypes.MonthlyTaskSchedulerDeletionSaved:
       return adapter.removeOne(action.payload.id, 
           { 
