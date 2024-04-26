@@ -9,8 +9,8 @@ export interface IntervalTaskModel {
 }
 
 export interface IntervalTaskGroupCreateModel {
+    taskGroupName: string;
     intervalInDays: number;
-    intervalTaskName: string;
 }
 
 export interface IntervalTaskGroupModel {

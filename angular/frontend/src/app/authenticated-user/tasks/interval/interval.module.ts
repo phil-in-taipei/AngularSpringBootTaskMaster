@@ -7,6 +7,9 @@ import { IntervalRoutingModule } from './interval-routing.module';
 import { 
   CreateIntervalTaskGroupComponent 
 } from './create/create-interval-task-group/create-interval-task-group.component';
+import { 
+  CreateIntervalTaskGroupFormComponent 
+} from './create/create-interval-task-group-form/create-interval-task-group-form.component';
 import { IntervalComponent } from './interval/interval.component';
 import { 
   IntervalTaskComponent 
@@ -27,6 +30,7 @@ import {
 @NgModule({
   declarations: [
     CreateIntervalTaskGroupComponent,
+    CreateIntervalTaskGroupFormComponent,
     IntervalComponent,
     IntervalTaskComponent,
     IntervalTaskGroupComponent,
