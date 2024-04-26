@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, of } from "rxjs";
 
-import { AppState } from 'src/app/reducers';
+//import { AppState } from 'src/app/reducers';
+import { WeeklyTasksState } from '../../state/weekly-task.reducers';
 import { 
   weeklyTaskErrorMsg, weeklyTaskSuccessMsg 
 } from '../../state/weekly-task.selectors';
@@ -19,7 +20,8 @@ export class CreateWeeklyTaskComponent {
   errMsg$: Observable<string | undefined> = of(undefined);
   successMsg$: Observable<string | undefined> = of(undefined);
 
-  constructor(private store: Store<AppState>) { }
+  //constructor(private store: Store<AppState>) { }
+  constructor(private store: Store<WeeklyTasksState>) { }
 
   ngOnInit(): void {
     this.store.dispatch(new WeeklyTasksMessagesCleared());

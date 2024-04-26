@@ -1,7 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { AppState } from 'src/app/reducers';
+//import { AppState } from 'src/app/reducers';
+import { WeeklyTasksState } from '../../state/weekly-task.reducers';
 
 import { 
   WeeklyTaskSchedulerDeletionRequested 
@@ -20,7 +21,9 @@ export class WeeklyTaskComponent {
 
   deletionPopupVisible: boolean = false;
 
-  constructor(private store: Store<AppState>) { }
+  //constructor(private store: Store<AppState>) { }
+  constructor(private store: Store<WeeklyTasksState>) { }
+
 
   showDeletionPopup() {
     this.deletionPopupVisible = true;
