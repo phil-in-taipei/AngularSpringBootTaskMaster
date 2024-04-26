@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/reducers';
 
+import { MonthlyTasksState } from '../state/monthly-task.reducers';
 import { MonthlyTaskSchedulersRequested } from '../state/monthly-task.actions';
 
 @Component({
@@ -12,7 +12,7 @@ import { MonthlyTaskSchedulersRequested } from '../state/monthly-task.actions';
 })
 export class MonthlyComponent implements OnInit {
 
-  constructor(private store: Store<AppState>) { }
+  constructor(private store: Store<MonthlyTasksState>) { }
 
   ngOnInit(): void {
     this.store.dispatch(new MonthlyTaskSchedulersRequested());

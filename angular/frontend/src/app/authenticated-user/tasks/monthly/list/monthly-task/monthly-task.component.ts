@@ -1,8 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { AppState } from 'src/app/reducers';
-
+import { MonthlyTasksState } from '../../state/monthly-task.reducers';
 import {
   MonthlyTaskSchedulerDeletionRequested
 } from '../../state/monthly-task.actions';
@@ -20,7 +19,7 @@ export class MonthlyTaskComponent {
 
   deletionPopupVisible: boolean = false;
 
-  constructor(private store: Store<AppState>) { }
+  constructor(private store: Store<MonthlyTasksState>) { }
 
   showDeletionPopup() {
     this.deletionPopupVisible = true;

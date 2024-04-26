@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
-import { AppState } from 'src/app/reducers';
+import { MonthlyTasksState } from '../../state/monthly-task.reducers';
 import { MonthlyTaskCreateModel } from 'src/app/models/monthly-task.model';
 import { 
   MonthlyTaskSchedulerCreateSubmitted, 
@@ -18,7 +18,7 @@ import {
 })
 export class CreateMonthlyTaskFormComponent {
 
-  constructor(private store: Store<AppState>) { }
+  constructor(private store: Store<MonthlyTasksState>) { }
 
   onSubmitMonthlyTask(form: NgForm) {
 

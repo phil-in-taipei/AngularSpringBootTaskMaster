@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, of } from "rxjs";
 
-import { AppState } from 'src/app/reducers';
+import { MonthlyTasksState } from '../../state/monthly-task.reducers';
 import { 
   monthlyTaskErrorMsg, monthlyTaskSuccessMsg 
 } from '../../state/monthly-task.selectors';
@@ -20,7 +20,7 @@ export class CreateMonthlyTaskComponent {
   errMsg$: Observable<string | undefined> = of(undefined);
   successMsg$: Observable<string | undefined> = of(undefined);
 
-  constructor(private store: Store<AppState>) { }
+  constructor(private store: Store<MonthlyTasksState>) { }
 
   ngOnInit(): void {
     this.store.dispatch(new MonthlyTasksMessagesCleared());

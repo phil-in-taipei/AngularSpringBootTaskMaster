@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
-//import { AppState } from 'src/app/reducers';
 import { WeeklyTasksState } from '../../state/weekly-task.reducers';
 import { WeeklyTaskCreateModel } from 'src/app/models/weekly-task.model';
 import { 
@@ -28,7 +27,6 @@ export class CreateWeeklyTaskFormComponent {
     'SATURDAY'
   ];
 
-  //constructor(private store: Store<AppState>) { }
   constructor(private store: Store<WeeklyTasksState>) { }
 
 

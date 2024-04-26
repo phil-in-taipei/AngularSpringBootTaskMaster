@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, of } from "rxjs";
 import {select, Store } from '@ngrx/store';
 
-//import { AppState } from 'src/app/reducers';
 import { WeeklyTasksState } from '../../state/weekly-task.reducers';
-
 import { 
   selectAllWeeklyTaskSchedulers, selectWeeklyTasksLoaded 
 } from '../../state/weekly-task.selectors';
@@ -21,9 +19,7 @@ export class WeeklyTaskListComponent implements OnInit{
   weeklyTaskSchedulers$: Observable<WeeklyTaskModel[] | undefined> = of(undefined);
   schedulersLoaded$: Observable<boolean> = of(false);
 
-  //constructor(private store: Store<AppState>) { }
   constructor(private store: Store<WeeklyTasksState>) { }
-
 
   ngOnInit(): void {
     this.weeklyTaskSchedulers$ = this.store.pipe(

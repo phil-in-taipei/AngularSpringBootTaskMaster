@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 import { Observable, of } from "rxjs";
 import {select, Store } from '@ngrx/store';
 
-import { AppState } from 'src/app/reducers';
-
+import { MonthlyTasksState } from '../../state/monthly-task.reducers';
 import { 
   selectAllMonthlyTaskSchedulers, selectMonthlyTasksLoaded 
 } from '../../state/monthly-task.selectors';
@@ -20,7 +19,7 @@ export class MonthlyTaskListComponent {
   monthlyTaskSchedulers$: Observable<MonthlyTaskModel[] | undefined> = of(undefined);
   schedulersLoaded$: Observable<boolean> = of(false);
 
-  constructor(private store: Store<AppState>) { }
+  constructor(private store: Store<MonthlyTasksState>) { }
 
   ngOnInit(): void {
     this.monthlyTaskSchedulers$ = this.store.pipe(
