@@ -8,8 +8,8 @@ import {
 function compareIntervalTaskGroupsByName(
     a: IntervalTaskGroupModel, b: IntervalTaskGroupModel
   ) {
-    const taskA = a.intervalTaskName;
-    const taskB = b.intervalTaskName;
+    const taskA = a.taskGroupName;
+    const taskB = b.taskGroupName;
   
     let comparison = 0;
     if (taskA > taskB) {

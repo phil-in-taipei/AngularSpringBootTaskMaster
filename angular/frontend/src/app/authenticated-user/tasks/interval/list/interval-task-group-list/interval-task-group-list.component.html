@@ -1,1 +1,25 @@
-<p>interval-task-group-list works!</p>
+<div *ngIf="intervalTaskGroups$ | async as tasks" class="container content">
+    <div class="large-scr-tbl">
+      <hr class="thick-br"/>
+      <h3>Interval Task Groups</h3>
+      <h5>{{ tasks.length }} Interval Task Group(s)</h5>
+      <hr class="thin-br"/>
+      <div class="large-scr-tbl">
+        <table class="table">
+          <thead>
+            <tr class="row">
+              <th class="col"><h5 class="text-secondary">Task Group Name</h5></th>
+              <th class="col"><h5 class="text-secondary">Interval in Days</h5></th>
+              <th class="col"><h5 class="text-secondary">Delete</h5></th>
+            </tr>
+          </thead>
+          <tbody>
+            <div *ngFor="let intervalTaskGroup of tasks; trackBy: trackByFn">
+              <app-interval-task [intervalTaskGroup]=intervalTaskGroup>
+              </app-interval-task>
+            </div>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>

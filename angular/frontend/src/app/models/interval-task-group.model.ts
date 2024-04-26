@@ -16,6 +16,6 @@ export interface IntervalTaskGroupCreateModel {
 export interface IntervalTaskGroupModel {
     id: number;
     intervalInDays: number;
-    intervalTaskName: string;
+    taskGroupName: string;
     intervalTasks: IntervalTaskModel[];
 }
