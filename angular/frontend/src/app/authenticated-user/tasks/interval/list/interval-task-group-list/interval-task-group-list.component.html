@@ -15,8 +15,8 @@
           </thead>
           <tbody>
             <div *ngFor="let intervalTaskGroup of tasks; trackBy: trackByFn">
-              <app-interval-task [intervalTaskGroup]=intervalTaskGroup>
-              </app-interval-task>
+              <app-interval-task-group [intervalTaskGroup]=intervalTaskGroup>
+              </app-interval-task-group>
             </div>
           </tbody>
         </table>

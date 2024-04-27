@@ -11,12 +11,15 @@ import {
   CreateIntervalTaskGroupFormComponent 
 } from './create/create-interval-task-group-form/create-interval-task-group-form.component';
 import { IntervalComponent } from './interval/interval.component';
-import { 
-  IntervalTaskComponent 
-} from './list/interval-task/interval-task.component';
+import {
+   IntervalTaskComponent 
+  } from './detail/interval-task/interval-task.component';
 import { 
   IntervalTaskGroupComponent 
 } from './list/interval-task-group/interval-task-group.component';
+import { 
+  IntervalTaskGroupDetailComponent 
+} from './detail/interval-task-group-detail/interval-task-group-detail.component';
 import { 
   IntervalTaskGroupListComponent 
 } from './list/interval-task-group-list/interval-task-group-list.component';
@@ -24,12 +27,13 @@ import { IntervalTaskGroupEffects } from './state/interval-task-group.effects';
 import { intervalTaskGroupsReducer } from './state/interval-task-group.reducers';
 import { 
   IntervalTaskListComponent 
-} from './list/interval-task-list/interval-task-list.component';
+} from './detail/interval-task-list/interval-task-list.component';
 
 
 @NgModule({
   declarations: [
     CreateIntervalTaskGroupComponent,
+    IntervalTaskGroupDetailComponent,
     CreateIntervalTaskGroupFormComponent,
     IntervalComponent,
     IntervalTaskComponent,

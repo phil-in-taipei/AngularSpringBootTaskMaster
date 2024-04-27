@@ -3,9 +3,9 @@ import { Store } from '@ngrx/store';
 
 import { IntervalTaskGroupsState } from '../../state/interval-task-group.reducers';
 import { 
-  IntervalTaskGroupDeletionRequested 
+  IntervalTaskSchedulerDeletionRequested 
 } from '../../state/interval-task-group.actions';
-import { IntervalTaskGroupModel } from 'src/app/models/interval-task-group.model';
+import { IntervalTaskModel } from 'src/app/models/interval-task-group.model';
 
 @Component({
   selector: 'app-interval-task',
@@ -15,7 +15,9 @@ import { IntervalTaskGroupModel } from 'src/app/models/interval-task-group.model
 })
 export class IntervalTaskComponent {
 
-  @Input() intervalTaskGroup: IntervalTaskGroupModel;
+  @Input() taskGroupId: number;
+
+  @Input() intervalTask: IntervalTaskModel;
 
   deletionPopupVisible: boolean = false;
 
@@ -30,9 +32,11 @@ export class IntervalTaskComponent {
   }
 
   onRemoveTask() {
-    const payload = { id: +this.intervalTaskGroup.id };
+    const payload = { 
+      taskGroupId: this.taskGroupId,
+      intervalTaskId: +this.intervalTask.id };
     this.store.dispatch(
-      new IntervalTaskGroupDeletionRequested(payload)
+      new IntervalTaskSchedulerDeletionRequested(payload)
     );
   }
 
