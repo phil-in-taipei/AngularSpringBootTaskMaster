@@ -1,7 +1,9 @@
 <tr class="row" >
     <th class="col">
         <h5 class="text-secondary">
+          <a [routerLink]="['/authenticated-user/interval/detail', intervalTaskGroup.id]">
             {{ intervalTaskGroup.taskGroupName }}
+          </a>
         </h5>
     </th>
     <th class="col">

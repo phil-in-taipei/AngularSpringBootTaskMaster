@@ -49,4 +49,8 @@ export class IntervalTaskGroupDetailComponent implements OnInit{
       select(intervalTaskGroupsSuccessMsg)
       );
   }
+
+  onClearStatusMsgs() {
+    this.store.dispatch(new IntervalTasksMessagesCleared());
+  }
 }

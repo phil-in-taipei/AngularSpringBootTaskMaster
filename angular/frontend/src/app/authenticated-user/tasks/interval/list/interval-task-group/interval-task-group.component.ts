@@ -36,4 +36,8 @@ export class IntervalTaskGroupComponent {
     );
   }
 
+  trackByFn(index: number, item: any) {
+    return item.id;
+  }
+
 }
