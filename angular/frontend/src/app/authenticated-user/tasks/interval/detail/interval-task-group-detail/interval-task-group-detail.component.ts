@@ -30,6 +30,7 @@ export class IntervalTaskGroupDetailComponent implements OnInit{
   errMsg$: Observable<string | undefined> = of(undefined);
   successMsg$: Observable<string | undefined> = of(undefined);
   formVisible: boolean = false;
+  showIntervalTaskSubmitForm: Boolean = false;
 
   constructor(
     private route: ActivatedRoute, 
@@ -50,7 +51,20 @@ export class IntervalTaskGroupDetailComponent implements OnInit{
       );
   }
 
+  closeFormHander($event: boolean) {
+    this.showIntervalTaskSubmitForm = $event;
+  };
+
   onClearStatusMsgs() {
     this.store.dispatch(new IntervalTasksMessagesCleared());
+  }
+
+  toggleIntervalTaskSubmitForm() {
+    console.log(this.showIntervalTaskSubmitForm);
+    if (this.showIntervalTaskSubmitForm) {
+      this.showIntervalTaskSubmitForm = false;
+    } else {
+      this.showIntervalTaskSubmitForm = true;
+    }
   }
 }

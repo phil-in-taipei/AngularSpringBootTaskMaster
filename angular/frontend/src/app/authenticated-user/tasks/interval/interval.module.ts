@@ -5,6 +5,9 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { IntervalRoutingModule } from './interval-routing.module';
 import { 
+  CreateIntervalTaskFormComponent 
+} from './detail/create-interval-task-form/create-interval-task-form.component';
+import { 
   CreateIntervalTaskGroupComponent 
 } from './create/create-interval-task-group/create-interval-task-group.component';
 import { 
@@ -25,13 +28,11 @@ import {
 } from './list/interval-task-group-list/interval-task-group-list.component';
 import { IntervalTaskGroupEffects } from './state/interval-task-group.effects';
 import { intervalTaskGroupsReducer } from './state/interval-task-group.reducers';
-import { 
-  IntervalTaskListComponent 
-} from './detail/interval-task-list/interval-task-list.component';
 
 
 @NgModule({
   declarations: [
+    CreateIntervalTaskFormComponent,
     CreateIntervalTaskGroupComponent,
     IntervalTaskGroupDetailComponent,
     CreateIntervalTaskGroupFormComponent,
@@ -39,7 +40,6 @@ import {
     IntervalTaskComponent,
     IntervalTaskGroupComponent,
     IntervalTaskGroupListComponent,
-    IntervalTaskListComponent
   ],
   imports: [
     CommonModule,

@@ -18,19 +18,28 @@
   <hr class="thick-br"/>
 </div>
 <div *ngIf="(intervalTaskGroup$ | async) as iTG; else homepage_link">
-    <div>
-      <div class="text-center">
-        <button class="btn btn-sm btn-outline-secondary text" id="forwardDateButton" 
-        [routerLink]="['/', 'authenticated-user', 'interval', 'list']">
-            Return to Interval Task Groups
-        </button>
-      </div>
+    <div class="text-center">
+      <button class="btn btn-sm btn-outline-secondary" type="button"
+        (click)="toggleIntervalTaskSubmitForm()">
+        {{ showIntervalTaskSubmitForm ? "Never Mind, I'll submit one next time for "
+        : "Click Here to add a task to the group " }} {{ iTG.taskGroupName }}
+      </button>
+      <br />
     </div>
+    <div [hidden]="!showIntervalTaskSubmitForm"
+    [style.opacity]="!showIntervalTaskSubmitForm ? '0' : '1'"
+    [style.visibility]="!showIntervalTaskSubmitForm ? 'hidden' : 'visible'">
+      <hr class="thick-br"/>
+      <app-create-interval-task-form
+        [intervalTaskGroupId]=iTG.id
+        (closeEvent)="closeFormHander($event)">
+      </app-create-interval-task-form>
+    </div>
+    <hr class="thick-br"/>
     <div class="mt-4 p-5 rounded">
-        <div class="p-3 rounded-lg m-2">
+        <div>
             <div class="container text-center">
-                <h1>{{ iTG.taskGroupName }}</h1>
-                <h2>Every {{ iTG.intervalInDays }} Days</h2>
+                <h1>{{ iTG.taskGroupName }}: Every {{ iTG.intervalInDays }} Days</h1>
                 <div class="table-responsive">
                     <table class="table">
                         <thead>

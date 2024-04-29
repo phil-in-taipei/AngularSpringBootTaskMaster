@@ -73,7 +73,7 @@ export class IntervalTaskGroupService {
     ): Observable<IntervalTaskGroupModel> {
     let token = this.authService.getAuthToken();
     return this.http.post<IntervalTaskGroupModel>(
-    `${environment.apiUrl}/api/interval/create-group`, submissionForm,
+    `${environment.apiUrl}/api/interval/create-scheduler`, submissionForm,
     {
     headers: new HttpHeaders({ 'Authorization': `Bearer ${token}` })
     });
