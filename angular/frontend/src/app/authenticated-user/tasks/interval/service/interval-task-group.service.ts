@@ -36,9 +36,9 @@ export class IntervalTaskGroupService {
   // task group object without the scheduler in the array
   deleteIntervalTaskFromGroup(
     intervalTaskId: number, taskGroupId: number
-    ): Observable<IntervalTaskGroupModel[]> {
+    ): Observable<IntervalTaskGroupModel> {
     let token = this.authService.getAuthToken();
-    return this.http.delete<IntervalTaskGroupModel[]>(
+    return this.http.delete<IntervalTaskGroupModel>(
     `${environment.apiUrl}/api/interval/delete-scheduler/${intervalTaskId}/${taskGroupId}`,
     {
     headers: new HttpHeaders({ 'Authorization': `Bearer ${token}` })

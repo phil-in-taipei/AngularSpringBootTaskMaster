@@ -16,12 +16,43 @@ import {
     IntervalTaskGroupDeletionSaved,
     IntervalTaskGroupsLoaded,
     IntervalTaskGroupsRequestCancelled,
-    IntervalTaskGroupsRequested
+    IntervalTaskGroupsRequested,
+    IntervalTaskSchedulerDeletionCancelled,
+    IntervalTaskSchedulerDeletionRequested,
+    IntervalTaskSchedulerDeletionSaved
 } from './interval-task-group.actions';
 import { IntervalTaskGroupService } from '../service/interval-task-group.service';
 
 @Injectable()
 export class IntervalTaskGroupEffects {
+
+    confirmIntervalTask$ = createEffect(() => {
+        return this.actions$
+            .pipe(
+                ofType<IntervalTaskSchedulerDeletionRequested>(
+                    IntervalTaskGroupsActionTypes.IntervalTaskSchedulerDeletionRequested),
+                    mergeMap(action => this.intervalTaskGroupService
+                        .deleteIntervalTaskFromGroup(
+                            action.payload.intervalTaskId, 
+                            action.payload.taskGroupId
+                        )
+                        .pipe(
+                            map(intervalTaskGroup => new IntervalTaskSchedulerDeletionSaved({ 
+                                intervalTaskGroup:
+                                { id: intervalTaskGroup.id, changes: intervalTaskGroup }
+                            })
+                        ),
+                        catchError(err => {
+                            this.store.dispatch(
+                                new IntervalTaskSchedulerDeletionCancelled({ err })
+                            );
+                            return of();
+                        })
+                    )
+                )
+            )
+        });
+  
 
     deleteIntervalTaskGroup$ = createEffect(() => {
         return this.actions$
