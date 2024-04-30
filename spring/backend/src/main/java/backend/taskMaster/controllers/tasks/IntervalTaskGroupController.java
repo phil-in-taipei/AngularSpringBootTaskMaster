@@ -8,6 +8,7 @@ import backend.taskMaster.models.tasks.apiData.TaskDeletionResponse;
 import backend.taskMaster.models.tasks.taskSchedulers.IntervalTaskGroup;
 import backend.taskMaster.models.tasks.taskSchedulers.IntervalTaskScheduler;
 import backend.taskMaster.models.tasks.taskSchedulers.MonthlyTaskScheduler;
+import backend.taskMaster.models.tasks.taskSchedulers.WeeklyTaskScheduler;
 import backend.taskMaster.models.user.User;
 import backend.taskMaster.services.tasks.IntervalTaskGroupService;
 import backend.taskMaster.services.user.UserDetailsServiceImplementation;
@@ -160,9 +161,13 @@ public class IntervalTaskGroupController {
     ) {
         UserDetails user = (UserDetails) authentication.getPrincipal();
         try {
+            List<IntervalTaskGroup> responseData = intervalTaskGroupService
+                    .getAllUsersIntervalTaskGroups(user.getUsername());
+            for (IntervalTaskGroup entity : responseData) {
+                entity.generateTemplateSelectorString();
+            }
             return new ResponseEntity<>(
-                    intervalTaskGroupService
-                            .getAllUsersIntervalTaskGroups(user.getUsername()),
+                    responseData,
                     HttpStatus.OK);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(
