@@ -7,4 +7,5 @@ export interface WeeklyTaskModel {
     id: number;
     weeklyTaskName: string;
     dayOfWeek: string;
+    templateSelectorString: string;
 }

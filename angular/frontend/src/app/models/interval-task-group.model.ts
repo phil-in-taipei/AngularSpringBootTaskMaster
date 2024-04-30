@@ -18,4 +18,5 @@ export interface IntervalTaskGroupModel {
     intervalInDays: number;
     taskGroupName: string;
     intervalTasks: IntervalTaskModel[];
+    templateSelectorString: string;
 }

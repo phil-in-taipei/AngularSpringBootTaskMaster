@@ -14,6 +14,7 @@ export interface MonthlyTaskModel {
     id: number;
     monthlyTaskName: string;
     dayOfMonth: number;
+    templateSelectorString: string;
 }
 
 ///applied-quarterly/{quarter}/{year}
