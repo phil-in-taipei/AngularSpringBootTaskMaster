@@ -90,11 +90,9 @@ public class WeeklyTaskSchedulerController {
         }
     }
 
-    @PostMapping("/apply-quarterly/{quarter}/{year}")
+    @PostMapping("/apply-quarterly")
     public ResponseEntity<?> saveNewQuarterlyWeeklyTask(
-            @RequestBody RecurringTaskAppliedQuarterlyPostRequest request,
-            @PathVariable(name = "quarter") String quarter,
-            @PathVariable(name = "year") int year
+            @RequestBody RecurringTaskAppliedQuarterlyPostRequest request
     ) {
         try {
             WeeklyTaskScheduler weeklyTaskScheduler = weeklyTaskSchedulingService.getWeeklyTaskScheduler(
@@ -102,11 +100,16 @@ public class WeeklyTaskSchedulerController {
             );
             WeeklyTaskAppliedQuarterly qWeeklyTask = new WeeklyTaskAppliedQuarterly();
             qWeeklyTask.setWeeklyTaskScheduler(weeklyTaskScheduler);
-            qWeeklyTask.setQuarter(QuarterlySchedulingEnum.valueOf(quarter));
-            qWeeklyTask.setYear(year);
+            qWeeklyTask.setQuarter(QuarterlySchedulingEnum.valueOf(request.getQuarter()));
+            qWeeklyTask.setYear(request.getYear());
+            WeeklyTaskAppliedQuarterly entity = weeklyTaskSchedulingService
+                    .saveWeeklyTaskAppliedQuarterly(qWeeklyTask);
             return new ResponseEntity<>(
-                    weeklyTaskSchedulingService
-                            .saveWeeklyTaskAppliedQuarterly(qWeeklyTask),
+                    new WeeklyTaskAppliedQuarterlyDTO(
+                            entity.getId(),
+                            entity.getQuarter(),
+                            entity.getYear(),
+                            entity.getWeeklyTaskScheduler().getId()),
                     HttpStatus.CREATED
             );
         } catch (IllegalArgumentException e) {
@@ -208,9 +211,13 @@ public class WeeklyTaskSchedulerController {
     ) {
         UserDetails user = (UserDetails) authentication.getPrincipal();
         try {
+            List<WeeklyTaskScheduler> responseData =  weeklyTaskSchedulingService
+                    .getAllUsersWeeklyTaskSchedulers(user.getUsername());
+            for (WeeklyTaskScheduler entity : responseData) {
+                entity.generateTemplateSelectorString();
+            }
             return new ResponseEntity<>(
-                    weeklyTaskSchedulingService
-                            .getAllUsersWeeklyTaskSchedulers(user.getUsername()),
+                    responseData,
                     HttpStatus.OK);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(

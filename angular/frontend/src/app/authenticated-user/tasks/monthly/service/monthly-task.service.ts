@@ -3,6 +3,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { environment } from '../../../../../environments/environment';
+import { 
+  ApplyBatchSchedulerModel 
+} from 'src/app/models/apply-batch-schedulers-request.model';
 import { AuthService } from 'src/app/authentication/auth.service';
 import { DeletionResponse } from 'src/app/models/deletion-response';
 
@@ -19,6 +22,13 @@ export class MonthlyTaskService {
     private http: HttpClient,
     private authService: AuthService,
   ) { }
+
+  applyMonthlySchedulerToQuarterAndYear(
+    monthlyScheduler: ApplyBatchSchedulerModel,
+    quarter: string, year: number
+  ) {
+
+  }
   
   deleteMonthlyTaskScheduler(
     id: number

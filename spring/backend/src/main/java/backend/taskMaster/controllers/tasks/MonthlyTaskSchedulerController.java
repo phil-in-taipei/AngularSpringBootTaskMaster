@@ -94,24 +94,28 @@ public class MonthlyTaskSchedulerController {
 
     // In the form the user selects the monthly task scheduler along with the year and quarter
     // In the service method, the scheduling of the monthly tasks will be triggered for the quarter
-    @PostMapping("/apply-quarterly/{quarter}/{year}")
+    @PostMapping("/apply-quarterly")
     public ResponseEntity<?> saveNewQuarterlyMonthlyTask(
-            @RequestBody RecurringTaskAppliedQuarterlyPostRequest request,
-            @PathVariable(name = "quarter") String quarter,
-            @PathVariable(name = "year") int year
+            @RequestBody RecurringTaskAppliedQuarterlyPostRequest request
     ) {
         try {
+            System.out.println(request);
             MonthlyTaskScheduler monthlyTask = monthlyTaskSchedulingService
                     .getMonthlyTaskScheduler(
                             request.getRecurringTaskSchedulerId()
                     );
             MonthlyTaskAppliedQuarterly qMonthlyTask = new MonthlyTaskAppliedQuarterly();
             qMonthlyTask.setMonthlyTaskScheduler(monthlyTask);
-            qMonthlyTask.setQuarter(QuarterlySchedulingEnum.valueOf(quarter));
-            qMonthlyTask.setYear(year);
+            qMonthlyTask.setQuarter(QuarterlySchedulingEnum.valueOf(request.getQuarter()));
+            qMonthlyTask.setYear(request.getYear());
+            MonthlyTaskAppliedQuarterly entity =  monthlyTaskSchedulingService
+                    .saveMonthlyTaskAppliedQuarterly(qMonthlyTask);
             return new ResponseEntity<>(
-                    monthlyTaskSchedulingService
-                            .saveMonthlyTaskAppliedQuarterly(qMonthlyTask),
+                    new MonthlyTaskAppliedQuarterlyDTO(
+                            entity.getId(),
+                            entity.getQuarter(),
+                            entity.getYear(),
+                            entity.getMonthlyTaskScheduler().getId()),
                     HttpStatus.CREATED
             );
         } catch (IllegalArgumentException e) {
@@ -206,9 +210,13 @@ public class MonthlyTaskSchedulerController {
     ) {
         UserDetails user = (UserDetails) authentication.getPrincipal();
         try {
+            List<MonthlyTaskScheduler> responseData = monthlyTaskSchedulingService
+                    .getAllUsersMonthlyTaskSchedulers(user.getUsername());
+            for (MonthlyTaskScheduler entity : responseData) {
+                entity.generateTemplateSelectorString();
+            }
             return new ResponseEntity<>(
-                    monthlyTaskSchedulingService
-                            .getAllUsersMonthlyTaskSchedulers(user.getUsername()),
+                    responseData,
                     HttpStatus.OK);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(

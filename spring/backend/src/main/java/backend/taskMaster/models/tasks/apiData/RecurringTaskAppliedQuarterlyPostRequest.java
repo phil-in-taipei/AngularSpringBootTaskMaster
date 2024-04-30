@@ -10,4 +10,7 @@ public class RecurringTaskAppliedQuarterlyPostRequest {
 
     Long recurringTaskSchedulerId;
 
+    String quarter;
+
+    int year;
 }
