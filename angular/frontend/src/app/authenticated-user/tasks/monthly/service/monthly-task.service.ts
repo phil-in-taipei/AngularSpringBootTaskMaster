@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/authentication/auth.service';
 import { DeletionResponse } from 'src/app/models/deletion-response';
 
 import { 
+  MonthlyTaskAppliedQuarterlyModel, 
   MonthlyTaskCreateModel, MonthlyTaskModel 
 } from 'src/app/models/monthly-task.model';
 
@@ -24,10 +25,14 @@ export class MonthlyTaskService {
   ) { }
 
   applyMonthlySchedulerToQuarterAndYear(
-    monthlyScheduler: ApplyBatchSchedulerModel,
-    quarter: string, year: number
-  ) {
-
+    submissionForm: ApplyBatchSchedulerModel
+  ): Observable<MonthlyTaskAppliedQuarterlyModel>  {
+    let token = this.authService.getAuthToken();
+    return this.http.post<MonthlyTaskAppliedQuarterlyModel>(
+      `${environment.apiUrl}/api/monthly/apply-quarterly`, submissionForm,
+      {
+        headers: new HttpHeaders({ 'Authorization': `Bearer ${token}` })
+      });
   }
   
   deleteMonthlyTaskScheduler(
@@ -40,6 +45,17 @@ export class MonthlyTaskService {
         headers: new HttpHeaders({ 'Authorization': `Bearer ${token}` })
       })
     }
+
+  deleteMonthlyTaskSchedulerAppliedQuarterly(
+    id: number
+  ): Observable<DeletionResponse> {
+    let token = this.authService.getAuthToken();
+    return this.http.delete<DeletionResponse>(
+      `${environment.apiUrl}/api/monthly/delete-applied-quarterly/${id}`,
+        {
+          headers: new HttpHeaders({ 'Authorization': `Bearer ${token}` })
+        })
+  }
   
   fetchMonthlyTaskSchedulers(): Observable<MonthlyTaskModel[]> {
     let token = this.authService.getAuthToken();

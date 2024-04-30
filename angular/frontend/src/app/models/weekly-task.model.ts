@@ -1,3 +1,11 @@
+export interface WeeklyTaskAppliedQuarterlyModel {
+    id: number;
+    quarter: string;
+    year: number;
+    weeklyTaskSchedulerId: number;
+}
+
+
 export interface WeeklyTaskCreateModel {
     weeklyTaskName: string;
     dayOfWeek: string;
