@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { MonthlyTasksState } from '../../state/monthly-task.reducers';
+import { MonthlyTasksState } from '../../state/monthly-schedulers/monthly-task.reducers';
 import {
   MonthlyTaskSchedulerDeletionRequested
-} from '../../state/monthly-task.actions';
+} from '../../state/monthly-schedulers/monthly-task.actions';
 import { MonthlyTaskModel } from 'src/app/models/monthly-task.model';
 
 @Component({

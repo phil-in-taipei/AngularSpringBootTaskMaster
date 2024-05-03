@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, of } from "rxjs";
 
-import { MonthlyTasksState } from '../../state/monthly-task.reducers';
+import { MonthlyTasksState } from '../../state/monthly-schedulers/monthly-task.reducers';
 import { 
   monthlyTaskErrorMsg, monthlyTaskSuccessMsg 
-} from '../../state/monthly-task.selectors';
+} from '../../state/monthly-schedulers/monthly-task.selectors';
 import { MonthlyTasksMessagesCleared
- } from '../../state/monthly-task.actions';
+ } from '../../state/monthly-schedulers/monthly-task.actions';
 
 @Component({
   selector: 'app-create-monthly-task',

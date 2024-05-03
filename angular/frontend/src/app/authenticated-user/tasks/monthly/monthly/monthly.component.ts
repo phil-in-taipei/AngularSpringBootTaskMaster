@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { MonthlyTasksState } from '../state/monthly-task.reducers';
-import { MonthlyTaskSchedulersRequested } from '../state/monthly-task.actions';
+import { MonthlyTasksState } from '../state/monthly-schedulers/monthly-task.reducers';
+import { MonthlyTaskSchedulersRequested } from '../state/monthly-schedulers/monthly-task.actions';
 
 @Component({
   selector: 'app-monthly',

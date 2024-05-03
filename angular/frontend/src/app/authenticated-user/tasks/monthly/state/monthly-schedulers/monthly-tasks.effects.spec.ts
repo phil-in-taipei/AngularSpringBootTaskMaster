@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { AppState } from '../../../../reducers';
+import { AppState } from '../../../../../reducers';
 import { select, Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, filter, map, mergeMap, withLatestFrom } from 'rxjs/operators';
@@ -18,7 +18,7 @@ import {
   MonthlyTaskSchedulersRequestCancelled,
   MonthlyTaskSchedulersRequested
 } from './monthly-task.actions';
-import { MonthlyTaskService } from '../service/monthly-task.service';
+import { MonthlyTaskService } from '../../service/monthly-task.service';
 
 @Injectable()
 export class MonthlyTasksEffects {

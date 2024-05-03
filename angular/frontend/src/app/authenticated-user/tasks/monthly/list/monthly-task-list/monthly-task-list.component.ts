@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { Observable, of } from "rxjs";
 import {select, Store } from '@ngrx/store';
 
-import { MonthlyTasksState } from '../../state/monthly-task.reducers';
+import { MonthlyTasksState } from '../../state/monthly-schedulers/monthly-task.reducers';
 import { 
   selectAllMonthlyTaskSchedulers, selectMonthlyTasksLoaded 
-} from '../../state/monthly-task.selectors';
+} from '../../state/monthly-schedulers/monthly-task.selectors';
 import { MonthlyTaskModel } from 'src/app/models/monthly-task.model';
 
 @Component({

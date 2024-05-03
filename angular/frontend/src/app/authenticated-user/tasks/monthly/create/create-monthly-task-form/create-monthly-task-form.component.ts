@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
-import { MonthlyTasksState } from '../../state/monthly-task.reducers';
+import { MonthlyTasksState } from '../../state/monthly-schedulers/monthly-task.reducers';
 import { MonthlyTaskCreateModel } from 'src/app/models/monthly-task.model';
 import { 
   MonthlyTaskSchedulerCreateSubmitted, 
   MonthlyTaskSchedulerCreationCancelled 
-} from '../../state/monthly-task.actions';
+} from '../../state/monthly-schedulers/monthly-task.actions';
 
 
 @Component({

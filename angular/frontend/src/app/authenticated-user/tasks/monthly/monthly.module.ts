@@ -16,8 +16,8 @@ import { MonthlyTaskComponent } from './list/monthly-task/monthly-task.component
 import { 
   MonthlyTaskListComponent 
 } from './list/monthly-task-list/monthly-task-list.component';
-import { MonthlyTasksEffects } from './state/monthly-tasks.effects.spec';
-import { monthlyTasksReducer } from './state/monthly-task.reducers';
+import { MonthlyTasksEffects } from './state/monthly-schedulers/monthly-tasks.effects.spec';
+import { monthlyTasksReducer } from './state/monthly-schedulers/monthly-task.reducers';
 
 
 

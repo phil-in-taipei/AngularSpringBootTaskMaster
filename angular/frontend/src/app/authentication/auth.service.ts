@@ -16,7 +16,7 @@ import {
 } from '../authenticated-user/tasks/interval/state/interval-task-group.actions';
 import { 
   MonthlyTaskSchedulersCleared
-} from '../authenticated-user/tasks/monthly/state/monthly-task.actions';
+} from '../authenticated-user/tasks/monthly/state/monthly-schedulers/monthly-task.actions';
 import { 
   SingleTasksCleared 
 } from '../authenticated-user/tasks/single/state/single-task.actions';
