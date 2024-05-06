@@ -116,7 +116,7 @@ export function monthlyTaskAppliedQuarterlysReducer(
     }
 
 export const {
-        selectAll,
-        selectEntities,
-        selectIds,
-    } = adapter.getSelectors();
+    selectAll,
+    selectEntities,
+    selectIds,
+} = adapter.getSelectors();

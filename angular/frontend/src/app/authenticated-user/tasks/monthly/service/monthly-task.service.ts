@@ -56,6 +56,17 @@ export class MonthlyTaskService {
           headers: new HttpHeaders({ 'Authorization': `Bearer ${token}` })
         })
   }
+
+  fetchMonthyTaskAppliedQuarterlysByQuarter(
+    quarter: string, year: number
+  ): Observable<MonthlyTaskAppliedQuarterlyModel[]> {
+    let token = this.authService.getAuthToken();
+    return this.http.get<MonthlyTaskAppliedQuarterlyModel[]>(
+      `${environment.apiUrl}/api/monthly/applied-quarterly/${quarter}/${year}`,
+      {
+        headers: new HttpHeaders({ 'Authorization': `Bearer ${token}` })
+      });
+  }
   
   fetchMonthlyTaskSchedulers(): Observable<MonthlyTaskModel[]> {
     let token = this.authService.getAuthToken();

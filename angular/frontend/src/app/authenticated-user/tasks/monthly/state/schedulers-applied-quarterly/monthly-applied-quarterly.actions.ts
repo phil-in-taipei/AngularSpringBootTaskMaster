@@ -41,6 +41,10 @@ export enum MonthlyTaskAppliedQuarterlyActionTypes {
    
    export class MonthlyTaskAppliedQuarterlysRequested implements Action {
     readonly type = MonthlyTaskAppliedQuarterlyActionTypes.MonthlyTaskAppliedQuarterlysRequested;
+
+    constructor(
+      public payload: { quarter: string, year: number }
+    ) {}
    }
    
    export class MonthlyTaskAppliedQuarterlyCreateSubmitted implements Action {
