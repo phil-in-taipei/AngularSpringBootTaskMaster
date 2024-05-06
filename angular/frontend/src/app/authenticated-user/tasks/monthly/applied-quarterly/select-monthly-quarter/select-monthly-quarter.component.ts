@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { QuarterlyOptions } from 'src/app/models/quarterly-options.enum';
+import { quarterlyOptions } from 'src/app/models/quarterly-options.data';
+
 
 @Component({
   selector: 'app-select-monthly-quarter',
@@ -14,7 +15,7 @@ export class SelectMonthlyQuarterComponent implements OnInit {
 
   years: number[];
 
-  readonly QuarterlyOptions = QuarterlyOptions;
+  readonly quarterlyOptions = quarterlyOptions;
 
   constructor(private router: Router) { }
 
@@ -40,7 +41,7 @@ export class SelectMonthlyQuarterComponent implements OnInit {
     const quarter = form.value.quarter;
     const year = form.value.year;
     this.router.navigate(
-      ['/', 'authenticated-user', 'monthly', 'monthly-applied-quarterly', quarter, year],
+      ['/', 'authenticated-user', 'monthly', 'applied-quarterly', quarter, year],
     );
 
   }
