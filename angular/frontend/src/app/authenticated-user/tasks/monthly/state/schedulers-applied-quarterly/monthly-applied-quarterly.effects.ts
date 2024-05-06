@@ -33,7 +33,7 @@ export class MonthlyTaskAppliedQuarterlysEffects {
               MonthlyTaskAppliedQuarterlyActionTypes.MonthlyTaskAppliedQuarterlyDeletionRequested
             ),
             mergeMap(action => this.monthlyTaskService
-              .deleteMonthlyTaskScheduler(action.payload.id)
+              .deleteMonthlyTaskSchedulerAppliedQuarterly(action.payload.id)
               .pipe(
                 map(deletionResponse => new MonthlyTaskAppliedQuarterlyDeletionSaved(
                   deletionResponse

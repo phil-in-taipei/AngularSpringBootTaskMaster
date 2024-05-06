@@ -15,6 +15,9 @@ import {
   IntervalTaskGroupsCleared 
 } from '../authenticated-user/tasks/interval/state/interval-task-group.actions';
 import { 
+  MonthlyTaskAppliedQuarterlysCleared 
+} from '../authenticated-user/tasks/monthly/state/schedulers-applied-quarterly/monthly-applied-quarterly.actions';
+import { 
   MonthlyTaskSchedulersCleared
 } from '../authenticated-user/tasks/monthly/state/monthly-schedulers/monthly-task.actions';
 import { 
@@ -105,6 +108,7 @@ export class AuthService {
   private clearNgrxStore():void {
     this.store.dispatch(new IntervalTaskGroupsCleared());
     this.store.dispatch(new MonthlyTaskSchedulersCleared());
+    this.store.dispatch(new MonthlyTaskAppliedQuarterlysCleared());
     this.store.dispatch(new UserProfileCleared());
     this.store.dispatch(new SingleTasksCleared());
     this.store.dispatch(new WeeklyTaskSchedulersCleared());

@@ -1,1 +1,21 @@
-<p>monthly-applied-quarterly-list works!</p>
+<div *ngIf="mTAQ$ | async as mTAQs" class="container content">
+    <div class="large-scr-tbl">
+      <div class="container">
+        <table class="table">
+            <thead>
+              <tr class="row">
+                <th class="col"><h5>Monthly Task Applied Quarterly</h5></th>
+                <th class="col" id="edit"><h5>Remove</h5></th>
+              </tr>
+            </thead>
+            <tbody>
+            <div *ngFor="let mTAQ of mTAQs" >
+              <app-monthly-task-applied-quarterly 
+                [monthlyTaskAppliedQuarterly]=mTAQ>
+              </app-monthly-task-applied-quarterly>
+            </div>
+            </tbody>
+          </table>
+      </div>
+    </div>
+</div>

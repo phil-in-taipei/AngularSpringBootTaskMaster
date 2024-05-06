@@ -22,6 +22,15 @@ import { MonthlyTaskComponent } from './list/monthly-task/monthly-task.component
 import { 
   MonthlyTaskListComponent 
 } from './list/monthly-task-list/monthly-task-list.component';
+import { 
+  MonthlyTaskAppliedQuarterlysEffects 
+} from './state/schedulers-applied-quarterly/monthly-applied-quarterly.effects';
+import { 
+  monthlyTaskAppliedQuarterlysReducer 
+} from './state/schedulers-applied-quarterly/monthly-applied-quarterly.reducers';
+import { 
+  MonthlyTaskTemplateStringComponent 
+} from './monthly-task-template-string/monthly-task-template-string.component';
 import { MonthlyTasksEffects } from './state/monthly-schedulers/monthly-tasks.effects.spec';
 import { monthlyTasksReducer } from './state/monthly-schedulers/monthly-task.reducers';
 import { 
@@ -38,12 +47,18 @@ import {
     MonthlyTaskAppliedQuarterlyComponent,
     MonthlyTaskComponent,
     MonthlyTaskListComponent,
+    MonthlyTaskTemplateStringComponent,
     SelectMonthlyQuarterComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
-    MonthlyRoutingModule,
+    MonthlyRoutingModule, 
+    StoreModule.forFeature(
+      'monthlyTasksAppliedQuarterly', 
+      monthlyTaskAppliedQuarterlysReducer
+    ),
+    EffectsModule.forFeature([MonthlyTaskAppliedQuarterlysEffects]),
     StoreModule.forFeature('monthlyTasks', monthlyTasksReducer),
     EffectsModule.forFeature([MonthlyTasksEffects]),
   ]
