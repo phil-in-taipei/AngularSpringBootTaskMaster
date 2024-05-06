@@ -11,14 +11,22 @@ import {
 import { 
   CreateMonthlyTaskFormComponent 
 } from './create/create-monthly-task-form/create-monthly-task-form.component';
+import { 
+  MonthlyAppliedQuarterlyListComponent 
+} from './applied-quarterly/monthly-applied-quarterly-list/monthly-applied-quarterly-list.component';
 import { MonthlyComponent } from './monthly/monthly.component';
+import { 
+  MonthlyTaskAppliedQuarterlyComponent 
+} from './applied-quarterly/monthly-task-applied-quarterly/monthly-task-applied-quarterly.component';
 import { MonthlyTaskComponent } from './list/monthly-task/monthly-task.component';
 import { 
   MonthlyTaskListComponent 
 } from './list/monthly-task-list/monthly-task-list.component';
 import { MonthlyTasksEffects } from './state/monthly-schedulers/monthly-tasks.effects.spec';
 import { monthlyTasksReducer } from './state/monthly-schedulers/monthly-task.reducers';
-
+import { 
+  SelectMonthlyQuarterComponent 
+} from './applied-quarterly/select-monthly-quarter/select-monthly-quarter.component';
 
 
 @NgModule({
@@ -26,8 +34,11 @@ import { monthlyTasksReducer } from './state/monthly-schedulers/monthly-task.red
     CreateMonthlyTaskComponent,
     CreateMonthlyTaskFormComponent,
     MonthlyComponent,
+    MonthlyAppliedQuarterlyListComponent,
+    MonthlyTaskAppliedQuarterlyComponent,
     MonthlyTaskComponent,
-    MonthlyTaskListComponent
+    MonthlyTaskListComponent,
+    SelectMonthlyQuarterComponent
   ],
   imports: [
     CommonModule,
