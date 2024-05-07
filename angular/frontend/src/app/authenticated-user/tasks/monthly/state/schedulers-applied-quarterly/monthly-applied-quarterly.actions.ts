@@ -18,7 +18,7 @@ export enum MonthlyTaskAppliedQuarterlyActionTypes {
     MonthlyTaskAppliedQuarterlyDeletionCancelled = '[Monthly Task Applied Quarterlys Page] Removal of Monthly Task Applied Quarterly Cancelled',
     MonthlyTaskAppliedQuarterlyDeletionRequested = '[Monthly Task Applied Quarterlys  Page]  Removal of Monthly Task Applied Quarterly Requested',
     MonthlyTaskAppliedQuarterlyDeletionSaved = '[Monthly Task Applied Quarterlys Page] Monthly Task Applied Quarterly Removed',
-    MonthlyTasksMessagesCleared = '[Monthly Task Applied Quarterly List, and Submission Pages] Monthly Task Applied Quarterlys Messages Cleared',
+    MonthlyTasksAppliedQuarterlyMessagesCleared = '[Monthly Task Applied Quarterly List, and Submission Pages] Monthly Task Applied Quarterlys Messages Cleared',
    }
    
    export class MonthlyTaskAppliedQuarterlysCleared implements Action {
@@ -87,8 +87,8 @@ export enum MonthlyTaskAppliedQuarterlyActionTypes {
     constructor(public payload: { id: number, message: string }) {}
    }
    
-   export class MonthlyTasksMessagesCleared implements Action {
-    readonly type = MonthlyTaskAppliedQuarterlyActionTypes.MonthlyTasksMessagesCleared;
+   export class MonthlyTasksAppliedQuarterlyMessagesCleared implements Action {
+    readonly type = MonthlyTaskAppliedQuarterlyActionTypes.MonthlyTasksAppliedQuarterlyMessagesCleared;
    }
    
    export type MonthlyTaskAppliedQuarterlyActions =  MonthlyTaskAppliedQuarterlysCleared |
@@ -96,5 +96,5 @@ export enum MonthlyTaskAppliedQuarterlyActionTypes {
     MonthlyTaskAppliedQuarterlysRequested | MonthlyTaskAppliedQuarterlyCreateSubmitted |
     MonthlyTaskAppliedQuarterlyAdded | MonthlyTaskAppliedQuarterlyCreationCancelled |
     MonthlyTaskAppliedQuarterlyDeletionCancelled |MonthlyTaskAppliedQuarterlyDeletionRequested |
-    MonthlyTaskAppliedQuarterlyDeletionSaved | MonthlyTasksMessagesCleared;
+    MonthlyTaskAppliedQuarterlyDeletionSaved | MonthlyTasksAppliedQuarterlyMessagesCleared;
     

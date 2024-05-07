@@ -6,6 +6,9 @@ import { StoreModule } from '@ngrx/store';
 import { MonthlyRoutingModule } from './monthly-routing.module';
 
 import { 
+  ApplyMonthlySchedulerFormComponent 
+} from './applied-quarterly/apply-monthly-scheduler-form/apply-monthly-scheduler-form.component';
+import { 
   CreateMonthlyTaskComponent 
 } from './create/create-monthly-task/create-monthly-task.component';
 import { 
@@ -40,6 +43,7 @@ import {
 
 @NgModule({
   declarations: [
+    ApplyMonthlySchedulerFormComponent,
     CreateMonthlyTaskComponent,
     CreateMonthlyTaskFormComponent,
     MonthlyComponent,

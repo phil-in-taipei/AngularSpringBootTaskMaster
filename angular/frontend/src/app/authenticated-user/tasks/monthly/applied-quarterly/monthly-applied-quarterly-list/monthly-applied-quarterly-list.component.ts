@@ -31,6 +31,7 @@ export class MonthlyAppliedQuarterlyListComponent implements OnInit {
   mTAQ$: Observable<MonthlyTaskAppliedQuarterlyModel[] | undefined>;
   quarterFromRouteData:string;
   yearFromRouteData:number;
+  showApplySchedulerSubmitForm:boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -50,5 +51,14 @@ export class MonthlyAppliedQuarterlyListComponent implements OnInit {
       select(selectAllMonthlyTaskAppliedQuarterlys)
     );
   }
+
+  toggleApplySchedulerSubmitForm() {
+    if (this.showApplySchedulerSubmitForm) {
+      this.showApplySchedulerSubmitForm = false;
+    } else {
+      this.showApplySchedulerSubmitForm = true;
+    }
+  }
+
 
 }

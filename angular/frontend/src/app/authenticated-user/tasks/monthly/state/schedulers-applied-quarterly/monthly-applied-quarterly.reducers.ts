@@ -102,7 +102,7 @@ export function monthlyTaskAppliedQuarterlysReducer(
               }
             );
        
-        case MonthlyTaskAppliedQuarterlyActionTypes.MonthlyTasksMessagesCleared:
+        case MonthlyTaskAppliedQuarterlyActionTypes.MonthlyTasksAppliedQuarterlyMessagesCleared:
             return {
               ...state,
               successMessage: undefined,
