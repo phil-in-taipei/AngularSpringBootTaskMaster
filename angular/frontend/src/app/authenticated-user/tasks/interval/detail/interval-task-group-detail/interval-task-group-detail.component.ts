@@ -4,18 +4,18 @@ import { Observable, of } from "rxjs";
 import {select, Store } from '@ngrx/store';
 import { 
   IntervalTaskGroupsState 
-} from '../../state/interval-task-group.reducers';
+} from '../../state/interval-task-groups/interval-task-group.reducers';
 import { 
   selectIntervalTaskGroupById, 
   intervalTaskGroupsErrorMsg, 
   intervalTaskGroupsSuccessMsg
-} from '../../state/interval-task-group.selectors';
+} from '../../state/interval-task-groups/interval-task-group.selectors';
 import { 
   IntervalTaskGroupModel 
 } from 'src/app/models/interval-task-group.model';
 import { 
   IntervalTasksMessagesCleared 
-} from '../../state/interval-task-group.actions';
+} from '../../state/interval-task-groups/interval-task-group.actions';
 
 @Component({
   selector: 'app-interval-task-group-detail',

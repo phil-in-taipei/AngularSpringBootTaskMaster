@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ActivatedRoute } from "@angular/router";
 import { select, Store } from '@ngrx/store';
  
 import { 
+  MonthlyTaskAppliedQuarterlysCleared,
   MonthlyTaskAppliedQuarterlysRequested 
 } from '../../state/schedulers-applied-quarterly/monthly-applied-quarterly.actions';
 import { 
@@ -28,7 +29,7 @@ import { selectAllMonthlyTaskAppliedQuarterlys } from '../../state/schedulers-ap
 })
 export class MonthlyAppliedQuarterlyListComponent implements OnInit {
 
-  mTAQ$: Observable<MonthlyTaskAppliedQuarterlyModel[] | undefined>;
+  mTAQ$: Observable<MonthlyTaskAppliedQuarterlyModel[] | undefined> = of(undefined);
   quarterFromRouteData:string;
   yearFromRouteData:number;
   showApplySchedulerSubmitForm:boolean = false;
@@ -41,6 +42,7 @@ export class MonthlyAppliedQuarterlyListComponent implements OnInit {
 
   ngOnInit(): void {
     this.tasksStore.dispatch(new SingleTasksCleared());
+    this.store.dispatch(new MonthlyTaskAppliedQuarterlysCleared());
     this.quarterFromRouteData = this.route.snapshot.params['quarter'];
     this.yearFromRouteData = +this.route.snapshot.params['year'];
     this.store.dispatch(new MonthlyTaskAppliedQuarterlysRequested({

@@ -26,8 +26,8 @@ import {
 import { 
   IntervalTaskGroupListComponent 
 } from './list/interval-task-group-list/interval-task-group-list.component';
-import { IntervalTaskGroupEffects } from './state/interval-task-group.effects';
-import { intervalTaskGroupsReducer } from './state/interval-task-group.reducers';
+import { IntervalTaskGroupEffects } from './state/interval-task-groups/interval-task-group.effects';
+import { intervalTaskGroupsReducer } from './state/interval-task-groups/interval-task-group.reducers';
 
 
 @NgModule({

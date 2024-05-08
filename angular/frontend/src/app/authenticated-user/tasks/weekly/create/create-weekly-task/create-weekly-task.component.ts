@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, of } from "rxjs";
 
-import { WeeklyTasksState } from '../../state/weekly-task.reducers';
+import { WeeklyTasksState } from '../../state/weekly-schedulers/weekly-task.reducers';
 import { 
   weeklyTaskErrorMsg, weeklyTaskSuccessMsg 
-} from '../../state/weekly-task.selectors';
-import { WeeklyTasksMessagesCleared } from '../../state/weekly-task.actions';
+} from '../../state/weekly-schedulers/weekly-task.selectors';
+import { WeeklyTasksMessagesCleared } from '../../state/weekly-schedulers/weekly-task.actions';
 
 @Component({
   selector: 'app-create-weekly-task',

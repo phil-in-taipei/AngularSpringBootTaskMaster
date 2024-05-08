@@ -3,14 +3,14 @@ import { NgForm } from '@angular/forms';
 import {Store } from '@ngrx/store';
 import { 
   IntervalTaskGroupsState 
-} from '../../state/interval-task-group.reducers';
+} from '../../state/interval-task-groups/interval-task-group.reducers';
 import { 
   IntervalTaskCreateModel 
 } from 'src/app/models/interval-task-group.model';
 import { 
   IntervalTaskSchedulerCreateSubmitted, 
   IntervalTaskSchedulerCreationCancelled 
-} from '../../state/interval-task-group.actions';
+} from '../../state/interval-task-groups/interval-task-group.actions';
 
 @Component({
   selector: 'app-create-interval-task-form',

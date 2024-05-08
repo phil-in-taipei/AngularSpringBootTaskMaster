@@ -13,7 +13,7 @@ import {
 import { AppState } from './../reducers';
 import { 
   IntervalTaskGroupsCleared 
-} from '../authenticated-user/tasks/interval/state/interval-task-group.actions';
+} from '../authenticated-user/tasks/interval/state/interval-task-groups/interval-task-group.actions';
 import { 
   MonthlyTaskAppliedQuarterlysCleared 
 } from '../authenticated-user/tasks/monthly/state/schedulers-applied-quarterly/monthly-applied-quarterly.actions';
@@ -28,7 +28,7 @@ import {
 } from '../authenticated-user/user/user-state/user.actions';
 import { 
   WeeklyTaskSchedulersCleared 
-} from '../authenticated-user/tasks/weekly/state/weekly-task.actions';
+} from '../authenticated-user/tasks/weekly/state/weekly-schedulers/weekly-task.actions';
 
 @Injectable({
   providedIn: 'root'

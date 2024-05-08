@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, of } from "rxjs";
 import {select, Store } from '@ngrx/store';
 
-import { WeeklyTasksState } from '../../state/weekly-task.reducers';
+import { WeeklyTasksState } from '../../state/weekly-schedulers/weekly-task.reducers';
 import { 
   selectAllWeeklyTaskSchedulers, selectWeeklyTasksLoaded 
-} from '../../state/weekly-task.selectors';
+} from '../../state/weekly-schedulers/weekly-task.selectors';
 import { WeeklyTaskModel } from 'src/app/models/weekly-task.model';
 
 @Component({

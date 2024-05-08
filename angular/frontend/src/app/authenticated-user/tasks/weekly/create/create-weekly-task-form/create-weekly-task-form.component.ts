@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
-import { WeeklyTasksState } from '../../state/weekly-task.reducers';
+import { WeeklyTasksState } from '../../state/weekly-schedulers/weekly-task.reducers';
 import { WeeklyTaskCreateModel } from 'src/app/models/weekly-task.model';
 import { 
   WeeklyTaskSchedulerCreateSubmitted, 
   WeeklyTaskSchedulerCreationCancelled 
-} from '../../state/weekly-task.actions';
+} from '../../state/weekly-schedulers/weekly-task.actions';
 
 @Component({
   selector: 'app-create-weekly-task-form',

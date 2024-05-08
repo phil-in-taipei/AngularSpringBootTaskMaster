@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { AppState } from '../../../../reducers';
+import { AppState } from '../../../../../reducers';
 import { select, Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, filter, map, mergeMap, withLatestFrom } from 'rxjs/operators';
@@ -24,7 +24,7 @@ import {
     IntervalTaskSchedulerDeletionRequested,
     IntervalTaskSchedulerDeletionSaved,
 } from './interval-task-group.actions';
-import { IntervalTaskGroupService } from '../service/interval-task-group.service';
+import { IntervalTaskGroupService } from '../../service/interval-task-group.service';
 
 @Injectable()
 export class IntervalTaskGroupEffects {

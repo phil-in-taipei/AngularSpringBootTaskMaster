@@ -67,6 +67,19 @@ export class WeeklyTaskService {
       });
   }
 
+
+  fetchWeeklyTaskAppliedQuarterlysByQuarter(
+    quarter: string, year: number
+  ): Observable<WeeklyTaskAppliedQuarterlyModel[]> {
+    let token = this.authService.getAuthToken();
+    return this.http.get<WeeklyTaskAppliedQuarterlyModel[]>(
+      `${environment.apiUrl}/api/weekly/applied-quarterly/${quarter}/${year}`,
+      {
+        headers: new HttpHeaders({ 'Authorization': `Bearer ${token}` })
+      });
+  }
+ 
+
   submitWeeklyTaskScheduler(
     submissionForm: WeeklyTaskCreateModel
     ): Observable<WeeklyTaskModel> {

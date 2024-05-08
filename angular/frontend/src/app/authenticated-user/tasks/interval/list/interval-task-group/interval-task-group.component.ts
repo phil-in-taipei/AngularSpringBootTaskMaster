@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { IntervalTaskGroupsState } from '../../state/interval-task-group.reducers';
+import { IntervalTaskGroupsState } from '../../state/interval-task-groups/interval-task-group.reducers';
 import { 
   IntervalTaskGroupDeletionRequested 
-} from '../../state/interval-task-group.actions';
+} from '../../state/interval-task-groups/interval-task-group.actions';
 import { IntervalTaskGroupModel } from 'src/app/models/interval-task-group.model';
 
 @Component({

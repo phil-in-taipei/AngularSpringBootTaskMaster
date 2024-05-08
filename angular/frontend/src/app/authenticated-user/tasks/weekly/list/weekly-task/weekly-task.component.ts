@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { WeeklyTasksState } from '../../state/weekly-task.reducers';
+import { WeeklyTasksState } from '../../state/weekly-schedulers/weekly-task.reducers';
 import { 
   WeeklyTaskSchedulerDeletionRequested 
-} from '../../state/weekly-task.actions';
+} from '../../state/weekly-schedulers/weekly-task.actions';
 import { WeeklyTaskModel } from 'src/app/models/weekly-task.model';
 
 @Component({

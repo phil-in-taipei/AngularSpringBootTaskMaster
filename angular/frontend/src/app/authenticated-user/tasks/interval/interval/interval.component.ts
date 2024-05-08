@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { IntervalTaskGroupsState } from '../state/interval-task-group.reducers';
-import { IntervalTaskGroupsRequested } from '../state/interval-task-group.actions';
+import { IntervalTaskGroupsState } from '../state/interval-task-groups/interval-task-group.reducers';
+import { IntervalTaskGroupsRequested } from '../state/interval-task-groups/interval-task-group.actions';
 
 @Component({
   selector: 'app-interval',
