@@ -1,13 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { AppState } from '../../../../../reducers';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { catchError, filter, map, mergeMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 
-import { 
-    selectMonthlyTaskAppliedQuarterlysLoaded 
-} from './monthly-applied-quarterly.selectors';
 import {  MonthlyTaskAppliedQuarterlyActionTypes,
     MonthlyTaskAppliedQuarterlyAdded,
     MonthlyTaskAppliedQuarterlyCreateSubmitted,
@@ -106,3 +103,4 @@ export class MonthlyTaskAppliedQuarterlysEffects {
       ) {}
     
 }
+

@@ -1,1 +1,3 @@
-<p>weekly-task-template-string works!</p>
+<div *ngIf="weeklyTask$ | async as weeklyTask">
+    {{ weeklyTask.templateSelectorString }}
+</div>

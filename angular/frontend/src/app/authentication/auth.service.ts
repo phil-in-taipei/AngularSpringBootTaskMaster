@@ -27,6 +27,9 @@ import {
   UserProfileCleared 
 } from '../authenticated-user/user/user-state/user.actions';
 import { 
+  WeeklyTaskAppliedQuarterlysCleared 
+} from '../authenticated-user/tasks/weekly/state/schedulers-applied-quarterly/weekly-applied-quarterly.actions';
+import { 
   WeeklyTaskSchedulersCleared 
 } from '../authenticated-user/tasks/weekly/state/weekly-schedulers/weekly-task.actions';
 
@@ -112,6 +115,7 @@ export class AuthService {
     this.store.dispatch(new UserProfileCleared());
     this.store.dispatch(new SingleTasksCleared());
     this.store.dispatch(new WeeklyTaskSchedulersCleared());
+    this.store.dispatch(new WeeklyTaskAppliedQuarterlysCleared());
   }
 
 
