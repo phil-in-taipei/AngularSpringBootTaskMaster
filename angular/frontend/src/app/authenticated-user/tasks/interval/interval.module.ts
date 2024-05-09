@@ -34,7 +34,7 @@ import {
   IntervalTaskGroupListComponent 
 } from './list/interval-task-group-list/interval-task-group-list.component';
 import { 
-  IntervalTaskGroupQuarterlyListComponent 
+  IntervalTaskGroupAppliedQuarterlyListComponent 
 } from './applied-quarterly/interval-task-group-quarterly-list/interval-task-group-quarterly-list.component';
 import { 
   IntervalTaskGroupEffects 
@@ -63,7 +63,7 @@ import {
     CreateIntervalTaskGroupComponent,
     IntervalTaskGroupAppliedQuarterlyComponent,
     IntervalTaskGroupDetailComponent,
-    IntervalTaskGroupQuarterlyListComponent,
+    IntervalTaskGroupAppliedQuarterlyListComponent,
     IntervalTaskGroupTemplateStringComponent,
     CreateIntervalTaskGroupFormComponent,
     IntervalComponent,

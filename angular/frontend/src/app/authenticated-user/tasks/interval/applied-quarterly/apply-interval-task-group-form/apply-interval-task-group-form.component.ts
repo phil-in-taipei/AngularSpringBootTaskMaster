@@ -32,7 +32,7 @@ import {
 
 
 @Component({
-  selector: 'app-apply-interval-task-group-scheduler-form',
+  selector: 'app-apply-interval-task-group-form',
   standalone: false,
   templateUrl: './apply-interval-task-group-form.component.html',
   styleUrl: './apply-interval-task-group-form.component.css'

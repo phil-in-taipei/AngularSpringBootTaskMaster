@@ -1,1 +1,42 @@
-<p>interval-task-group-applied-quarterly works!</p>
+<tr class="row" >
+    <th class="col">
+      <h5 class="text-secondary">
+        <app-interval-task-group-template-string
+          [intervalTaskGroupId]=intervalTaskGroupAppliedQuarterly.intervalTaskGroupId>
+        </app-interval-task-group-template-string>
+      </h5>
+    </th>
+    <th class="col">
+      <div *ngIf="!deletionPopupVisible; else delIntervalTaskGroup" class="col text-left">
+        <h5>
+          <button
+            class="btn btn-sm btn-outline-secondary"
+            (click)="showDeletionPopup()"
+            >
+            Remove
+          </button>
+        </h5>
+      </div>
+      <ng-template #delIntervalTaskGroup class="row">
+        <div class="col text-secondary">
+          <h5>
+            <button
+              class="btn btn-sm btn-outline-secondary"
+              (click)="hideDeletionPopup()">
+              Cancel Deletion
+            </button>
+          </h5>
+        </div>
+        <div class="col text-secondary">
+          <h5>
+            <button
+              class="btn btn-sm btn-outline-danger"
+              (click)="onRemoveITGAQ()"
+              >
+              Confirm Removal
+            </button>
+          </h5>
+        </div>
+      </ng-template>
+    </th>
+</tr>

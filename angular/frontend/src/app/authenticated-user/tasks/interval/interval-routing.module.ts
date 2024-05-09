@@ -10,13 +10,22 @@ import {
 import { 
   IntervalTaskGroupListComponent 
 } from './list/interval-task-group-list/interval-task-group-list.component';
+import { IntervalTaskGroupAppliedQuarterlyListComponent } from './applied-quarterly/interval-task-group-quarterly-list/interval-task-group-quarterly-list.component';
+import { SelectIntervalTaskGroupQuarterComponent } from './applied-quarterly/select-interval-task-group-quarter/select-interval-task-group-quarter.component';
 
 const routes: Routes = [
   { path: '', component: IntervalComponent, children: [ 
+    { 
+      path: 'applied-quarterly/:quarter/:year', 
+      component: IntervalTaskGroupAppliedQuarterlyListComponent 
+    },
     { path: 'create', component: CreateIntervalTaskGroupComponent },
     { path: 'list', component: IntervalTaskGroupListComponent },
     { path: 'detail/:id', component: IntervalTaskGroupDetailComponent },
-
+    { 
+      path: 'select-quarterly', 
+      component: SelectIntervalTaskGroupQuarterComponent 
+    },
   ]
 }
 ];

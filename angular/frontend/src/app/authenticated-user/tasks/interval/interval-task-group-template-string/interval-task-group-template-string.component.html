@@ -1,1 +1,4 @@
-<p>interval-task-group-template-string works!</p>
+<div *ngIf="intervalTaskGroup$ | async as intervalTaskGroup">
+    {{ intervalTaskGroup.templateSelectorString }}
+</div>
+
