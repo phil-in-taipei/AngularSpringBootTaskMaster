@@ -1,3 +1,10 @@
+export interface IntervalTaskGroupAppliedQuarterlyModel {
+    id: number;
+    quarter: string;
+    year: number;
+    intervalTaskGroupId: number;
+}
+
 export interface IntervalTaskCreateModel {
     intervalTaskGroupId: number;
     intervalTaskName: string;
