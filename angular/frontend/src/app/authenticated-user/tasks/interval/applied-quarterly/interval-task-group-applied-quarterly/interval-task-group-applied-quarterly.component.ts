@@ -33,9 +33,10 @@ export class IntervalTaskGroupAppliedQuarterlyComponent {
   }
 
   onRemoveITGAQ() {
-    const payload = { id: +this.intervalTaskGroupAppliedQuarterly.id };
     this.store.dispatch(
-      new IntervalTaskGroupAppliedQuarterlyDeletionRequested(payload)
+      new IntervalTaskGroupAppliedQuarterlyDeletionRequested(
+        { id: +this.intervalTaskGroupAppliedQuarterly.id }
+      )
     );
   }
 
