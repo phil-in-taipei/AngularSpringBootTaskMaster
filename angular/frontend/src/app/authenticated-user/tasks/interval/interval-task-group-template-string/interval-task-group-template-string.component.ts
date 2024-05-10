@@ -19,6 +19,10 @@ export class IntervalTaskGroupTemplateStringComponent implements OnInit {
   @Input() intervalTaskGroupId: number;
 
   ngOnInit(): void {
+    console.log('********************************************************')
+    console.log('this is the interval task group id in the template string: ' 
+    + this.intervalTaskGroupId);
+    console.log('********************************************************')
     this.intervalTaskGroup$ = this.store.pipe(select(
       selectIntervalTaskGroupById(this.intervalTaskGroupId)
     ));

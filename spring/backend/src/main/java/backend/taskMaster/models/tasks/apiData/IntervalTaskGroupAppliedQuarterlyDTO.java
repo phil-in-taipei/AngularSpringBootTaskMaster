@@ -12,5 +12,5 @@ public class IntervalTaskGroupAppliedQuarterlyDTO {
     private Long id;
     private QuarterlySchedulingEnum quarter;
     private Integer year;
-    private Long intervalTaskGroupAppliedQuarterlyId;
+    private Long intervalTaskGroupId;
 }
