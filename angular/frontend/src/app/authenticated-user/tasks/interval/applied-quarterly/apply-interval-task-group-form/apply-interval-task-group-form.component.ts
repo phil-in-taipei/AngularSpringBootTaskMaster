@@ -80,7 +80,7 @@ export class ApplyIntervalTaskGroupFormComponent implements OnInit {
       form.reset();
     }
     let submissionForm: ApplyBatchSchedulerModel = {
-        recurringTaskSchedulerId: form.value.intervalTaskGroupScheduler,
+        recurringTaskSchedulerId: form.value.intervalTaskGroup,
         quarter: this.quarter,
         year: this.year
     }
