@@ -1,14 +1,12 @@
 package backend.taskMaster.controllers.tasks;
 
 import backend.taskMaster.models.errors.ApiError;
-import backend.taskMaster.models.tasks.apiData.IntervalTaskGroupPostRequest;
-import backend.taskMaster.models.tasks.apiData.IntervalTaskSchedulerPostRequest;
-import backend.taskMaster.models.tasks.apiData.MonthlySchedulerPostRequest;
-import backend.taskMaster.models.tasks.apiData.TaskDeletionResponse;
+import backend.taskMaster.models.tasks.apiData.*;
+import backend.taskMaster.models.tasks.appliedSchedulers.IntervalTaskGroupAppliedQuarterly;
+import backend.taskMaster.models.tasks.appliedSchedulers.MonthlyTaskAppliedQuarterly;
+import backend.taskMaster.models.tasks.appliedSchedulers.QuarterlySchedulingEnum;
 import backend.taskMaster.models.tasks.taskSchedulers.IntervalTaskGroup;
 import backend.taskMaster.models.tasks.taskSchedulers.IntervalTaskScheduler;
-import backend.taskMaster.models.tasks.taskSchedulers.MonthlyTaskScheduler;
-import backend.taskMaster.models.tasks.taskSchedulers.WeeklyTaskScheduler;
 import backend.taskMaster.models.user.User;
 import backend.taskMaster.services.tasks.IntervalTaskGroupService;
 import backend.taskMaster.services.user.UserDetailsServiceImplementation;
@@ -34,6 +32,74 @@ public class IntervalTaskGroupController {
     @Autowired
     UserDetailsServiceImplementation userService;
 
+
+    @GetMapping("/applied-quarterly/{quarter}/{year}")
+    public ResponseEntity<?>
+        getUsersIntervalTaskGroupsAppliedQuarterlyByQuarterAndYear(
+            @PathVariable(name = "quarter") String quarter,
+            @PathVariable(name = "year") int year,
+            Authentication authentication
+    ) {
+        UserDetails user = (UserDetails) authentication.getPrincipal();
+        try {
+            List<IntervalTaskGroupAppliedQuarterly> entities = intervalTaskGroupService
+                    .getUsersIntervalTaskGroupsAppliedQuarterlyByQuarterAndYear(
+                            QuarterlySchedulingEnum.valueOf(
+                                    quarter),
+                            year,
+                            user.getUsername()
+                    );
+            List<IntervalTaskGroupAppliedQuarterlyDTO> responseData = new ArrayList<>();
+            for (IntervalTaskGroupAppliedQuarterly entity : entities) {
+                responseData.add(new IntervalTaskGroupAppliedQuarterlyDTO(
+                        entity.getId(),
+                        entity.getQuarter(),
+                        entity.getYear(),
+                        entity.getIntervalTaskGroup().getId()));
+            }
+            return new ResponseEntity<>(responseData, HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(
+                    new ApiError("There was an error. Please try again")
+            );
+        }
+    }
+
+    // In the form the user selects the interval task group along with the year and quarter
+    // In the service method, the scheduling of the interval task group member tasks will be
+    // triggered for the quarter
+    @PostMapping("/apply-quarterly")
+    public ResponseEntity<?> saveNewQuarterlyIntervalTaskGroup(
+            @RequestBody RecurringTaskAppliedQuarterlyPostRequest request
+    ) {
+        try {
+            System.out.println(request);
+            IntervalTaskGroup intervalTaskGroup = intervalTaskGroupService
+                    .getIntervalTaskGroup(
+                            request.getRecurringTaskSchedulerId()
+                    );
+            IntervalTaskGroupAppliedQuarterly iTGAQ = new IntervalTaskGroupAppliedQuarterly();
+            iTGAQ.setIntervalTaskGroup(intervalTaskGroup);
+            iTGAQ.setQuarter(QuarterlySchedulingEnum.valueOf(request.getQuarter()));
+            iTGAQ.setYear(request.getYear());
+            IntervalTaskGroupAppliedQuarterly entity =  intervalTaskGroupService
+                    .saveIntervalTaskGroupAppliedQuarterly(iTGAQ);
+            return new ResponseEntity<>(
+                    new IntervalTaskGroupAppliedQuarterlyDTO(
+                            entity.getId(),
+                            entity.getQuarter(),
+                            entity.getYear(),
+                            entity.getIntervalTaskGroup().getId()),
+                    HttpStatus.CREATED
+            );
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new ApiError(e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(
+                    new ApiError("There was an error. Please try again")
+            );
+        }
+    }
 
     @PostMapping("/create-group")
     public ResponseEntity<?> createIntervalTaskGroup(
@@ -93,6 +159,32 @@ public class IntervalTaskGroupController {
             );
         }
     }
+
+
+    @RequestMapping(
+            value="/delete-applied-quarterly/{taskId}", method=RequestMethod.DELETE
+    )
+    public ResponseEntity<?> deleteIntervalTaskGroupAppliedQuarterly(
+            @PathVariable(name = "taskId") Long taskId
+    ) {
+        if (intervalTaskGroupService
+                .getIntervalTaskGroupAppliedQuarterly(taskId) == null
+        ) {
+            return new ResponseEntity<>(
+                    new ApiError("Deletion Failed. Item not found"),
+                    HttpStatus.NOT_FOUND
+            );
+        }
+        intervalTaskGroupService
+                .deleteIntervalTaskGroupAppliedQuarterly(taskId);
+        return new ResponseEntity<>(
+                new TaskDeletionResponse(
+                        taskId, "Interval task group application successfully deleted!"
+                )
+                , HttpStatus.OK
+        );
+    }
+
 
     @RequestMapping(
             value="/delete-scheduler/{intervalTaskId}/{taskGroupId}", method=RequestMethod.DELETE

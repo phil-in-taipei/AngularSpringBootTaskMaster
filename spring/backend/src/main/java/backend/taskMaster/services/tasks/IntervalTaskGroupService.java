@@ -99,8 +99,8 @@ public class IntervalTaskGroupService {
     // maintenance user has already applied during a given quarter and year
     @Loggable
     public List<IntervalTaskGroupAppliedQuarterly>
-    getUsersIntervalTaskGroupsAppliedQuarterlyByQuarterAndYear(
-            QuarterlySchedulingEnum quarter, Integer year, String username//Long userId
+        getUsersIntervalTaskGroupsAppliedQuarterlyByQuarterAndYear(
+            QuarterlySchedulingEnum quarter, Integer year, String username
     ) {
         return intervalTaskGroupAppliedQuarterlyRepo
                 .findAllByQuarterAndYearAndIntervalTaskGroup_TaskGroupOwnerUsername(
