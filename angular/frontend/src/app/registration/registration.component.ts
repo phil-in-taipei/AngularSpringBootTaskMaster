@@ -32,6 +32,8 @@ export class RegistrationComponent {
 
   constructor(private registrationService: RegistrationService) { }
 
+  formErrorMsg: string|undefined = undefined;
+
   passwordErrorMsg: string|undefined = undefined;
 
   apiErrorMsg: string|undefined = undefined;
@@ -39,6 +41,7 @@ export class RegistrationComponent {
   apiSuccessResponse: UserRegistrationResponseModel|undefined = undefined;
 
   clearTemplateMessages(): void {
+    this.formErrorMsg = undefined;
     this.passwordErrorMsg = undefined;
     this.apiSuccessResponse = undefined;
     this.apiErrorMsg = undefined;
@@ -69,6 +72,11 @@ export class RegistrationComponent {
     this.apiSuccessResponse = undefined;
   }
 
+  onClearFormError(): void {
+    this.formErrorMsg = undefined;
+
+  }
+
   onClearFormPasswordError(): void {
     this.passwordErrorMsg = undefined;
   }
@@ -77,6 +85,8 @@ export class RegistrationComponent {
     this.clearTemplateMessages();
     console.log(form)
     if (form.invalid) {
+      this.formErrorMsg = 'There was an input error. Please try again.';
+      form.reset();
       return;
     }
     if (form.value.password !== form.value.re_password) {

@@ -2,6 +2,16 @@
 <div class="container content">
     <div class="color-frame rounded">
         <div class="mt-4 p-5 rounded">
+          <div *ngIf='formErrorMsg'>
+            <div 
+              data-testid="password-confirmation-failure-msg"
+              class="alert alert-danger alert-dismissible fade show" role="alert"
+            >
+              <h3>{{ formErrorMsg }}</h3>
+              <button type="button" class="btn-close" (click)="onClearFormError()"
+              data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          </div>
           <div *ngIf='passwordErrorMsg'>
             <div 
               data-testid="password-confirmation-failure-msg"
@@ -96,7 +106,7 @@
                   <input
                   class="form-control"
                   type="text"
-                  minlength="5"
+                  minlength="4"
                   rows="4"
                   name="surname"
                   ngModel
@@ -114,7 +124,7 @@
                   <input
                   class="form-control"
                   type="text"
-                  minlength="5"
+                  minlength="4"
                   rows="4"
                   name="given_name"
                   ngModel
