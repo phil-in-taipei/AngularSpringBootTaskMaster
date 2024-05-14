@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { single } from 'rxjs/operators';
 
-import { DeletionResponse } from 'src/app/models/deletion-response';
 import { SingleTaskModel } from 'src/app/models/single-task.model';
 import { SingleTaskService } from '../../tasks/single/service/single-task.service';
 
@@ -17,11 +16,9 @@ export class UncompletedTasksComponent implements OnInit {
     private singleTaskService: SingleTaskService
   ) {}
 
-  withdrawalDeletionResponse: DeletionResponse | undefined = undefined;
   uncompletedTasks: SingleTaskModel[] = [];
 
   ngOnInit(): void {
-    console.log('initializing component')
     this.fetchUncompletedTasks();
   }
 
@@ -42,8 +39,6 @@ export class UncompletedTasksComponent implements OnInit {
       .confirmTaskCompletion(
           id).pipe(single()
         ).subscribe(res => {
-          console.log('catching the response')
-          console.log(res);
           this.uncompletedTasks = this.uncompletedTasks.filter(
             (res) => res.id !== id
           );

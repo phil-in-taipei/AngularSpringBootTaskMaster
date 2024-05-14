@@ -29,7 +29,7 @@
               <p>{{ task.taskName }}</p>
             </th>
             <th class="col">
-              <p (click)="onConfirmTaskCompletionAndRemove(task.id)">
+              <p (click)="onConfirmTaskCompletionAndRemove(task.id)" id="confirm">
                 {{task.status}}
               </p>
             </th>

@@ -1,0 +1,49 @@
+a {
+    color: #0098da;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #010b3e;
+}
+
+#confirm {
+  color: #0098da;
+  text-decoration: none;
+}
+
+#confirm:hover {
+  color: #010b3e;
+}
+
+
+h5, h3 {
+  color: #758d97;
+  text-align: center;
+}
+
+table {
+    color: #758d97;
+    text-align: center;
+}
+
+table tr {
+  padding-left: 1em;
+}
+
+table th {
+  padding-left: 1em;
+}
+
+table td {
+        padding-left: 1em;
+}
+
+
+hr.thick-br {
+  border: 2px solid #758d97;
+}
+
+hr.thin-white {
+  border: 1px solid grey;
+}
