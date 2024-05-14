@@ -172,4 +172,21 @@ public class BasicTaskController {
             );
         }
     }
+
+    // todo: write endpoint and controller tests
+    @GetMapping("/unconfirmed")
+    public ResponseEntity<?> getUserTasksByMonthAndYear(
+            Authentication authentication
+    ) {
+        UserDetails user = (UserDetails) authentication.getPrincipal();
+        try {
+            return new ResponseEntity<>(taskService
+                    .getAllUncompletedPastUserTasks(
+                            user.getUsername()), HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(
+                    new ApiError("There was an error. Please try again")
+            );
+        }
+    }
 }
