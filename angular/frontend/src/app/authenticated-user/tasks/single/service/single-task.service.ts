@@ -74,6 +74,16 @@ export class SingleTaskService {
     return this.fetchSingleTasksByDate(date);
   }
 
+  // todo unit test
+  fetchUncompletedSingleTasks(): Observable<SingleTaskModel[]> {
+    let token = this.authService.getAuthToken();
+    return this.http.get<SingleTaskModel[]>(
+      `${environment.apiUrl}/api/task/unconfirmed`,
+        {
+          headers: new HttpHeaders({ 'Authorization': `Bearer ${token}` })
+        })
+  }
+
   rescheduleSingleTask(id: number,
     submissionForm: SingleTaskRescheduleModel
     ): Observable<SingleTaskModel> {

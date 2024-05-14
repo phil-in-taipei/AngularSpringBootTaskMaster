@@ -49,6 +49,9 @@ import {
 import { 
   TaskDetailComponent 
 } from './tasks/single/detail/task-detail/task-detail.component';
+import { 
+  UncompletedTasksComponent 
+} from './landing/uncompleted-tasks/uncompleted-tasks.component';
 import { UserProfileComponent } from './user/user-profile/user-profile.component';
 
 
@@ -70,6 +73,7 @@ import { UserProfileComponent } from './user/user-profile/user-profile.component
     SelectMonthlyTasksComponent,
     SingleTaskComponent,
     TaskDetailComponent,
+    UncompletedTasksComponent,
     UserProfileComponent
   ],
   imports: [
