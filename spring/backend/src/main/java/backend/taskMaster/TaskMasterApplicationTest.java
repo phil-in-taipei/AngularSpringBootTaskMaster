@@ -2,6 +2,7 @@ package backend.taskMaster;
 
 import backend.taskMaster.models.user.Role;
 import backend.taskMaster.models.user.User;
+import backend.taskMaster.repositories.tasks.appliedSchedulers.MonthlyTaskAppliedQuarterlyRepo;
 import backend.taskMaster.repositories.tasks.task.SingleTaskRepo;
 import backend.taskMaster.repositories.tasks.taskSchedulers.MonthlyTaskSchedulerRepo;
 import backend.taskMaster.repositories.user.UserRepository;
@@ -29,6 +30,9 @@ public class TaskMasterApplicationTest implements CommandLineRunner {
     @Autowired
     MonthlyTaskSchedulerRepo monthlyTaskSchedulerRepo;
 
+    @Autowired
+    MonthlyTaskAppliedQuarterlyRepo monthlyTaskAppliedQuarterlyRepo;
+
     //@Autowired
     //private UserDetailsServiceImplementation userService;
 
@@ -48,6 +52,7 @@ public class TaskMasterApplicationTest implements CommandLineRunner {
         userRepository.deleteByUsername("Test Admin");
         singleTaskRepo.deleteAll();
         monthlyTaskSchedulerRepo.deleteAll();
+        monthlyTaskAppliedQuarterlyRepo.deleteAll();
         if (userRepository.findAll().isEmpty()) {
             System.out.println("The user repo is empty. Creating mock users");
             User testUser = User.builder()
