@@ -1,11 +1,9 @@
 package backend.taskMaster.controllers.tasks;
 
 import backend.taskMaster.TaskMasterApplication;
-import backend.taskMaster.models.tasks.apiData.IntervalTaskGroupPostRequest;
-import backend.taskMaster.models.tasks.apiData.MonthlySchedulerPostRequest;
-import backend.taskMaster.models.tasks.apiData.RecurringTaskAppliedQuarterlyPostRequest;
-import backend.taskMaster.models.tasks.apiData.TaskDeletionResponse;
+import backend.taskMaster.models.tasks.apiData.*;
 import backend.taskMaster.models.tasks.appliedSchedulers.IntervalTaskGroupAppliedQuarterly;
+import backend.taskMaster.models.tasks.appliedSchedulers.MonthlyTaskAppliedQuarterly;
 import backend.taskMaster.models.tasks.appliedSchedulers.QuarterlySchedulingEnum;
 import backend.taskMaster.models.tasks.taskSchedulers.IntervalTaskGroup;
 import backend.taskMaster.models.tasks.taskSchedulers.IntervalTaskScheduler;
@@ -28,6 +26,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.when;
 
 @WebMvcTest(IntervalTaskGroupController.class)
 @ContextConfiguration(classes = {TaskMasterApplication.class})
@@ -70,6 +71,12 @@ class IntervalTaskGroupControllerTest {
             .intervalTaskName("Test Interval Task 1")
             .build();
 
+    IntervalTaskSchedulerPostRequest
+            intervalTaskSchedulerPostRequest = IntervalTaskSchedulerPostRequest
+            .builder()
+            .intervalTaskGroupId(1L)
+            .intervalTaskName("Test Interval Task 1")
+            .build();
 
     IntervalTaskScheduler testIntervalTask2 = IntervalTaskScheduler.builder()
             .id(2L)
@@ -77,7 +84,7 @@ class IntervalTaskGroupControllerTest {
             .build();
 
 
-    IntervalTaskGroup testIntervalTaskGroup = IntervalTaskGroup.builder()
+    IntervalTaskGroup testIntervalTaskGroup1 = IntervalTaskGroup.builder()
             .id(1L)
             .taskGroupName("Test Interval Task Group 1")
             .intervalInDays(3)
@@ -94,7 +101,7 @@ class IntervalTaskGroupControllerTest {
     TaskDeletionResponse
             intervalTaskGroupDeletionResponse = TaskDeletionResponse
             .builder()
-            .id(testIntervalTaskGroup.getId())
+            .id(testIntervalTaskGroup1.getId())
             .message("Interval task group successfully deleted!")
             .build();
 
@@ -108,7 +115,7 @@ class IntervalTaskGroupControllerTest {
     IntervalTaskGroupAppliedQuarterly testITGAQ1 = IntervalTaskGroupAppliedQuarterly
             .builder()
             .id(1L)
-            .intervalTaskGroup(testIntervalTaskGroup)
+            .intervalTaskGroup(testIntervalTaskGroup1)
             .year(2024)
             .quarter(QuarterlySchedulingEnum.Q2)
             .build();
@@ -118,7 +125,7 @@ class IntervalTaskGroupControllerTest {
             .builder()
             .year(LocalDate.now().getYear())
             .quarter(quarter)
-            .recurringTaskSchedulerId(testIntervalTaskGroup.getId())
+            .recurringTaskSchedulerId(testIntervalTaskGroup1.getId())
             .build();
 
     IntervalTaskGroupAppliedQuarterly testITGAQ2 = IntervalTaskGroupAppliedQuarterly
@@ -144,6 +151,12 @@ class IntervalTaskGroupControllerTest {
 
     @Test
     void createIntervalTaskScheduler() {
+        when(intervalTaskGroupService.getIntervalTaskGroup(anyLong()))
+                .thenReturn(testIntervalTaskGroup1);
+        //when(intervalTaskGroupService
+        //        .saveIntervalTask(any(IntervalTaskScheduler.class))
+         //       .thenReturn(testIntervalTaskGroup1);
+
     }
 
     @Test
