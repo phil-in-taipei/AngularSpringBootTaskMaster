@@ -3,8 +3,10 @@ package backend.taskMaster;
 import backend.taskMaster.models.user.Role;
 import backend.taskMaster.models.user.User;
 import backend.taskMaster.repositories.tasks.appliedSchedulers.MonthlyTaskAppliedQuarterlyRepo;
+import backend.taskMaster.repositories.tasks.appliedSchedulers.WeeklyTaskAppliedQuarterlyRepo;
 import backend.taskMaster.repositories.tasks.task.SingleTaskRepo;
 import backend.taskMaster.repositories.tasks.taskSchedulers.MonthlyTaskSchedulerRepo;
+import backend.taskMaster.repositories.tasks.taskSchedulers.WeeklyTaskSchedulerRepo;
 import backend.taskMaster.repositories.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -33,6 +35,12 @@ public class TaskMasterApplicationTest implements CommandLineRunner {
     @Autowired
     MonthlyTaskAppliedQuarterlyRepo monthlyTaskAppliedQuarterlyRepo;
 
+    @Autowired
+    WeeklyTaskSchedulerRepo weeklyTaskSchedulerRepo;
+
+    @Autowired
+    WeeklyTaskAppliedQuarterlyRepo weeklyTaskAppliedQuarterlyRepo;
+
     //@Autowired
     //private UserDetailsServiceImplementation userService;
 
@@ -53,6 +61,8 @@ public class TaskMasterApplicationTest implements CommandLineRunner {
         singleTaskRepo.deleteAll();
         monthlyTaskSchedulerRepo.deleteAll();
         monthlyTaskAppliedQuarterlyRepo.deleteAll();
+        weeklyTaskSchedulerRepo.deleteAll();
+        weeklyTaskAppliedQuarterlyRepo.deleteAll();
         if (userRepository.findAll().isEmpty()) {
             System.out.println("The user repo is empty. Creating mock users");
             User testUser = User.builder()
