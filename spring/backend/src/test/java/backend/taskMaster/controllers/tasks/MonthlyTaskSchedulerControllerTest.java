@@ -77,7 +77,6 @@ class MonthlyTaskSchedulerControllerTest {
             .role(Role.USER)
             .build();
 
-
     MonthlyTaskScheduler testMonthlyTaskScheduler = MonthlyTaskScheduler.builder()
             .id(1L)
             .monthlyTaskName("Test Monthly Task Scheduler 1")
@@ -319,10 +318,11 @@ class MonthlyTaskSchedulerControllerTest {
     @Test
     @WithMockUser(authorities = {"USER", }, username = "TestUser")
     public void deleteMonthlyTaskSchedulerFailure() throws Exception {
+        long nonExistentID = 12920L;
         mockMvc.
                 perform(request(
                                 HttpMethod.DELETE, "/api/monthly/delete/" +
-                                        testMonthlyTaskScheduler.getId()
+                                        nonExistentID
                         )
                                 .with(csrf())
                 )
@@ -355,7 +355,7 @@ class MonthlyTaskSchedulerControllerTest {
                         ))
                 .andExpect(jsonPath("message")
                         .value(
-                                "Monthly task application successfully deleted!"
+                                testMonthlyTaskAppliedQuarterlyDeletionResponse.getMessage()
                         )
                 );
     }

@@ -1,6 +1,8 @@
 package backend.taskMaster.controllers.tasks;
 
 import backend.taskMaster.TaskMasterApplication;
+import backend.taskMaster.models.tasks.apiData.RecurringTaskAppliedQuarterlyPostRequest;
+import backend.taskMaster.models.tasks.apiData.TaskDeletionResponse;
 import backend.taskMaster.models.tasks.apiData.WeeklySchedulerPostRequest;
 import backend.taskMaster.models.tasks.appliedSchedulers.QuarterlySchedulingEnum;
 import backend.taskMaster.models.tasks.appliedSchedulers.WeeklyTaskAppliedQuarterly;
@@ -18,24 +20,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.ArgumentMatchers.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.request;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -64,6 +66,7 @@ class WeeklyTaskSchedulerControllerTest {
     @MockBean
     WeeklyTaskSchedulingService weeklyTaskSchedulingService;
 
+    String quarter = "Q2";
 
     User testUser = User.builder()
             .givenName("Test")
@@ -74,11 +77,26 @@ class WeeklyTaskSchedulerControllerTest {
             .role(Role.USER)
             .build();
 
-    WeeklyTaskScheduler weeklyTaskScheduler = WeeklyTaskScheduler.builder()
+    WeeklyTaskScheduler testWeeklyTaskScheduler = WeeklyTaskScheduler.builder()
             .id(1L)
             .weeklyTaskName("Test Weekly Task Scheduler")
             .dayOfWeek(DayOfWeek.MONDAY)
             .user(testUser)
+            .build();
+
+    TaskDeletionResponse
+            weeklyTaskSchedulerDeletionResponse = TaskDeletionResponse
+            .builder()
+            .id(testWeeklyTaskScheduler.getId())
+            .message("Weekly task scheduler successfully deleted!")
+            .build();
+
+    RecurringTaskAppliedQuarterlyPostRequest
+            recurringTaskAppliedQuarterlyPostRequest = RecurringTaskAppliedQuarterlyPostRequest
+            .builder()
+            .year( LocalDate.now().getYear())
+            .quarter(quarter)
+            .recurringTaskSchedulerId(testWeeklyTaskScheduler.getId())
             .build();
 
     WeeklySchedulerPostRequest weeklySchedulerPostRequest = WeeklySchedulerPostRequest
@@ -90,13 +108,15 @@ class WeeklyTaskSchedulerControllerTest {
     WeeklyTaskAppliedQuarterly testWeeklyTaskAppliedQuarterly
             = WeeklyTaskAppliedQuarterly
             .builder()
-            .weeklyTaskScheduler(weeklyTaskScheduler)
-            .year(2023)
+            .id(1L)
+            .weeklyTaskScheduler(testWeeklyTaskScheduler)
+            .year(2024)
             .quarter(QuarterlySchedulingEnum.Q2)
             .build();
 
-    WeeklyTaskScheduler weeklyTaskScheduler2 = WeeklyTaskScheduler.builder()
-            .id(1L)
+    WeeklyTaskScheduler
+            testWeeklyTaskScheduler2 = WeeklyTaskScheduler.builder()
+            .id(2L)
             .weeklyTaskName("Test Weekly Task Scheduler 2")
             .dayOfWeek(DayOfWeek.TUESDAY)
             .user(testUser)
@@ -105,21 +125,94 @@ class WeeklyTaskSchedulerControllerTest {
     WeeklyTaskAppliedQuarterly testWeeklyTaskAppliedQuarterly2
             = WeeklyTaskAppliedQuarterly
             .builder()
-            .weeklyTaskScheduler(weeklyTaskScheduler2)
-            .year(2023)
+            .id(2L)
+            .weeklyTaskScheduler(testWeeklyTaskScheduler2)
+            .year(2024)
             .quarter(QuarterlySchedulingEnum.Q2)
             .build();
 
+    TaskDeletionResponse
+            testWeeklyTaskAppliedQuarterlyDeletionResponse = TaskDeletionResponse
+            .builder()
+            .id(testWeeklyTaskAppliedQuarterly.getId())
+            .message("Weekly task application successfully deleted!")
+            .build();
+
     @Test
-    void getUsersWeeklyTaskSchedulersAppliedQuarterly() {
+    @WithMockUser(authorities = {"USER", }, username = "TestUser")
+    void getUsersWeeklyTaskSchedulersAppliedQuarterlyByQuarterAndYear()
+            throws Exception
+    {
+        List<WeeklyTaskAppliedQuarterly> usersWTAQ = new ArrayList<>();
+        usersWTAQ.add(testWeeklyTaskAppliedQuarterly);
+        usersWTAQ.add(testWeeklyTaskAppliedQuarterly2);
+        when(userService.loadUserByUsername(anyString()))
+                .thenReturn(testUser);
+        when(weeklyTaskSchedulingService
+                .getUsersWeeklyTasksAppliedQuarterlyByQuarterAndYear(
+                        eq(QuarterlySchedulingEnum.Q2),
+                        anyInt(), anyString()))
+                .thenReturn(usersWTAQ);
+        int thisYear = LocalDate.now().getYear();
+        mockMvc.perform(get("/api/weekly/applied-quarterly/"
+                        + quarter + "/" + thisYear)
+                        .contentType("application/json")
+                )
+                //.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(header()
+                        .string("Content-Type", "application/json")
+                )
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0]weeklyTaskSchedulerId")
+                        .value(
+                                testWeeklyTaskScheduler.getId())
+                )
+                .andExpect(jsonPath("$[0]quarter").value(
+                        quarter)
+                )
+                .andExpect(jsonPath("$[0]year")
+                        .value(thisYear
+                        ))
+                .andExpect(jsonPath("$[1]weeklyTaskSchedulerId")
+                        .value(
+                                testWeeklyTaskScheduler2.getId())
+                );
+
     }
 
     @Test
-    void getUsersWeeklyTaskSchedulersAppliedQuarterlyByQuarterAndYear() {
-    }
-
-    @Test
-    void saveNewQuarterlyWeeklyTask() {
+    @WithMockUser(authorities = {"USER", }, username = "TestUser")
+    public void testSaveNewQuarterlyWeeklyTask() throws Exception  {
+        int thisYear = LocalDate.now().getYear();
+        when(weeklyTaskSchedulingService
+                .saveWeeklyTaskAppliedQuarterly(
+                        any(WeeklyTaskAppliedQuarterly.class))
+        ).thenReturn(testWeeklyTaskAppliedQuarterly);
+        mockMvc.perform(post("/api/weekly/apply-quarterly")
+                        .contentType("application/json")
+                        .with(csrf())
+                        .content(TestUtil.convertObjectToJsonBytes(
+                                recurringTaskAppliedQuarterlyPostRequest)
+                        )
+                )
+                //.andDo(print())
+                .andExpect(status().isCreated())
+                .andExpect(header().string(
+                        "Content-Type", "application/json")
+                )
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("weeklyTaskSchedulerId")
+                        .value(
+                                testWeeklyTaskScheduler.getId())
+                )
+                .andExpect(jsonPath("quarter").value(
+                        quarter)
+                )
+                .andExpect(jsonPath("year")
+                        .value(thisYear)
+                );
     }
 
     @Test
@@ -130,7 +223,7 @@ class WeeklyTaskSchedulerControllerTest {
                 .thenReturn(testUser);
         when(weeklyTaskSchedulingService
                 .saveWeeklyTaskScheduler(any(WeeklyTaskScheduler.class)))
-                .thenReturn(weeklyTaskScheduler);
+                .thenReturn(testWeeklyTaskScheduler);
         mockMvc.perform(post("/api/weekly/create")
                         .contentType("application/json")
                         .with(csrf())
@@ -150,23 +243,105 @@ class WeeklyTaskSchedulerControllerTest {
                         .value(dayOfWeek)
                 );
     }
-
     @Test
-    void deleteWeeklyTaskScheduler() {
+    @WithMockUser(authorities = {"USER", }, username = "TestUser")
+    public void deleteWeeklyTaskScheduler() throws Exception {
+        when(weeklyTaskSchedulingService.getWeeklyTaskScheduler(anyLong()))
+                .thenReturn(testWeeklyTaskScheduler);
+        mockMvc.
+                perform(request(
+                                HttpMethod.DELETE, "/api/weekly/delete/" +
+                                        testWeeklyTaskScheduler.getId()
+                        )
+                                .with(csrf())
+                )
+                //.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("id")
+                        .value(
+                                weeklyTaskSchedulerDeletionResponse.getId()
+                        ))
+                .andExpect(jsonPath("message")
+                        .value(
+                                weeklyTaskSchedulerDeletionResponse.getMessage()
+                        )
+                );
     }
 
     @Test
-    void deleteWeeklyTaskAppliedQuarterly() {
+    @WithMockUser(authorities = {"USER", }, username = "TestUser")
+    public void deleteWeeklyTaskSchedulerFailure() throws Exception {
+        long nonExistentID = 12920L;
+        mockMvc.
+                perform(request(
+                                HttpMethod.DELETE, "/api/weekly/delete/" +
+                                        nonExistentID
+                        )
+                                .with(csrf())
+                )
+                //.andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("message")
+                        .value(
+                                "Deletion Failed. Item not found"
+                        )
+                );
+    }
+
+    @Test
+    @WithMockUser(authorities = {"USER", }, username = "TestUser")
+    public void deleteWeeklyTaskAppliedQuarterly() throws Exception {
+        when(weeklyTaskSchedulingService.getWeeklyTaskAppliedQuarterly(anyLong()))
+                .thenReturn(testWeeklyTaskAppliedQuarterly);
+        mockMvc.
+                perform(request(
+                        HttpMethod.DELETE,
+                        "/api/weekly/delete-applied-quarterly/" +
+                                testWeeklyTaskAppliedQuarterly.getId())
+                        .with(csrf())
+                )
+                //.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("id")
+                        .value(
+                                testWeeklyTaskAppliedQuarterly.getId()
+                        ))
+                .andExpect(jsonPath("message")
+                        .value(
+                                testWeeklyTaskAppliedQuarterlyDeletionResponse.getMessage()
+                        )
+                );
+    }
+
+
+    @Test
+    @WithMockUser(authorities = {"USER", }, username = "TestUser")
+    public void deleteWeeklyTaskAppliedQuarterlyFailure() throws Exception {
+        long nonExistentID = 12920L;
+        mockMvc.
+                perform(request(
+                        HttpMethod.DELETE,
+                        "/api/weekly/delete-applied-quarterly/" +
+                                nonExistentID)
+                        .with(csrf())
+                )
+                //.andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("message")
+                        .value(
+                                "Deletion Failed. Item not found"
+                        )
+                );
     }
 
     @Test
     @WithMockUser(authorities = {"USER", }, username = "TestUser")
     void getUsersWeeklyTaskSchedulers() throws Exception {
         List<WeeklyTaskScheduler> usersWeeklyTaskSchedulers = new ArrayList<>();
-        weeklyTaskScheduler.generateTemplateSelectorString();
-        weeklyTaskScheduler2.generateTemplateSelectorString();
-        usersWeeklyTaskSchedulers.add(weeklyTaskScheduler);
-        usersWeeklyTaskSchedulers.add(weeklyTaskScheduler2);
+        testWeeklyTaskScheduler.generateTemplateSelectorString();
+        testWeeklyTaskScheduler2.generateTemplateSelectorString();
+        usersWeeklyTaskSchedulers.add(testWeeklyTaskScheduler);
+        usersWeeklyTaskSchedulers.add(testWeeklyTaskScheduler2);
         when(userService.loadUserByUsername(anyString()))
                 .thenReturn(testUser);
         when(weeklyTaskSchedulingService
@@ -182,24 +357,26 @@ class WeeklyTaskSchedulerControllerTest {
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0]weeklyTaskName")
                         .value(
-                                weeklyTaskScheduler.getWeeklyTaskName())
+                                testWeeklyTaskScheduler.getWeeklyTaskName())
                 )
                 .andExpect(jsonPath("$[0]templateSelectorString").value(
-                        weeklyTaskScheduler.getWeeklyTaskName() + " (every " + "Monday" + ")"
+                        testWeeklyTaskScheduler.getWeeklyTaskName()
+                                + " (every " + "Monday" + ")"
                         )
                 )
                 .andExpect(jsonPath("$[0]dayOfWeek")
-                        .value(weeklyTaskScheduler.getDayOfWeek().toString())
+                        .value(testWeeklyTaskScheduler.getDayOfWeek().toString())
                 )
                 .andExpect(jsonPath("$[1]weeklyTaskName")
                         .value(
-                                weeklyTaskScheduler2.getWeeklyTaskName())
+                                testWeeklyTaskScheduler2.getWeeklyTaskName())
                 )
                 .andExpect(jsonPath("$[1]templateSelectorString").value(
-                        weeklyTaskScheduler2.getWeeklyTaskName() + " (every " + "Tuesday" + ")"                        )
+                        testWeeklyTaskScheduler2.getWeeklyTaskName()
+                                + " (every " + "Tuesday" + ")"                        )
                 )
                 .andExpect(jsonPath("$[1]dayOfWeek")
-                        .value(weeklyTaskScheduler2.getDayOfWeek().toString())
+                        .value(testWeeklyTaskScheduler2.getDayOfWeek().toString())
                 );
     }
 }
