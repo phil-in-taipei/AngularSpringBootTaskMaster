@@ -7,6 +7,7 @@ import backend.taskMaster.models.tasks.appliedSchedulers.MonthlyTaskAppliedQuart
 import backend.taskMaster.models.tasks.appliedSchedulers.QuarterlySchedulingEnum;
 import backend.taskMaster.models.tasks.taskSchedulers.IntervalTaskGroup;
 import backend.taskMaster.models.tasks.taskSchedulers.IntervalTaskScheduler;
+import backend.taskMaster.models.tasks.taskSchedulers.MonthlyTaskScheduler;
 import backend.taskMaster.models.user.Role;
 import backend.taskMaster.models.user.User;
 import backend.taskMaster.repositories.user.UserRepository;
@@ -14,21 +15,31 @@ import backend.taskMaster.services.auth.JwtService;
 import backend.taskMaster.services.tasks.IntervalTaskGroupService;
 import backend.taskMaster.services.tasks.TaskService;
 import backend.taskMaster.services.user.UserDetailsServiceImplementation;
+import backend.taskMaster.utils.TestUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.scheduling.config.IntervalTask;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @WebMvcTest(IntervalTaskGroupController.class)
 @ContextConfiguration(classes = {TaskMasterApplication.class})
@@ -86,6 +97,7 @@ class IntervalTaskGroupControllerTest {
 
     IntervalTaskGroup testIntervalTaskGroup1 = IntervalTaskGroup.builder()
             .id(1L)
+            .intervalTasks((List<IntervalTaskScheduler>) new ArrayList<IntervalTaskScheduler>())
             .taskGroupName("Test Interval Task Group 1")
             .intervalInDays(3)
             .taskGroupOwner(testUser)
@@ -150,12 +162,38 @@ class IntervalTaskGroupControllerTest {
     }
 
     @Test
-    void createIntervalTaskScheduler() {
+    @WithMockUser(authorities = {"USER", }, username = "TestUser")
+    void createIntervalTaskScheduler() throws Exception {
         when(intervalTaskGroupService.getIntervalTaskGroup(anyLong()))
                 .thenReturn(testIntervalTaskGroup1);
-        //when(intervalTaskGroupService
-        //        .saveIntervalTask(any(IntervalTaskScheduler.class))
-         //       .thenReturn(testIntervalTaskGroup1);
+        testIntervalTaskGroup1.generateTemplateSelectorString();
+        when(intervalTaskGroupService
+                .saveIntervalTaskGroup(any(IntervalTaskGroup.class)))
+                .thenReturn(testIntervalTaskGroup1);
+        mockMvc.perform(post("/api/interval/create-scheduler")
+                .contentType("application/json")
+                .with(csrf())
+                .content(TestUtil.convertObjectToJsonBytes(
+                        intervalTaskSchedulerPostRequest)
+                )
+        )
+        //.andDo(print())
+                .andExpect(header().string("Content-Type", "application/json"))
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("taskGroupName")
+                        .value(
+                                testIntervalTaskGroup1.getTaskGroupName())
+                )
+                .andExpect(jsonPath("templateSelectorString").value(
+                        "Test Interval Task Group 1 (Every 3 days)")
+                )
+                .andExpect(jsonPath("intervalInDays")
+                        .value(testIntervalTaskGroup1.getIntervalInDays())
+                )
+                .andExpect(jsonPath("intervalTasks", hasSize(1)))
+                .andExpect(jsonPath("intervalTasks[0].intervalTaskName")
+                        .value(testIntervalTask1.getIntervalTaskName())
+                );
 
     }
 
