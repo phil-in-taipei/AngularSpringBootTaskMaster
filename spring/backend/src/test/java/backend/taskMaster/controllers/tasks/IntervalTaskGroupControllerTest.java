@@ -37,6 +37,7 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -150,15 +151,110 @@ class IntervalTaskGroupControllerTest {
 
 
     @Test
-    void getUsersIntervalTaskGroupsAppliedQuarterlyByQuarterAndYear() {
+    @WithMockUser(authorities = {"USER", }, username = "TestUser")
+    void getUsersIntervalTaskGroupsAppliedQuarterlyByQuarterAndYear()
+            throws Exception {
+        List<IntervalTaskGroupAppliedQuarterly> usersITAQ = new ArrayList<>();
+        usersITAQ.add(testITGAQ1);
+        usersITAQ.add(testITGAQ2);
+        when(userService.loadUserByUsername(anyString()))
+                .thenReturn(testUser);
+        when(intervalTaskGroupService
+                .getUsersIntervalTaskGroupsAppliedQuarterlyByQuarterAndYear(
+                        eq(QuarterlySchedulingEnum.Q2),
+                        anyInt(), anyString()))
+                .thenReturn(usersITAQ);
+        int thisYear = LocalDate.now().getYear();
+        mockMvc.perform(get("/api/interval/applied-quarterly/"
+                        + quarter + "/" + thisYear)
+                        .contentType("application/json")
+                )
+                //.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(header()
+                        .string("Content-Type", "application/json")
+                )
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0]intervalTaskGroupId")
+                        .value(
+                                testIntervalTaskGroup1.getId())
+                )
+                .andExpect(jsonPath("$[0]quarter").value(
+                        quarter)
+                )
+                .andExpect(jsonPath("$[0]year")
+                        .value(thisYear
+                        ))
+                .andExpect(jsonPath("$[1]intervalTaskGroupId")
+                        .value(
+                                testIntervalTaskGroup2.getId())
+                );
     }
 
     @Test
-    void saveNewQuarterlyIntervalTaskGroup() {
+    @WithMockUser(authorities = {"USER", }, username = "TestUser")
+    void saveNewQuarterlyIntervalTaskGroup() throws Exception {
+        int thisYear = LocalDate.now().getYear();
+        when(intervalTaskGroupService
+                .saveIntervalTaskGroupAppliedQuarterly(
+                        any(IntervalTaskGroupAppliedQuarterly.class))
+        ).thenReturn(testITGAQ1);
+        mockMvc.perform(post("/api/interval/apply-quarterly")
+                        .contentType("application/json")
+                        .with(csrf())
+                        .content(TestUtil.convertObjectToJsonBytes(
+                                recurringTaskAppliedQuarterlyPostRequest)
+                        )
+                )
+                //.andDo(print())
+                .andExpect(status().isCreated())
+                .andExpect(header().string(
+                        "Content-Type", "application/json")
+                )
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("intervalTaskGroupId")
+                        .value(
+                                testITGAQ1.getId())
+                )
+                .andExpect(jsonPath("quarter").value(
+                        quarter)
+                )
+                .andExpect(jsonPath("year")
+                        .value(thisYear)
+                );
     }
 
     @Test
-    void createIntervalTaskGroup() {
+    @WithMockUser(authorities = {"USER", }, username = "TestUser")
+    void createIntervalTaskGroup() throws Exception {
+        int dayOfMonth = 1;
+        when(userService.loadUserByUsername(anyString()))
+                .thenReturn(testUser);
+        when(intervalTaskGroupService
+                .saveIntervalTaskGroup(any(IntervalTaskGroup.class)))
+                .thenReturn(testIntervalTaskGroup1);
+        mockMvc.perform(post("/api/interval/create-group")
+                        .contentType("application/json")
+                        .with(csrf())
+                        .content(TestUtil.convertObjectToJsonBytes(
+                                testIntervalTaskGroupRequest)
+                        )
+                )
+                //.andDo(print())
+                .andExpect(status().isCreated())
+                .andExpect(header().string("Content-Type", "application/json"))
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("taskGroupName")
+                        .value(
+                                testIntervalTaskGroupRequest.getTaskGroupName())
+                )
+                .andExpect(jsonPath("templateSelectorString").value(
+                        "Test Interval Task Group 1 (Every 3 days)")
+                )
+                .andExpect(jsonPath("intervalInDays")
+                        .value(testIntervalTaskGroup1.getIntervalInDays())
+                );
     }
 
     @Test
@@ -194,7 +290,6 @@ class IntervalTaskGroupControllerTest {
                 .andExpect(jsonPath("intervalTasks[0].intervalTaskName")
                         .value(testIntervalTask1.getIntervalTaskName())
                 );
-
     }
 
     @Test
@@ -210,6 +305,45 @@ class IntervalTaskGroupControllerTest {
     }
 
     @Test
-    void getUsersIntervalTaskGroups() {
+    @WithMockUser(authorities = {"USER", }, username = "TestUser")
+    void getUsersIntervalTaskGroups() throws Exception {
+        List<IntervalTaskGroup> usersIntervalTaskGroups = new ArrayList<>();
+        testIntervalTaskGroup1.generateTemplateSelectorString();
+        testIntervalTaskGroup2.generateTemplateSelectorString();
+        usersIntervalTaskGroups.add(testIntervalTaskGroup1);
+        usersIntervalTaskGroups.add(testIntervalTaskGroup2);
+        when(userService.loadUserByUsername(anyString()))
+                .thenReturn(testUser);
+        when(intervalTaskGroupService
+                .getAllUsersIntervalTaskGroups(anyString()))
+                .thenReturn(usersIntervalTaskGroups);
+        mockMvc.perform(get("/api/interval/groups")
+                        .contentType("application/json")
+                )
+                //.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(header().string("Content-Type", "application/json"))
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0]taskGroupName")
+                        .value(
+                                testIntervalTaskGroupRequest.getTaskGroupName())
+                )
+                .andExpect(jsonPath("$[0]templateSelectorString").value(
+                        "Test Interval Task Group 1 (Every 3 days)")
+                )
+                .andExpect(jsonPath("$[0]intervalInDays")
+                        .value(testIntervalTaskGroupRequest.getIntervalInDays())
+                )
+                .andExpect(jsonPath("$[1]taskGroupName")
+                        .value(
+                                testIntervalTaskGroup2.getTaskGroupName())
+                )
+                .andExpect(jsonPath("$[1]templateSelectorString").value(
+                        "Test Interval Task Group 2 (Every 3 days)")
+                )
+                .andExpect(jsonPath("$[1]intervalInDays")
+                        .value(testIntervalTaskGroup2.getIntervalInDays())
+                );
     }
 }
