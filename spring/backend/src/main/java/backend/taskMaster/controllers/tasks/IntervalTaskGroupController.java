@@ -189,7 +189,7 @@ public class IntervalTaskGroupController {
     @RequestMapping(
             value="/delete-scheduler/{intervalTaskId}/{taskGroupId}", method=RequestMethod.DELETE
     )
-    public ResponseEntity<?> deleteIntervalTaskGroup(
+    public ResponseEntity<?> deleteIntervalTaskScheduler(
             @PathVariable(name = "taskGroupId") Long taskGroupId,
             @PathVariable(name = "intervalTaskId") Long intervalTaskId
 
@@ -204,7 +204,10 @@ public class IntervalTaskGroupController {
                             intervalTaskId
                     );
             List<IntervalTaskScheduler> intervalTasks = intervalTaskGroup.getIntervalTasks();
-            intervalTasks.remove(intervalTaskScheduler);
+            // the approach of removing by index, will cause an exception to be thrown
+            // if the id is for a non-existent scheduler so that an error message will be
+            // returned
+            intervalTasks.remove(intervalTasks.indexOf(intervalTaskScheduler));
             intervalTaskGroup.setIntervalTasks(intervalTasks);
             intervalTaskGroupService.deleteIntervalTask(intervalTaskId);
             return new ResponseEntity<>(
@@ -227,7 +230,7 @@ public class IntervalTaskGroupController {
     @RequestMapping(
             value="/delete-group/{taskGroupId}", method=RequestMethod.DELETE
     )
-    public ResponseEntity<?> deleteIntervalTaskGroupScheduler(
+    public ResponseEntity<?> deleteIntervalTaskGroup(
             @PathVariable(name = "taskGroupId") Long taskGroupId
     ) {
         if (intervalTaskGroupService

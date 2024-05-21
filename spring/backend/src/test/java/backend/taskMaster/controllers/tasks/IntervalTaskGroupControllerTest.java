@@ -32,12 +32,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.junit.jupiter.api.Assertions.*;
+import org.springframework.http.HttpMethod;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.request;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -139,6 +140,13 @@ class IntervalTaskGroupControllerTest {
             .year(LocalDate.now().getYear())
             .quarter(quarter)
             .recurringTaskSchedulerId(testIntervalTaskGroup1.getId())
+            .build();
+
+    TaskDeletionResponse
+            testIntervalTaskGroupAppliedQuarterlyDeletionResponse = TaskDeletionResponse
+            .builder()
+            .id(testITGAQ1.getId())
+            .message("Interval task group application successfully deleted!")
             .build();
 
     IntervalTaskGroupAppliedQuarterly testITGAQ2 = IntervalTaskGroupAppliedQuarterly
@@ -293,16 +301,197 @@ class IntervalTaskGroupControllerTest {
     }
 
     @Test
-    void deleteIntervalTaskGroupAppliedQuarterly() {
+    @WithMockUser(authorities = {"USER", }, username = "TestUser")
+    void deleteIntervalTaskGroupAppliedQuarterly() throws Exception {
+        when(intervalTaskGroupService.getIntervalTaskGroupAppliedQuarterly(anyLong()))
+                .thenReturn(testITGAQ1);
+        mockMvc.
+                perform(request(
+                                HttpMethod.DELETE, "/api/interval/delete-applied-quarterly/" +
+                                        testITGAQ1.getId()
+                        )
+                                .with(csrf())
+                )
+                //.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("id")
+                        .value(
+                                testITGAQ1.getId()
+                        ))
+                .andExpect(jsonPath("message")
+                        .value(
+                                testIntervalTaskGroupAppliedQuarterlyDeletionResponse.getMessage()
+                        )
+                );
     }
 
     @Test
-    void deleteIntervalTaskGroup() {
+    @WithMockUser(authorities = {"USER", }, username = "TestUser")
+    public void deleteIntervalTaskGroupAppliedQuarterlyFailure() throws Exception {
+        long nonExistentID = 12920L;
+        mockMvc.
+                perform(request(
+                                HttpMethod.DELETE,
+                        "/api/interval/delete-applied-quarterly/" +
+                                        nonExistentID
+                        )
+                                .with(csrf())
+                )
+                //.andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("message")
+                        .value(
+                                "Deletion Failed. Item not found"
+                        )
+                );
+    }
+    @Test
+    @WithMockUser(authorities = {"USER", }, username = "TestUser")
+    void deleteIntervalTaskGroup() throws Exception {
+        when(intervalTaskGroupService.getIntervalTaskGroup(anyLong()))
+                .thenReturn(testIntervalTaskGroup1);
+        mockMvc.
+                perform(request(
+                                HttpMethod.DELETE, "/api/interval/delete-group/" +
+                                testIntervalTaskGroup1.getId()
+                        )
+                                .with(csrf())
+                )
+                //.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("id")
+                        .value(
+                                intervalTaskGroupDeletionResponse.getId()
+                        ))
+                .andExpect(jsonPath("message")
+                        .value(
+                                intervalTaskGroupDeletionResponse.getMessage()
+                        )
+                );
     }
 
     @Test
-    void deleteIntervalTaskGroupScheduler() {
+    @WithMockUser(authorities = {"USER", }, username = "TestUser")
+    public void deleteIntervalTaskGroupFailure() throws Exception {
+        long nonExistentID = 12920L;
+        mockMvc.
+                perform(request(
+                                HttpMethod.DELETE, "/api/interval/delete-group/" +
+                                        nonExistentID
+                        )
+                                .with(csrf())
+                )
+                //.andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("message")
+                        .value(
+                                "Deletion Failed. Item not found"
+                        )
+                );
     }
+
+    @Test
+    @WithMockUser(authorities = {"USER", }, username = "TestUser")
+    void deleteIntervalTaskScheduler() throws Exception {
+        List<IntervalTaskScheduler> intervalTasks = testIntervalTaskGroup1.getIntervalTasks();
+        intervalTasks.add(testIntervalTask1);
+        intervalTasks.add(testIntervalTask2);
+        testIntervalTaskGroup1.setIntervalTasks(intervalTasks);
+        testIntervalTaskGroup1.generateTemplateSelectorString();
+        when(intervalTaskGroupService.getIntervalTaskGroup(anyLong()))
+                .thenReturn(testIntervalTaskGroup1);
+        when(intervalTaskGroupService.getIntervalTask(anyLong()))
+                .thenReturn(testIntervalTask2);
+        when(intervalTaskGroupService
+                .saveIntervalTaskGroup(any(IntervalTaskGroup.class)))
+                .thenReturn(testIntervalTaskGroup1);
+        mockMvc.
+                perform(request(
+                                HttpMethod.DELETE,
+                        "/api/interval/delete-scheduler/" +
+                                testIntervalTask2.getId() + "/" +
+                                testIntervalTaskGroup1.getId()
+                        )
+                                .with(csrf())
+                )
+                //.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(header().string("Content-Type", "application/json"))
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("id")
+                        .value(
+                                testIntervalTaskGroup1.getId()
+                        ))
+                .andExpect(jsonPath("taskGroupName")
+                        .value(
+                                testIntervalTaskGroup1.getTaskGroupName())
+                )
+                .andExpect(jsonPath("templateSelectorString").value(
+                        "Test Interval Task Group 1 (Every 3 days)")
+                )
+                .andExpect(jsonPath("intervalInDays")
+                        .value(testIntervalTaskGroup1.getIntervalInDays())
+                )
+                .andExpect(jsonPath("intervalTasks", hasSize(1)))
+                .andExpect(jsonPath("intervalTasks[0].intervalTaskName")
+                        .value(testIntervalTask1.getIntervalTaskName())
+                );
+
+    }
+
+    @Test
+    @WithMockUser(authorities = {"USER", }, username = "TestUser")
+    void deleteIntervalTaskSchedulerFailureSchedulerNonExistent()
+        throws Exception {
+        long nonExistentID = 12920L;
+        when(intervalTaskGroupService.getIntervalTaskGroup(anyLong()))
+                .thenReturn(testIntervalTaskGroup1);
+        mockMvc.
+                perform(request(
+                                HttpMethod.DELETE,
+                        "/api/interval/delete-scheduler/" +
+                                nonExistentID + "/" +
+                                testIntervalTaskGroup1.getId()
+                        )
+                                .with(csrf())
+                )
+                //.andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(
+                        jsonPath("message")
+                        .value(
+                                "There was an error. Please try again"
+                        )
+                );
+    }
+
+    @Test
+    @WithMockUser(authorities = {"USER", }, username = "TestUser")
+    void deleteIntervalTaskSchedulerFailureGroupNonExistent()
+            throws Exception {
+        long nonExistentID = 12920L;
+        when(intervalTaskGroupService.getIntervalTask(anyLong()))
+                .thenReturn(testIntervalTask2);
+        mockMvc.
+                perform(request(
+                                HttpMethod.DELETE,
+                                "/api/interval/delete-scheduler/" +
+                                        testIntervalTask2.getId() + "/"
+                                        + nonExistentID
+
+                        )
+                                .with(csrf())
+                )
+                //.andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(
+                        jsonPath("message")
+                                .value(
+                                        "The interval task group or task does not exist. Please try again"
+                                )
+                );
+    }
+
 
     @Test
     @WithMockUser(authorities = {"USER", }, username = "TestUser")
