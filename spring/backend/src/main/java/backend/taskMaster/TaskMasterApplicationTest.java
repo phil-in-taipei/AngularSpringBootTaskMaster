@@ -2,9 +2,12 @@ package backend.taskMaster;
 
 import backend.taskMaster.models.user.Role;
 import backend.taskMaster.models.user.User;
+import backend.taskMaster.repositories.tasks.appliedSchedulers.IntervalTaskGroupAppliedQuarterlyRepo;
 import backend.taskMaster.repositories.tasks.appliedSchedulers.MonthlyTaskAppliedQuarterlyRepo;
 import backend.taskMaster.repositories.tasks.appliedSchedulers.WeeklyTaskAppliedQuarterlyRepo;
 import backend.taskMaster.repositories.tasks.task.SingleTaskRepo;
+import backend.taskMaster.repositories.tasks.taskSchedulers.IntervalTaskGroupRepo;
+import backend.taskMaster.repositories.tasks.taskSchedulers.IntervalTaskSchedulerRepo;
 import backend.taskMaster.repositories.tasks.taskSchedulers.MonthlyTaskSchedulerRepo;
 import backend.taskMaster.repositories.tasks.taskSchedulers.WeeklyTaskSchedulerRepo;
 import backend.taskMaster.repositories.user.UserRepository;
@@ -22,6 +25,15 @@ public class TaskMasterApplicationTest implements CommandLineRunner {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    @Autowired
+    IntervalTaskGroupRepo intervalTaskGroupRepo;
+
+    @Autowired
+    IntervalTaskGroupAppliedQuarterlyRepo intervalTaskGroupAppliedQuarterlyRepo;
+
+    @Autowired
+    IntervalTaskSchedulerRepo intervalTaskSchedulerRepo;
 
     @Autowired
     private UserRepository userRepository;
@@ -59,6 +71,9 @@ public class TaskMasterApplicationTest implements CommandLineRunner {
         userRepository.deleteByUsername("Test User");
         userRepository.deleteByUsername("Test Admin");
         singleTaskRepo.deleteAll();
+        intervalTaskGroupAppliedQuarterlyRepo.deleteAll();
+        intervalTaskSchedulerRepo.deleteAll();
+        intervalTaskGroupRepo.deleteAll();
         monthlyTaskSchedulerRepo.deleteAll();
         monthlyTaskAppliedQuarterlyRepo.deleteAll();
         weeklyTaskSchedulerRepo.deleteAll();

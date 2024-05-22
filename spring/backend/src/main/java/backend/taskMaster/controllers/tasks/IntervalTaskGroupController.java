@@ -143,8 +143,11 @@ public class IntervalTaskGroupController {
             List<IntervalTaskScheduler> intervalTasks = intervalTaskGroup.getIntervalTasks();
             intervalTasks.add(new IntervalTaskScheduler(request.getIntervalTaskName()));
             intervalTaskGroup.setIntervalTasks(intervalTasks);
+            IntervalTaskGroup updatedIntervalTaskGroup = intervalTaskGroupService
+                    .saveIntervalTaskGroup(intervalTaskGroup);
+            updatedIntervalTaskGroup.generateTemplateSelectorString();
             return new ResponseEntity<>(
-                    intervalTaskGroupService.saveIntervalTaskGroup(intervalTaskGroup),
+                    updatedIntervalTaskGroup,
                     HttpStatus.CREATED
             );
         } catch (NullPointerException e) {
