@@ -16,7 +16,7 @@ import {
   templateUrl: './select-monthly-tasks.component.html',
   styleUrl: './select-monthly-tasks.component.css'
 })
-export class SelectMonthlyTasksComponent {
+export class SelectMonthlyTasksComponent implements OnInit {
 
 
   monthsAndIntegers: [string, number][] = monthsAndIntegers;

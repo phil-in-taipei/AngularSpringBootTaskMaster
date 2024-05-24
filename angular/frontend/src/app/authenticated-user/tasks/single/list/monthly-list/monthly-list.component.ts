@@ -5,7 +5,7 @@ import {select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/reducers';
 import { 
   selectAllSingleTasks, selectMonthlyDateRange,
-  selectSingleTasksByMonthLoaded
+  selectSingleTasksByMonthLoaded, selectFetchingTasksInProgress
 } from '../../state/single-task.selectors';
 import { SingleTaskModel } from 'src/app/models/single-task.model';
 
@@ -32,7 +32,7 @@ export class MonthlyListComponent {
       select(selectMonthlyDateRange)
     );
     this.tasksLoaded$ = this.store.pipe(
-      select(selectSingleTasksByMonthLoaded)
+      select(selectFetchingTasksInProgress)
     );
   }
 

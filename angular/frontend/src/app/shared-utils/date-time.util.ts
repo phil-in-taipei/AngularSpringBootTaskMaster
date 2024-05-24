@@ -73,7 +73,7 @@ export function getSecondDateofMonthStr(month: number, year: number):string {
 
 export function getYearsOptions(): number[] {
   let nextYear = new Date().getFullYear() + 2;
-  const firstYear = 2021;
+  const firstYear = 2024;
   let years = []
   for (let i = firstYear; i < nextYear; i++) {
     console.log(i)

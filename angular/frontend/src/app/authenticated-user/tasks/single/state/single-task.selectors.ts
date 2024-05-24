@@ -22,6 +22,11 @@ export const selectSingleTasksById = (id:number) => createSelector(
         return singleTasksState.filter(singleTask => singleTask.date == date);
     }
   );
+
+export const selectFetchingTasksInProgress = createSelector(
+    selectSingleTasksState,
+    singleTasksState => singleTasksState.fetchingTasksInProgress
+);
               
 export const selectLandingPageTasksLoaded = createSelector(
     selectSingleTasksState,

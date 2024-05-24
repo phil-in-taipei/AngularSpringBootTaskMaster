@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, map } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 
 import { AppState } from 'src/app/reducers';
@@ -9,7 +9,9 @@ import {
   DailyTasksRequested, SingleTaskConfirmationRequested
 } from '../../state/single-task.actions';
 import { getDateString } from 'src/app/shared-utils/date-time.util';
-import { selectSingleTasksByDate } from '../../state/single-task.selectors';
+import { 
+  selectSingleTasksByDate, selectFetchingTasksInProgress 
+} from '../../state/single-task.selectors';
 
 @Component({
   selector: 'app-daily-list',
@@ -21,6 +23,7 @@ export class DailyListComponent implements OnInit{
 
   dateFromRouteData: string;
   dailyTasks$: Observable<SingleTaskModel[] | undefined>;
+  tasksLoaded$: Observable<boolean> = of(false);
   tmrwRouterStr: string;
   ystrdyRouterStr: string;
 
@@ -35,6 +38,9 @@ export class DailyListComponent implements OnInit{
     this.dateFromRouteData = this.route.snapshot.params['date'];
     this.tmrwRouterStr = this.getTmrwRouterStr(this.dateFromRouteData);
     this.ystrdyRouterStr = this.getYstrdyRouterStr(this.dateFromRouteData);
+    this.tasksLoaded$ = this.store.pipe(
+      select(selectFetchingTasksInProgress)
+    );
 
     this.dailyTasks$ = this.store.pipe(
       select(selectSingleTasksByDate(this.dateFromRouteData)))

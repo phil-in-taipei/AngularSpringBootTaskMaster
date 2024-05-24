@@ -34,6 +34,20 @@
       </div>
     </div>
 </div>
+
+<ng-container *ngIf="{value: tasksLoaded$ | async} as context">
+  <div *ngIf="context.value">
+    {{ context.value }}
+    <div class="text-center">
+      <div class="spinner-border text-secondary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <br />
+    </div>
+    <br />
+  </div>
+</ng-container>
+
 <div *ngIf="dailyTasks$ | async as todaysTasks" class="container">
     <hr class="thick-br"/>
     <h3>Today's Classes</h3>

@@ -23,6 +23,7 @@ function compareSingleTasksByDate(
 
 export interface SingleTasksState extends EntityState<SingleTaskModel> {
     dateRange: [string, string] | undefined;
+    fetchingTasksInProgress: boolean;
     errorMessage: string | undefined,
     monthlySingleTasksLoaded: boolean,
     landingPageSingleTasksLoaded: boolean,
@@ -37,6 +38,7 @@ export const adapter: EntityAdapter<SingleTaskModel> =
 export const initialSingleTasksState: SingleTasksState = adapter.getInitialState({
     dateRange: undefined,
     errorMessage: undefined,
+    fetchingTasksInProgress: false,
     monthlySingleTasksLoaded: false,
     landingPageSingleTasksLoaded: false,
     successMessage: undefined
@@ -48,10 +50,18 @@ export function singleTasksReducer(
 
     switch(action.type) {
 
+        case SingleTaskActionTypes.DailyTasksRequested:
+            return {
+                ...state, 
+                fetchingTasksInProgress: true
+            }
+
+
         case SingleTaskActionTypes.DailyTasksLoaded:
             return adapter.upsertMany(action.payload.singleTasks, {...state,
                 errorMessage: undefined,
-                landingPageSingleTasksLoaded: true
+                landingPageSingleTasksLoaded: true,
+                fetchingTasksInProgress: false
             });
 
         case SingleTaskActionTypes.DailyTasksRequestCancelled:
@@ -87,7 +97,8 @@ export function singleTasksReducer(
             let lastDate = getLastDateOfMonthStr(month, year);
             return {
                 ...state,  dateRange: [firstDate, lastDate],
-                monthlySingleTasksLoaded:false 
+                fetchingTasksInProgress: true
+
             }
 
         case SingleTaskActionTypes.MonthlyTasksRequestCancelled:
@@ -97,13 +108,15 @@ export function singleTasksReducer(
             }
             return {
                 ...state,  successMessage: undefined,
-                errorMessage: monthlyPageErrorMessage
+                errorMessage: monthlyPageErrorMessage,
+                fetchingTasksInProgress: false
             }
 
         case SingleTaskActionTypes.MonthlyTasksLoaded:
             return adapter.upsertMany(action.payload.monthlyTasks, {...state,
                 errorMessage: undefined,
-                monthlySingleTasksLoadedTasksLoaded: true
+                monthlySingleTasksLoaded: true,
+                fetchingTasksInProgress: false
             });
 
         case SingleTaskActionTypes.SingleTaskConfirmationCancelled:

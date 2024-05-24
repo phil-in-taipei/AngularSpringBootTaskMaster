@@ -86,6 +86,7 @@ export const statePriorToNewSingleTaskSubmitted = {
       entities: marchEntitiesPriorToSubmission,
       dateRange: undefined,
       errorMessage: undefined,
+      fetchingTasksInProgress: false,
       landingPageSingleTasksLoaded: true,
       monthlySingleTasksLoaded: true,
       successMessage: undefined
@@ -98,6 +99,7 @@ export const stateAfterNewSingleTaskSubmitted = {
       entities: marchEntities,
       dateRange: undefined,
       errorMessage: undefined,
+      fetchingTasksInProgress: false,
       landingPageSingleTasksLoaded: true,
       monthlySingleTasksLoaded: true,
       successMessage: newSingleTaskSuccessMessage
@@ -110,6 +112,7 @@ export const stateAfterNewSingleTaskSubmissionFailure = {
       entities: marchEntitiesPriorToSubmission,
       dateRange: undefined,
       errorMessage: newSingleTaskFailureMessage,
+      fetchingTasksInProgress: false,
       landingPageSingleTasksLoaded: true,
       monthlySingleTasksLoaded: true,
       successMessage: undefined
