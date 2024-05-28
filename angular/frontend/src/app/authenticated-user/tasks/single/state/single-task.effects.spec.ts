@@ -43,8 +43,8 @@ fdescribe('SingleTaskEffects', () => {
             //    return of(revisedIncomeSource);
             //},
             submitSingleTask(
-                submissionForm:SingleTaskCreateModel): 
-                        Observable<SingleTaskModel[]> {
+                submissionForm: SingleTaskCreateModel
+            ): Observable<SingleTaskModel[]> {
                 return of(singleTaskMarch25thData);
             },
         };
@@ -92,10 +92,11 @@ fdescribe('SingleTaskEffects', () => {
             const expectedActions: Action[] = [new SingleTaskCreatedWithDailyBatchAdded(
                 { dailyTasks: singleTaskMarch25thData }
             )];
-            
-            effects.submitSingleTask$.pipe(toArray()).subscribe((actualActions2) => {
-                actualActions = actualActions2;
-                }, fail);
+
+            effects.submitSingleTask$.pipe(toArray()).subscribe({
+                next: (actualActions2) => actualActions = actualActions2,
+                error: fail,
+            });
             
             expect(actualActions).toEqual(expectedActions);
             flush();
@@ -111,10 +112,11 @@ fdescribe('SingleTaskEffects', () => {
                     new MonthlyTasksLoaded(
                     { monthlyTasks: singleTaskMarchData })];
 
-                effects.fetchMonthlyTasks$.pipe(toArray()).subscribe((actualActions2) => {
-                    actualActions = actualActions2;
-                }, fail);
-
+                effects.fetchMonthlyTasks$.pipe(toArray()).subscribe({
+                    next: (actualActions2) => actualActions = actualActions2,
+                    error: fail,
+                });
+     
                 expect(actualActions).toEqual(expectedActions);
                 flush();
     }));
