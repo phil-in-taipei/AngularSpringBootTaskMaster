@@ -7,13 +7,16 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { initialSingleTasksState } from './single-task.reducers';
 import { 
-    singleTaskCreateRequest, singleTaskMarchData, singleTaskMarch25thData
+    singleTaskCreateRequest, singleTaskDeletionResponse, 
+    singleTaskMarchData, singleTaskMarch25thData
 } from 'src/app/test-data/authenticated-user-module-tests/single-task-tests/single-task-data';
 import { 
     MonthlyTasksLoaded,
     MonthlyTasksRequested,
     SingleTaskCreateSubmitted, 
-    SingleTaskCreatedWithDailyBatchAdded 
+    SingleTaskCreatedWithDailyBatchAdded,
+    SingleTaskDeletionRequested,
+    SingleTaskDeletionSaved
 } from './single-task.actions';
 import { 
     selectSingleTasksByMonthLoaded, 
@@ -21,6 +24,7 @@ import {
 import { SingleTaskEffects } from './single-task.effects';
 import { SingleTaskService } from '../service/single-task.service';
 import { SingleTaskCreateModel, SingleTaskModel } from 'src/app/models/single-task.model';
+import { DeletionResponse } from 'src/app/models/deletion-response';
 
 fdescribe('SingleTaskEffects', () => {
     let effects: SingleTaskEffects;
@@ -33,10 +37,10 @@ fdescribe('SingleTaskEffects', () => {
             ): Observable<SingleTaskModel[]> {
                 return of(singleTaskMarchData);
             },
-           //deleteIncomeSource(id: number): 
-            //    Observable<IncomeSourceDeletionResponse> {
-            //        return of(incomeSourceDeletionResponse)
-            //},
+           deleteSingleTask(id: number): 
+                Observable<DeletionResponse> {
+                   return of(singleTaskDeletionResponse)
+            },
             //submitEditedIncomeSource(id: number, 
             //        submissionForm:IncomeSourceCreateAndEditModel): 
             //            Observable<IncomeSourceModel> {
@@ -61,15 +65,23 @@ fdescribe('SingleTaskEffects', () => {
                       ]
                 }),
                 provideMockActions(from([
-                   // new IncomeSourceDeletionRequested(
-                   //     {id: incomeSourceDeletionResponse.id}
-                   // ),
-                    new MonthlyTasksRequested({month: 3, year:2024}),
+                    new MonthlyTasksRequested(
+                        {month: 3, year:2024}
+                    ),
                     new SingleTaskCreateSubmitted(
                         { singleTask: singleTaskCreateRequest}
                     ),
                     new SingleTaskCreatedWithDailyBatchAdded(
                         { dailyTasks: singleTaskMarch25thData }
+                    ),
+                    new SingleTaskDeletionRequested(
+                        { id: singleTaskDeletionResponse.id }
+                    ),
+                    new SingleTaskDeletionSaved(
+                        {
+                            id: singleTaskDeletionResponse.id, 
+                            message: singleTaskDeletionResponse.message
+                        }
                     )
                 ])),
                 SingleTaskEffects,
@@ -82,7 +94,7 @@ fdescribe('SingleTaskEffects', () => {
 
     });
 
-    it('SingleTask should submit new single task data to backend' 
+    it('SingleTaskCreateSubmitted should submit new single task data to backend' 
         + ' and save the returned newly created object along with other' 
         + ' tasks scheduled on given date in state', 
         fakeAsync(() => {
@@ -102,23 +114,48 @@ fdescribe('SingleTaskEffects', () => {
             flush();
     }));
 
+
+    it('SingleTaskDeletionRequested should handle the deletion response with message/id '
+    + ' by calling the save method to remove the single task from state',
+        fakeAsync(() => {
+        spyOn(singleTaskService, 'deleteSingleTask')
+            .and.returnValue(of(singleTaskDeletionResponse));
+        let actualActions: Action[] | undefined;
+        const expectedActions: Action[] = [
+                new SingleTaskDeletionSaved(
+                    singleTaskDeletionResponse
+                )
+            ];
+
+        effects.deleteSingleTask$.pipe(toArray()).subscribe({
+            next: (actualActions2) => actualActions = actualActions2,
+            error: fail,
+        });
+
+        expect(actualActions).toEqual(expectedActions);
+        flush();
+    }));
+
+
     it('MonthlyTasksRequested should call fetch the single tasks'
     + ' for the current month and load them into state',
         fakeAsync(() => {
-                spyOn(singleTaskService, 'fetchSingleTasksByMonth')
-                    .and.returnValue(of(singleTaskMarchData));
-                let actualActions: Action[] | undefined;
-                const expectedActions: Action[] = [
-                    new MonthlyTasksLoaded(
-                    { monthlyTasks: singleTaskMarchData })];
+            spyOn(singleTaskService, 'fetchSingleTasksByMonth')
+                .and.returnValue(of(singleTaskMarchData));
+            let actualActions: Action[] | undefined;
+            const expectedActions: Action[] = [
+                new MonthlyTasksLoaded(
+                    { monthlyTasks: singleTaskMarchData }
+                )
+            ];
 
-                effects.fetchMonthlyTasks$.pipe(toArray()).subscribe({
-                    next: (actualActions2) => actualActions = actualActions2,
-                    error: fail,
-                });
+            effects.fetchMonthlyTasks$.pipe(toArray()).subscribe({
+                next: (actualActions2) => actualActions = actualActions2,
+                error: fail,
+            });
      
-                expect(actualActions).toEqual(expectedActions);
-                flush();
+            expect(actualActions).toEqual(expectedActions);
+            flush();
     }));
 
 
