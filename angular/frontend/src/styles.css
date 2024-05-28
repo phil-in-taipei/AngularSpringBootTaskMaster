@@ -8,3 +8,8 @@
 .content {
     padding-top: 70px;
 }
+
+.fixed-bottom {
+  bottom: 0;
+  width: 100%;
+}

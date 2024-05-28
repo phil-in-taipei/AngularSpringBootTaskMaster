@@ -1,18 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { IntervalTaskGroupQuarterlyListComponent } from './interval-task-group-quarterly-list.component';
+import { 
+  IntervalTaskGroupAppliedQuarterlyListComponent 
+} from './interval-task-group-quarterly-list.component';
 
 describe('IntervalTaskGroupQuarterlyListComponent', () => {
-  let component: IntervalTaskGroupQuarterlyListComponent;
-  let fixture: ComponentFixture<IntervalTaskGroupQuarterlyListComponent>;
+  let component: IntervalTaskGroupAppliedQuarterlyListComponent;
+  let fixture: ComponentFixture<IntervalTaskGroupAppliedQuarterlyListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [IntervalTaskGroupQuarterlyListComponent]
+      imports: [IntervalTaskGroupAppliedQuarterlyListComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(IntervalTaskGroupQuarterlyListComponent);
+    fixture = TestBed.createComponent(IntervalTaskGroupAppliedQuarterlyListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

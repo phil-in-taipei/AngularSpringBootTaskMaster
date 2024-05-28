@@ -12,18 +12,25 @@ export const monthlyTaskCreateRequest: MonthlyTaskCreateModel = {
 export const testMonthlyTask1: MonthlyTaskModel = {
     id: 1,
     monthlyTaskName: "Water the plants",
+    templateSelectorString:  "Water the plants: 15th day of month ",
     dayOfMonth: 15,
   };
   
 export const testMonthlyTask2: MonthlyTaskModel = {
     id: 2,
     monthlyTaskName: "Take out the trash",
+    templateSelectorString:  "Take out the trash: 18th day of month ",
     dayOfMonth: 18,
   };
 
 export const testMonthlyTask3: MonthlyTaskModel = {
     id: 3,
     monthlyTaskName: monthlyTaskCreateRequest.monthlyTaskName,
+    templateSelectorString: `${
+      monthlyTaskCreateRequest.monthlyTaskName
+    }: ${
+      monthlyTaskCreateRequest.dayOfMonth
+    }th day of month`,
     dayOfMonth: monthlyTaskCreateRequest.dayOfMonth,
   };
   

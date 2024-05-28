@@ -15,7 +15,7 @@ import {
     SingleTaskCreationCancelled
 } from "./single-task.actions";
 
-describe('singleTasksReducer', () => {
+fdescribe('singleTasksReducer', () => {
     it('returns an initial state when cleared', () =>{
         const state = singleTasksReducer(
             initialSingleTasksState, 

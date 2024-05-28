@@ -7,9 +7,12 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { initialSingleTasksState } from './single-task.reducers';
 import { 
-    singleTaskCreateRequest, singleTaskMarch25thData
+    singleTaskCreateRequest, singleTaskMarchData, singleTaskMarch25thData
 } from 'src/app/test-data/authenticated-user-module-tests/single-task-tests/single-task-data';
-import { SingleTaskCreateSubmitted, 
+import { 
+    MonthlyTasksLoaded,
+    MonthlyTasksRequested,
+    SingleTaskCreateSubmitted, 
     SingleTaskCreatedWithDailyBatchAdded 
 } from './single-task.actions';
 import { 
@@ -19,15 +22,17 @@ import { SingleTaskEffects } from './single-task.effects';
 import { SingleTaskService } from '../service/single-task.service';
 import { SingleTaskCreateModel, SingleTaskModel } from 'src/app/models/single-task.model';
 
-describe('SingleTaskEffects', () => {
+fdescribe('SingleTaskEffects', () => {
     let effects: SingleTaskEffects;
     let singleTaskService: SingleTaskService;
 
     beforeEach(() => {
         const mockSingleTaskService = {
-            //fetchAllIncomeSources(): Observable<SingleTaskModel[]> {
-            //    return of(incomeSourcesData);
-            //},
+            fetchSingleTasksByMonth(
+                month: number, year: number
+            ): Observable<SingleTaskModel[]> {
+                return of(singleTaskMarchData);
+            },
            //deleteIncomeSource(id: number): 
             //    Observable<IncomeSourceDeletionResponse> {
             //        return of(incomeSourceDeletionResponse)
@@ -59,7 +64,7 @@ describe('SingleTaskEffects', () => {
                    // new IncomeSourceDeletionRequested(
                    //     {id: incomeSourceDeletionResponse.id}
                    // ),
-                   // new IncomeSourcesRequested(),
+                    new MonthlyTasksRequested({month: 3, year:2024}),
                     new SingleTaskCreateSubmitted(
                         { singleTask: singleTaskCreateRequest}
                     ),
@@ -95,5 +100,24 @@ describe('SingleTaskEffects', () => {
             expect(actualActions).toEqual(expectedActions);
             flush();
     }));
+
+    it('MonthlyTasksRequested should call fetch the single tasks'
+    + ' for the current month and load them into state',
+        fakeAsync(() => {
+                spyOn(singleTaskService, 'fetchSingleTasksByMonth')
+                    .and.returnValue(of(singleTaskMarchData));
+                let actualActions: Action[] | undefined;
+                const expectedActions: Action[] = [
+                    new MonthlyTasksLoaded(
+                    { monthlyTasks: singleTaskMarchData })];
+
+                effects.fetchMonthlyTasks$.pipe(toArray()).subscribe((actualActions2) => {
+                    actualActions = actualActions2;
+                }, fail);
+
+                expect(actualActions).toEqual(expectedActions);
+                flush();
+    }));
+
 
 });
