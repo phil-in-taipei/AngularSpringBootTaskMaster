@@ -34,7 +34,7 @@ import {
 import { 
   MonthlyTaskTemplateStringComponent 
 } from './monthly-task-template-string/monthly-task-template-string.component';
-import { MonthlyTasksEffects } from './state/monthly-schedulers/monthly-tasks.effects.spec';
+import { MonthlyTasksEffects } from './state/monthly-schedulers/monthly-task.effects';
 import { monthlyTasksReducer } from './state/monthly-schedulers/monthly-task.reducers';
 import { 
   SelectMonthlyQuarterComponent 
