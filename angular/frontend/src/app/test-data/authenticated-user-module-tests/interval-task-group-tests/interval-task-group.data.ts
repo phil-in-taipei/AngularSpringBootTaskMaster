@@ -65,3 +65,8 @@ export const intervalTaskGroupDataAfterGroupAdded: IntervalTaskGroupModel[] = [
     testIntervalTaskGroup1, testIntervalTaskGroup2, testIntervalTaskGroup3
 ]
 
+export const intervalTaskGroupDeletionResponse: DeletionResponse = {
+    id: testIntervalTaskGroup3.id,
+    message: "Interval task group successfully deleted!"
+  }
+
