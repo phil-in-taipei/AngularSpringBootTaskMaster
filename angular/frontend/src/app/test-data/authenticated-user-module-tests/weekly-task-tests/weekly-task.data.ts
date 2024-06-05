@@ -1,5 +1,7 @@
+import { ApplyBatchSchedulerModel } from "src/app/models/apply-batch-schedulers-request.model";
 import { DeletionResponse } from "src/app/models/deletion-response";
 import { 
+  WeeklyTaskAppliedQuarterlyModel,
     WeeklyTaskCreateModel, WeeklyTaskModel 
 } from "src/app/models/weekly-task.model";
 
@@ -49,3 +51,43 @@ export const weeklyTaskDeletionResponse: DeletionResponse = {
     id: testWeeklyTask3.id,
     message: "Weekly task scheduler successfully deleted!",
   };
+
+  export const testWTAQ1: WeeklyTaskAppliedQuarterlyModel = {
+  id: 1,
+  quarter: "Q2",
+  year: 2024,
+  weeklyTaskSchedulerId: testWeeklyTask1.id
+}
+
+export const testWTAQ2: WeeklyTaskAppliedQuarterlyModel = {
+  id: 2,
+  quarter: "Q2",
+  year: 2024,
+  weeklyTaskSchedulerId: testWeeklyTask2.id
+}
+
+export const testWTAQ3: WeeklyTaskAppliedQuarterlyModel = {
+  id: 3,
+  quarter: "Q2",
+  year: 2024,
+  weeklyTaskSchedulerId: testWeeklyTask3.id
+}
+
+export const testWTAQPostRequest: ApplyBatchSchedulerModel = {
+  recurringTaskSchedulerId: testWeeklyTask3.id,
+  quarter: "Q2",
+  year: 2024
+}
+
+export const wTAQQuarter2Data: WeeklyTaskAppliedQuarterlyModel[] = [
+  testWTAQ1, testWTAQ2
+]
+
+export const wTAQQuarter2DataAfterPost: WeeklyTaskAppliedQuarterlyModel[] = [
+  testWTAQ1, testWTAQ2, testWTAQ3
+]
+
+export const wTAQDeletionResponse: DeletionResponse = {
+  id: testWTAQ3.id,
+  message: "Weekly scheduler application successfully deleted!"
+}
