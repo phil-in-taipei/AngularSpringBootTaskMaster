@@ -111,7 +111,6 @@ fdescribe('WeeklyTaskService', () => {
     request.flush(wTAQDeletionResponse);
   }));
 
-
   it("should return the array of users' weekly task schedulers from the api",
     fakeAsync(() => {
       authServiceSpy.getAuthToken.and.returnValue(authData.token);
