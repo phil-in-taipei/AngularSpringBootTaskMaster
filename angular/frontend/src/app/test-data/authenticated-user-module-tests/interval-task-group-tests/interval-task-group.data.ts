@@ -1,5 +1,9 @@
 import { DeletionResponse } from "src/app/models/deletion-response";
 import { 
+    ApplyBatchSchedulerModel 
+} from "src/app/models/apply-batch-schedulers-request.model";
+import { 
+    IntervalTaskGroupAppliedQuarterlyModel,
     IntervalTaskModel, 
     IntervalTaskCreateModel, 
     IntervalTaskGroupCreateModel,
@@ -70,3 +74,42 @@ export const intervalTaskGroupDeletionResponse: DeletionResponse = {
     message: "Interval task group successfully deleted!"
   }
 
+export const testITGAQ1: IntervalTaskGroupAppliedQuarterlyModel = {
+    id: 1,
+    quarter: "Q2",
+    year: 2024,
+    intervalTaskGroupId: testIntervalTask1.id
+  }
+  
+export const testITGAQ2: IntervalTaskGroupAppliedQuarterlyModel = {
+    id: 2,
+    quarter: "Q2",
+    year: 2024,
+    intervalTaskGroupId: testIntervalTaskGroup2.id
+  }
+  
+export const testITGAQ3: IntervalTaskGroupAppliedQuarterlyModel = {
+    id: 3,
+    quarter: "Q2",
+    year: 2024,
+    intervalTaskGroupId: testIntervalTaskGroup3.id
+  }
+  
+export const testITGAQPostRequest: ApplyBatchSchedulerModel = {
+    recurringTaskSchedulerId: testIntervalTaskGroup3.id,
+    quarter: "Q2",
+    year: 2024
+  }
+  
+export const iTGAQQuarter2Data: IntervalTaskGroupAppliedQuarterlyModel[] = [
+    testITGAQ1, testITGAQ2
+  ]
+  
+export const iTGAQQuarter2DataAfterPost: IntervalTaskGroupAppliedQuarterlyModel[] = [
+    testITGAQ1, testITGAQ2, testITGAQ3
+  ]
+  
+export const iTGAQDeletionResponse: DeletionResponse = {
+    id: testITGAQ3.id,
+    message: "Interval task application successfully deleted!"
+  }

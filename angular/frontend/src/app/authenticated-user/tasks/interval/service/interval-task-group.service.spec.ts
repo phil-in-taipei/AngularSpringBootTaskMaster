@@ -14,11 +14,14 @@ import { IntervalTaskGroupService } from './interval-task-group.service';
 import { 
   intervalTaskCreateRequest, 
   intervalTaskGroupCreateRequest,
-  testIntervalTask1,
   testIntervalTaskGroup1,
   intervalTaskGroupDataAfterGroupAdded,
   intervalTaskGroupDeletionResponse,
-  testIntervalTaskGroup1WithTask
+  testIntervalTaskGroup1WithTask,
+  iTGAQQuarter2DataAfterPost,
+  iTGAQDeletionResponse,
+  testITGAQPostRequest,
+  iTGAQQuarter2Data
 } from 'src/app/test-data/authenticated-user-module-tests/interval-task-group-tests/interval-task-group.data';
 
 fdescribe('IntervalTaskGroupService', () => {
@@ -60,7 +63,23 @@ fdescribe('IntervalTaskGroupService', () => {
 
   }));
 
-
+  it('should return a new interval task group applied quarterly object from backend after submitting '
+    + 'data to apply an interval task group to a given year/quarter',
+    fakeAsync(() => {
+      authServiceSpy.getAuthToken.and.returnValue(authData.token);
+  
+      service.applyIntervalTaskGroupToQuarterAndYear(testITGAQPostRequest)
+        .subscribe(response => {
+          expect(response).toEqual(iTGAQQuarter2DataAfterPost[2]);
+      });
+  
+      const request = httpTestingController.expectOne({
+        method: 'POST',
+        url: `${environment.apiUrl}/api/interval/apply-quarterly`,
+      });
+  
+      request.flush(iTGAQQuarter2DataAfterPost[2]);
+  }));
 
   it('should return a revised interval task group object from backend after submitting ' 
     + 'data to add a new interval task to the group', 
@@ -121,6 +140,26 @@ fdescribe('IntervalTaskGroupService', () => {
   }));
 
 
+  it('should return a response message from the backend after deletion of a interval task group '
+    + 'applied quarterly object with a message and the interval task group application id',
+    fakeAsync(() => {
+      authServiceSpy.getAuthToken.and.returnValue(authData.token);
+
+      service.deleteIntervalTaskGroupAppliedQuarterly(3)
+        .subscribe(response => {
+          expect(response.id).toEqual(3);
+          expect(response).toEqual(iTGAQDeletionResponse);
+      });
+
+      const request = httpTestingController.expectOne({
+        method: 'DELETE',
+        url: `${environment.apiUrl}/api/interval/delete-applied-quarterly/3`,
+      });
+
+    request.flush(iTGAQDeletionResponse);
+  }));
+
+
   it("should return the array of users' interval task groups from the api", 
     fakeAsync(() => {
       authServiceSpy.getAuthToken.and.returnValue(authData.token);
@@ -136,6 +175,25 @@ fdescribe('IntervalTaskGroupService', () => {
       request.flush(intervalTaskGroupDataAfterGroupAdded);
 
   }));
+
+
+  it("should return the array of users' interval task groups applied quarterly from "
+    + " the api after requesting for a given quarter/year",
+    fakeAsync(() => {
+      authServiceSpy.getAuthToken.and.returnValue(authData.token);
+      service.fetchIntervalTaskGroupAppliedQuarterlysByQuarter("Q2", 2024)
+        .subscribe(response => {
+          expect(response).toEqual(iTGAQQuarter2Data);
+      });
+  
+      const request = httpTestingController.expectOne({
+        method: 'GET',
+        url: `${environment.apiUrl}/api/interval/applied-quarterly/Q2/2024`,
+      });
+  
+      request.flush(iTGAQQuarter2Data);
+  }));
+
 
   afterEach(() => {
     httpTestingController.verify();
