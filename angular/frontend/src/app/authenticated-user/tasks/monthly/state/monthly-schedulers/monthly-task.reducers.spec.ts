@@ -44,7 +44,6 @@ fdescribe('monthlyTasksReducer', () => {
         expect(state).toEqual(stateFollowingNewMonthlyTaskDeletion.monthlyTasks);
     });
 
-
     it('returns the state after the monthly task entity has been added ' 
     + 'and indicates that the deletion of the third monthly task scheduler failed', () => {
         const state = monthlyTasksReducer(stateAfterNewMonthlyTaskSubmission.monthlyTasks, 
@@ -68,7 +67,6 @@ fdescribe('monthlyTasksReducer', () => {
             stateAfterNewMonthlyTaskSubmission.monthlyTasks
             );
     });
-
 
     it('returns the state with originally loaded monthly tasks entity and indicates that ' 
         + 'submission of a new monthly task scheduler has been unsucessful', () => {
