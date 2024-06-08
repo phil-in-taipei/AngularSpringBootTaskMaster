@@ -45,8 +45,10 @@ fdescribe('monthlyTasksReducer', () => {
     });
 
     it('returns the state after the monthly task entity has been added ' 
-    + 'and indicates that the deletion of the third monthly task scheduler failed', () => {
-        const state = monthlyTasksReducer(stateAfterNewMonthlyTaskSubmission.monthlyTasks, 
+    + 'and indicates that the deletion of the third monthly task scheduler failed', 
+        () => {
+        const state = monthlyTasksReducer(
+            stateAfterNewMonthlyTaskSubmission.monthlyTasks, 
         new MonthlyTaskSchedulerDeletionCancelled({ 
             err: {
                 error: {
@@ -54,30 +56,39 @@ fdescribe('monthlyTasksReducer', () => {
                 }
             } 
         }));
-        expect(state).toEqual(stateFollowingNewMonthlyTaskDeletionFailure.monthlyTasks);
+        expect(state).toEqual(
+            stateFollowingNewMonthlyTaskDeletionFailure.monthlyTasks
+        );
     });
 
     it('returns the state with new monthly task entity and indicates that ' 
         + 'the monthly task has been sucessfully submitted', () => {
-        const state = monthlyTasksReducer(statePriorToNewMonthlyTaskSubmission.monthlyTasks, 
-        new MonthlyTaskSchedulerAdded(
-            { monthlyTaskScheduler: monthlyTaskDataAfterPost[2] }
-            ));
-        expect(state).toEqual(
-            stateAfterNewMonthlyTaskSubmission.monthlyTasks
-            );
-    });
-
-    it('returns the state with originally loaded monthly tasks entity and indicates that ' 
-        + 'submission of a new monthly task scheduler has been unsucessful', () => {
         const state = monthlyTasksReducer(
             statePriorToNewMonthlyTaskSubmission.monthlyTasks, 
-        new MonthlyTaskSchedulerCreationCancelled({ err: {error: {
-            Error: "Error submitting monthly task scheduler!"
-        } } }));
-       expect(state).toEqual(
-        stateAfterNewMonthlyTaskSubmissionFailure.monthlyTasks
-        );
+            new MonthlyTaskSchedulerAdded(
+                { monthlyTaskScheduler: monthlyTaskDataAfterPost[2] }
+                ));
+            expect(state).toEqual(
+                    stateAfterNewMonthlyTaskSubmission.monthlyTasks
+                );
+    });
+
+    it('returns the state with originally loaded monthly ' 
+        + 'tasks entity and indicates that '
+        + 'submission of a new monthly task scheduler has been unsucessful', 
+        () => {
+            const state = monthlyTasksReducer(
+                statePriorToNewMonthlyTaskSubmission.monthlyTasks, 
+                new MonthlyTaskSchedulerCreationCancelled({ 
+                    err: {
+                        error: {
+                            Error: "Error submitting monthly task scheduler!"
+                        } 
+                    } 
+                }   ));
+            expect(state).toEqual(
+                stateAfterNewMonthlyTaskSubmissionFailure.monthlyTasks
+            );
     });
 
 });
