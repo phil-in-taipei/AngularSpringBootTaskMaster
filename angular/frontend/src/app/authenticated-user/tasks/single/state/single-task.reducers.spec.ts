@@ -16,6 +16,7 @@ import {
 } from "./single-task.actions";
 
 fdescribe('singleTasksReducer', () => {
+    
     it('returns an initial state when cleared', () =>{
         const state = singleTasksReducer(
             initialSingleTasksState, 

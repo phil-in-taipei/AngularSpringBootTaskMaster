@@ -100,4 +100,58 @@ fdescribe('intervalTaskGroupsReducer', () => {
                 stateAfterNewIntervalTaskGroupSubmissionFailure.intervalTasks
             );
         });
+
+        it('returns the state with new interval task scheduler entity and indicates that '
+            + 'the interval task scheduler has been sucessfully submitted', () => {
+            const state = intervalTaskGroupsReducer(
+                statePriorToNewIntervalTaskGroupSubmission.intervalTasks,
+                new IntervalTaskSchedulerAdded(
+                    { intervalTaskGroup: {
+                        id: intervalTaskGroupDataAfterTaskAdded[0].id, 
+                        changes: intervalTaskGroupDataAfterTaskAdded[0] 
+                    }
+                       
+                    }
+                ));
+                expect(state).toEqual(
+                    stateAfterNewIntervalTaskSubmission.intervalTasks
+            );
+         });
+
+         it('returns the state with originally loaded interval '
+            + 'task group entities and indicates that '
+            + 'submission of a new interval task scheduler has been unsucessful',
+             () => {
+                const state = intervalTaskGroupsReducer(
+                    stateAfterNewIntervalTaskGroupSubmission.intervalTasks,
+                    new IntervalTaskSchedulerCreationCancelled({
+                    err: {
+                        error: {
+                            Error: "Error submitting Interval Task Scheduler!"
+                        }
+                    }
+                } ));
+                expect(state).toEqual(
+                    stateAfterNewIntervalTaskSubmissionFailure.intervalTasks
+                );
+            });
+ 
+            it('returns the state with new interval task scheduler entity and indicates that '
+                + 'a member interval task scheduler has been sucessfully deleted', () => {
+                const state = intervalTaskGroupsReducer(
+                    stateAfterNewIntervalTaskSubmission.intervalTasks,
+                    new IntervalTaskSchedulerDeletionSaved(
+                        { intervalTaskGroup: {
+                            id: intervalTaskGroupData[0].id, 
+                            changes: intervalTaskGroupData[0] 
+                        }
+                           
+                        }
+                    ));
+                    expect(state).toEqual(
+                        stateFollowingNewIntervalTaskDeletion.intervalTasks
+                );
+             });
+     
+
 });
