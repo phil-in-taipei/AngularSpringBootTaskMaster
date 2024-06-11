@@ -37,7 +37,7 @@ const entitiesFollowingTaskSubmission: Dictionary<IntervalTaskGroupModel> = {
 const entities: Dictionary<IntervalTaskGroupModel> = {
     '1': intervalTaskGroupDataAfterGroupAdded[0],
     '2': intervalTaskGroupDataAfterGroupAdded[1],
-    '3': intervalTaskGroupDataAfterGroupAdded[3]
+    '3': intervalTaskGroupDataAfterGroupAdded[2]
 }
 
 const deletionFailureMessageGroup: string = "Error! Interval Task Group Deletion Failed!";
@@ -45,9 +45,9 @@ const deletionFailureMessageTask: string = "Error! Interval Task Scheduler Delet
 const deletionSuccessMessageGroup: string = 'Interval Task Group successfully deleted!';
 const deletionSuccessMessageTask: string = 'Interval Task Scheduler successfully deleted!';
 const fetchFailureMessage: string = 'Error fetching interval task groups!';
-const submissionFailureMessageGroup: string = "Error submitting Interval Task Group!";
+const submissionFailureMessageGroup: string = "Error submitting interval task group!";
 const submissionFailureMessageTask: string = "Error submitting interval task scheduler!";
-const submissionSuccessMessageGroup: string = 'Interval Task Group successfully submitted!';
+const submissionSuccessMessageGroup: string = 'Interval task group successfully submitted!';
 const submissionSuccessMessageTask: string = 'Interval Task Scheduler successfully submitted!';
 
 export const stateFollowingNewIntervalTaskGroupDeletion = {
