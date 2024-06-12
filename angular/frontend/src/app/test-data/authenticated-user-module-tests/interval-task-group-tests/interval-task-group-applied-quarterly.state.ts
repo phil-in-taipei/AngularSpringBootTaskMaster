@@ -1,7 +1,7 @@
 import { Dictionary } from "@ngrx/entity";
 
 import {
-iTGAQQuarter2Data, iTGAQQuarter2DataAfterPost
+    iTGAQQuarter2Data, iTGAQQuarter2DataAfterPost
 } from "./interval-task-group.data";
 import { IntervalTaskGroupAppliedQuarterlyModel } from "src/app/models/interval-task-group.model";
 
