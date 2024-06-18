@@ -5,12 +5,12 @@
 export const environment = {
   production: false,
   apiUrl: "http://localhost:8080",
-  authTimerAmount: 50000, //(50 seconds)
-  tokenRefreshHoursAmount: 0,
-  tokenRefreshMinsAmount: 3,
+  authTimerAmount:  570000, //50000, //(50 seconds) // 570000 //(570 seconds -- 9.5 minutes)
+  tokenRefreshHoursAmount: 23, //0,
+  tokenRefreshMinsAmount: 50, // 3,
   tokenRefreshSecondsAmount: 30,
-  tokenMinsAmount: 0,
-  tokenSecondsAmount: 50,
+  tokenMinsAmount: 9,//0,
+  tokenSecondsAmount: 30, //50,
 };
 
 /*
