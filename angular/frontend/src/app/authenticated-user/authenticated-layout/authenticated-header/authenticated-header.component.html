@@ -1,6 +1,6 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" 
+      <a class="navbar-brand mydropnav" 
         routerLink="/authenticated-user/landing" 
         routerLinkActive
       >
@@ -13,7 +13,7 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li><a class="nav-link" 
+          <li><a class="nav-link mydropnav" 
             routerLink="/authenticated-user/user-profile" routerLinkActive>Profile</a>
           </li>
           <li class="nav-item dropdown">
@@ -23,13 +23,13 @@
             >
               Single
             </a>
-            <ul class="dropdown-menu mydropnav bg-light" 
+            <ul class="dropdown-menu mydropnav bg-dark" 
               aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item bg-light" 
+              <li><a class="dropdown-item bg-dark" 
                 routerLink="/authenticated-user/create-task" routerLinkActive 
                 >Create</a>
               </li>
-              <li><a class="dropdown-item bg-light" 
+              <li><a class="dropdown-item bg-dark" 
                 routerLink="/authenticated-user/tasks-monthly" routerLinkActive 
                 >Search Monthly</a>
               </li>
@@ -42,17 +42,17 @@
             >
               Weekly
             </a>
-            <ul class="dropdown-menu mydropnav bg-light" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item bg-light" 
+            <ul class="dropdown-menu mydropnav bg-dark" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item bg-dark" 
                 routerLink="/authenticated-user/weekly/create" routerLinkActive 
                 >Create</a>
               </li>
-              <li><a class="dropdown-item bg-light" 
+              <li><a class="dropdown-item bg-dark" 
                 routerLink="/authenticated-user/weekly/list" routerLinkActive 
                 >List</a>
               </li>
               <li>
-                <a class="dropdown-item bg-light" 
+                <a class="dropdown-item bg-dark" 
                   routerLink="/authenticated-user/weekly/select-quarterly" routerLinkActive 
                 >Quarterly
                 </a>
@@ -66,17 +66,17 @@
             >
               Monthly
             </a>
-            <ul class="dropdown-menu mydropnav bg-light" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item bg-light" 
+            <ul class="dropdown-menu mydropnav bg-dark" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item bg-dark" 
                 routerLink="/authenticated-user/monthly/create" routerLinkActive 
                 >Create</a>
               </li>
-              <li><a class="dropdown-item bg-light" 
+              <li><a class="dropdown-item bg-dark" 
                 routerLink="/authenticated-user/monthly/list" routerLinkActive 
                 >List</a>
               </li>
               <li>
-                <a class="dropdown-item bg-light" 
+                <a class="dropdown-item bg-dark" 
                   routerLink="/authenticated-user/monthly/select-quarterly" routerLinkActive 
                 >Quarterly
                 </a>
@@ -91,17 +91,17 @@
             >
               Interval
             </a>
-            <ul class="dropdown-menu mydropnav bg-light" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item bg-light" 
+            <ul class="dropdown-menu mydropnav bg-dark" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item bg-dark" 
                 routerLink="/authenticated-user/interval/create" routerLinkActive 
                 >Create</a>
               </li>
-              <li><a class="dropdown-item bg-light" 
+              <li><a class="dropdown-item bg-dark" 
                 routerLink="/authenticated-user/interval/list" routerLinkActive 
                 >List</a>
               </li>
               <li>
-                <a class="dropdown-item bg-light" 
+                <a class="dropdown-item bg-dark" 
                   routerLink="/authenticated-user/interval/select-quarterly" routerLinkActive 
                 >Quarterly
                 </a>
@@ -109,7 +109,7 @@
             </ul>
           </li>
           <li>
-            <a class="nav-link" href="#" (click)="onLogout()">Logout</a>
+            <a class="nav-link mydropnav" href="#" (click)="onLogout()">Logout</a>
           </li>
         </ul>
       </div>

@@ -3,10 +3,29 @@ body {
   display: flex;
   height: 100%;
   flex-direction: column;
+  background-color: black;
+}
+
+
+hr.thick-br {
+  border: 2px solid #758d97;
+}
+
+hr.thin-white {
+  border: 1px solid grey;
 }
 
 .main {
   flex: 1 0 auto;
+  color: #4682B4;
+}
+
+.mydropnav {
+  color: #4682B4;
+}
+
+.mydropnav:hover {
+  color: #FFB6C1;
 }
 
 footer {
@@ -15,10 +34,18 @@ footer {
   justify-content: center;
 }
 
+a {
+  color: #4682B4;
+}
+
+a:hover {
+  color: #FFB6C1;
+}
+
 .color-frame {
-    background-color: White;
-    border: #F0FFFF solid 1px !important;
-    outline: #758d97 solid 5px !important;
+    background-color: black;
+    border: #FFB6C1 solid 1px !important;
+    outline: #0D6EFD solid 5px !important;
   }
   
 .content {
@@ -28,4 +55,13 @@ footer {
 .fixed-bottom {
   bottom: 0;
   width: 100%;
+}
+
+@media screen and (max-width: 767px) {
+  .login {
+    max-width: 350px;
+    min-width: 100px;
+    border-left: 30px;
+    border-right: 30px;
+  }
 }
