@@ -3,50 +3,69 @@ body {
   display: flex;
   height: 100%;
   flex-direction: column;
+}
+
+.shrink {
+  padding: auto;
+  width: 80%;
+}
+
+table {
+  text-align: center;
+}
+
+
+table tr {
+  padding-left: 1em;
+}
+
+table th {
+  padding-left: 1em;
+}
+
+table td {
+      padding-left: 1em;
+}
+
+hr.thick-br {
+  border: 2px solid black;
   background-color: black;
 }
 
-
-hr.thick-br {
-  border: 2px solid #758d97;
-}
-
 hr.thin-white {
-  border: 1px solid grey;
+  border: 1px solid black;
+  background-color: black;
 }
 
 .main {
   flex: 1 0 auto;
-  color: #4682B4;
+  color: black;
 }
 
 .mydropnav {
-  color: #4682B4;
+  color: #FFB6C1;
 }
 
 .mydropnav:hover {
-  color: #FFB6C1;
+  color: #4682B4;
 }
 
 footer {
   flex: 0 0 auto;
   display: flex;
   justify-content: center;
+  background-color: black;
 }
 
-a {
-  color: #4682B4;
-}
 
 a:hover {
   color: #FFB6C1;
 }
 
 .color-frame {
-    background-color: black;
     border: #FFB6C1 solid 1px !important;
-    outline: #0D6EFD solid 5px !important;
-  }
+    outline: black solid 5px !important;
+}
   
 .content {
     padding-top: 70px;
@@ -57,11 +76,26 @@ a:hover {
   width: 100%;
 }
 
-@media screen and (max-width: 767px) {
+.login {
+    display: none;
+}
+
+@media (min-width: 768px) {
   .login {
-    max-width: 350px;
-    min-width: 100px;
-    border-left: 30px;
-    border-right: 30px;
+    display: block; /* Change the display property to show the element */
+        /* Set dimensions and circular shape */
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: Black;
+        color: #FFB6C1;
+        /* Text color for the letters */
+        text-align: center; /* Center the text inside the circle */
+        display: flex; /* Enables flexbox for positioning letters */
+        justify-content: center; /* Center the text horizontally */
+        align-items: center; /* Center the text vertically */
+        font-weight: bold; /* Make the text bold */
+        margin: 0 auto;
+        line-height: 300px; 
   }
 }

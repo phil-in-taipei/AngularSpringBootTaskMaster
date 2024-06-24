@@ -8,7 +8,7 @@
                    name="dp" [(ngModel)]="dateModel" ngbDatepicker #d="ngbDatepicker">
             <br />
             <div class="input-group-append">
-              <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+              <button class="btn btn-outline-dark calendar" (click)="d.toggle()" type="button">
                 Search Date
               </button>
             </div>
@@ -19,7 +19,7 @@
 </div>
 <br />
 <div class="text-center">
-  <button class="btn btn-sm btn-outline-secondary middle"
+  <button class="btn btn-sm btn btn-outline-dark middle"
     (click)="navToSelectedDate()">Go To Scheduled Date
   </button>
 </div>
@@ -28,7 +28,7 @@
   <h3>Today's Classes</h3>
   <h5>{{ todaysTasks.length }} Task(s) Scheduled Today</h5>
   <h5>
-    <button class="btn btn-primary" type="button"
+    <button class="btn btn-outline-dark" type="button"
       data-bs-toggle="collapse" data-bs-target="#collapseDailyTasks"
       aria-expanded="false" aria-controls="collapseExample">
       View Daily Tasks

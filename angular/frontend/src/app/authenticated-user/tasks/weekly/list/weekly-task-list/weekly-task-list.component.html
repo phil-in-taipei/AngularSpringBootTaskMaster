@@ -11,18 +11,17 @@
 </ng-container>
 
 <div *ngIf="weeklyTaskSchedulers$ | async as weeklyTaskSchedulers" class="container content">
-    <div class="large-scr-tbl">
-    <hr class="thick-br"/>
-    <h3>Weekly Task Schedulers</h3>
-    <h5>{{ weeklyTaskSchedulers.length }} Weekly Task Schedulers(s)</h5>
-    <hr class="thin-br"/>
-    <div class="large-scr-tbl">
-      <table class="table">
-          <thead>
-            <tr class="row">
-              <th class="col"><h5 class="text-secondary">Day of Week</h5></th>
-              <th class="col"><h5 class="text-secondary">Task Name</h5></th>
-              <th class="col"><h5 class="text-secondary">Delete</h5></th>
+    <div>
+      <hr class="thick-br"/>
+      <h3>Weekly Task Schedulers</h3>
+      <h5>{{ weeklyTaskSchedulers.length }} Weekly Task Schedulers(s)</h5>
+      <hr class="thin-br"/>
+      <table class="table table-styles">
+          <thead class="table-styles">
+            <tr class="row table-styles">
+              <th class="col table-styles"><h5>Day of Week</h5></th>
+              <th class="col"><h5>Task Name</h5></th>
+              <th class="col"><h5>Delete</h5></th>
             </tr>
           </thead>
           <tbody>

@@ -1,8 +1,8 @@
 <app-unauthenticated-header></app-unauthenticated-header>
 <div class="main">
   <div class="container content">
-    <div class="color-frame rounded login">
-      <div class="mt-4 p-5 rounded">
+    <div class="color-frame rounded row">
+      <div class="mt-4 p-5 rounded col">
         <div *ngIf='isErrorLogin'>
           <div data-testid="login-error-msg"
             class="alert alert-danger alert-dismissible fade show" 
@@ -60,6 +60,9 @@
             </div>
           </form>
         </div>
+      </div>
+      <div class="login col">
+        <h1>TM</h1>
       </div>
     </div>
   </div>
