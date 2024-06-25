@@ -37,7 +37,6 @@
 
 <ng-container *ngIf="{value: tasksLoaded$ | async} as context">
   <div *ngIf="context.value">
-    {{ context.value }}
     <div class="text-center">
       <div class="spinner-border text-secondary" role="status">
         <span class="visually-hidden">Loading...</span>
@@ -52,7 +51,7 @@
     <hr class="thick-br"/>
     <h3>Today's Classes</h3>
     <h5>{{ todaysTasks.length }} Task(s) Scheduled Today</h5>
-    <div *ngIf="todaysTasks.length > 0"
+    <div *ngIf="todaysTasks.length > 0; else logo_display"
         class="table-responsive"
       >
         <table class="table">
@@ -87,6 +86,10 @@
           </tbody>
         </table>
       </div>
+      <ng-template #logo_display>
+        <div class=" container logo">
+          <h1>TM</h1>
+        </div>
+      </ng-template>
       <hr class="thick-br"/>
-    
 </div>

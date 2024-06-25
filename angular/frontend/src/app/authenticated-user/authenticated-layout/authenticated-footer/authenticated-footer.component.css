@@ -1,7 +1,6 @@
-.footer-styles a:link {
-    color: #FFB6C1;
-}
 
-.footer-styles a:link:hover {
-    color: #4682B4;
+h6 {
+    color: #FFB6C1;
+    margin-bottom: 10px;
+    margin-top: 10px;
 }
