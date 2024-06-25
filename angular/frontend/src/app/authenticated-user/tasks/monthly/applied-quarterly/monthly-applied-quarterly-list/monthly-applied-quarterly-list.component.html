@@ -1,9 +1,10 @@
-<hr class="thick-br"/>
-<h2>Monthly Schedulers Applied for {{quarterFromRouteData }} {{ yearFromRouteData }}</h2>
 
-<div class="container content">
+
+<div class="content">
+  <hr class="thick-br"/>
+  <h2>Monthly Schedulers Applied for {{quarterFromRouteData }} {{ yearFromRouteData }}</h2>
   <div class="text-center">
-    <button class="btn btn-sm btn-outline-secondary" type="button"
+    <button class="btn btn-sm btn-outline-dark" type="button"
       (click)="toggleApplySchedulerSubmitForm()">
       {{ showApplySchedulerSubmitForm ? "Never Mind, I'll submit one next time for "
       : "Click Here to apply a monthly scheduler to " }} {{ quarterFromRouteData }}
@@ -24,8 +25,8 @@
 </div>
 
 
-<div *ngIf="mTAQ$ | async as mTAQs" class="container content">
-    <div class="large-scr-tbl">
+<div *ngIf="mTAQ$ | async as mTAQs" class="container">
+    <div *ngIf="mTAQs.length > 0; else show_logo">
       <div class="container">
         <table class="table">
             <thead>
@@ -44,4 +45,11 @@
           </table>
       </div>
     </div>
+    <ng-template #show_logo>
+      <div class="container logo">
+        <h1>TM</h1>
+      </div>
+    </ng-template>
+    <hr class="thick-br"/>
+    <br />
 </div>
