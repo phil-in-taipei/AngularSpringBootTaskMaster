@@ -10,21 +10,21 @@
   </div>
 </ng-container>
 
-<div *ngIf="weeklyTaskSchedulers$ | async as weeklyTaskSchedulers" class="container content">
-    <div>
+<div *ngIf="weeklyTaskSchedulers$ | async as weeklyTaskSchedulers" class="container">
+    <div class="mx-5 pd-2">
       <hr class="thick-br"/>
       <h3>Weekly Task Schedulers</h3>
       <h5>{{ weeklyTaskSchedulers.length }} Weekly Task Schedulers(s)</h5>
-      <hr class="thin-br"/>
-      <table class="table table-styles">
-          <thead class="table-styles">
-            <tr class="row table-styles">
-              <th class="col table-styles"><h5>Day of Week</h5></th>
+      <hr class="thick-br"/>
+      <table class="table table-border-less">
+          <thead class="table-border-less">
+            <tr class="row">
+              <th class="col"><h5>Day of Week</h5></th>
               <th class="col"><h5>Task Name</h5></th>
               <th class="col"><h5>Delete</h5></th>
             </tr>
           </thead>
-          <tbody>
+          <tbody class="table-border-less">
             <div *ngFor="let weeklyTaskScheduler of weeklyTaskSchedulers; trackBy: trackByFn" >
               <app-weekly-task [weeklyTaskScheduler]=weeklyTaskScheduler>
               </app-weekly-task>

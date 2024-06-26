@@ -1,5 +1,5 @@
 <br />
-<hr />
+<hr class="thick-br"/>
 <form (submit)="onSubmitSingleTask(singleTaskForm)" #singleTaskForm="ngForm">
     <div class="input-group">
         <input class="form-control" placeholder="yyyy-mm-dd"
@@ -26,9 +26,9 @@
       <div *ngIf="comments.touched && comments.invalid">Please enter a comment.</div>
     </div>
     <br />
-    <hr />
+    <hr class="thick-br"/>
     <div>
-      <button class="btn btn-outline-secondary" type="submit"
+      <button class="btn btn-dark" type="submit"
       >Submit</button>
     </div>
     <br />

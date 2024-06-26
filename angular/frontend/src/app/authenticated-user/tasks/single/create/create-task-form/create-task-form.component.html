@@ -4,7 +4,7 @@
         <input class="form-control" placeholder="yyyy-mm-dd"
             name="date" [(ngModel)]="dateModel" ngbDatepicker #date="ngbDatepicker">
         <div class="input-group-append">
-        <button class="btn btn-outline-secondary calendar" (click)="date.toggle()" type="button">
+        <button class="btn btn-outline-dark calendar" (click)="date.toggle()" type="button">
         Select Date</button>
         </div>
     </div>
@@ -22,12 +22,12 @@
         placeholder="Please Enter a Task Name"
         #taskName="ngModel"
         >
-      <div *ngIf="taskName.touched && taskName.invalid">Please enter your surname.</div>
+      <div *ngIf="taskName.touched && taskName.invalid">Please enter the task name.</div>
     </div>
     <br />
-    <hr />
+    <hr class="thick-br"/>
     <div>
-      <button class="btn btn-outline-secondary" type="submit"
+      <button class="btn btn-dark" type="submit"
       >Submit</button>
     </div>
     <br />

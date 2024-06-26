@@ -25,10 +25,10 @@
 </div>
 <div *ngIf="todaysTasks$ | async as todaysTasks" class="container">
   <hr class="thick-br"/>
-  <h3>Today's Classes</h3>
+  <h3>Today's Tasks</h3>
   <h5>{{ todaysTasks.length }} Task(s) Scheduled Today</h5>
   <h5>
-    <button class="btn btn-outline-dark" type="button"
+    <button class="btn btn-dark" type="button"
       data-bs-toggle="collapse" data-bs-target="#collapseDailyTasks"
       aria-expanded="false" aria-controls="collapseExample">
       View Daily Tasks
@@ -38,6 +38,7 @@
     id="collapseDailyTasks"
     class="collapse table-responsive"
   >
+    <hr class="thick-br"/>
     <table class="table">
       <thead>
         <tr class="row">

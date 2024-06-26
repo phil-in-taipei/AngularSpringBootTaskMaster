@@ -11,30 +11,66 @@ body {
 }
 
 table {
-  text-align: center;
+    border-collapse: collapse;
+    padding: 1em;
+    text-align: center;
 }
-
 
 table tr {
-  padding-left: 1em;
+  border-bottom: 1pt solid Black;
+  padding: 1em;
 }
 
-table th {
-  padding-left: 1em;
+.table > thead {
+  vertical-align: bottom;
+  border-top: 1px black;
 }
 
 table td {
-      padding-left: 1em;
+  border-left: 1px solid Black;
+  border-right: 1px solid Black;
+  padding: 1em;
 }
 
-.hr {
-  color: black !important;
-  inherits: false;
+
+.form-control::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: Black;
+  opacity: 1; /* Firefox */
+}
+
+.form-control:focus {
+  border-color: #4682B4;  
+  box-shadow: none; 
+  -webkit-box-shadow: none;
+}
+
+.border-dark {
+  border-color: Black;  
+}
+
+.bg-dark {
+  background-color: black;
+}
+
+.form-control {
+  border-color: black;  
+  box-shadow: none; 
+  -webkit-box-shadow: none;
+}
+
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid black;
+  margin: 1em 0;
+  padding: 0;
 }
 
 .thick-br {
-  background-color: black;
-  color: black;
+  opacity: 1;
+  border-color:Black; 
+  background-color: Black;
 }
 
 .thin-white {
@@ -67,6 +103,25 @@ footer {
 
 .link-style:hover {
   color: #4682B4;
+}
+
+.btn-outline-dark:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary {
+  color: #FFB6C1;
+  background-color: black;
+  border-color: #FFB6C1; /*set the color you want here*/
+}
+
+
+.btn-dark:hover, .btn-dark:focus, .btn-dark:active, .btn-dark.active, .open>.dropdown-toggle.btn-dark {
+  color: black;
+  background-color: white;
+  border-color: black; /*set the color you want here*/
+}
+
+.btn-dark {
+  color: #FFB6C1;
+  background-color: black;
+  border-color: #FFB6C1;
 }
 
 a {

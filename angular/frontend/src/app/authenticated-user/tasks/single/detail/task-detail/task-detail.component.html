@@ -20,16 +20,18 @@
 <div *ngIf="(singleTask$ | async) as singleTask; else homepage_link">
     <div>
       <div class="text-center">
-        <button class="btn btn-sm btn-outline-secondary text" id="forwardDateButton" 
+        <button class="btn btn-sm btn-dark text" id="forwardDateButton" 
         [routerLink]="['/', 'authenticated-user', 'tasks-daily', singleTask.date]">
             Return to {{ singleTask.date }} Tasks
         </button>
       </div>
     </div>
-    <div class="mt-4 p-5 rounded">
-        <div class="p-3 rounded-lg m-2">
-            <div class="container text-center bg-light">
+    <div class="mt-1 p-3 rounded">
+        <div class="p-3 rounded-lg m-1">
+            <div class="container text-center">
+              <hr class="thick-br" />
                 <h1>Task Details</h1>
+                <hr class="thick-br" />
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
@@ -55,7 +57,7 @@
             
             <div class="d-grid gap-2">
               <button (click)="toggleForm()"
-                class="btn btn-sm btn-outline-secondary">
+                class="btn btn-sm btn-outline-dark">
                   {{ formVisible ? "Nevermind, I'll update it later" : "Click Here to Reschedule" }}
               </button>
             </div>
@@ -74,7 +76,7 @@
 <ng-template #homepage_link>
     <hr class="thick-br"/>
     <div class="text-center">
-      <button class="btn btn-sm btn-outline-secondary text"
+      <button class="btn btn-sm btn-dark text"
       [routerLink]="['/authenticated-user/landing']">
           Return to Homepage
       </button>
