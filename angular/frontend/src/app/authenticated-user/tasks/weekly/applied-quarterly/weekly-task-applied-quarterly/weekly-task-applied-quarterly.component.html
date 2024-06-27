@@ -1,6 +1,6 @@
 <tr class="row" >
     <th class="col">
-      <h5 class="text-secondary">
+      <h5>
         <app-weekly-task-template-string
           [weeklyTaskId]=weeklyTaskAppliedQuarterly.weeklyTaskSchedulerId>
         </app-weekly-task-template-string>
@@ -10,7 +10,7 @@
       <div *ngIf="!deletionPopupVisible; else delWeeklyTask" class="col text-left">
         <h5>
           <button
-            class="btn btn-sm btn-outline-secondary"
+            class="btn btn-sm btn-outline-dark"
             (click)="showDeletionPopup()"
             >
             Remove
@@ -18,16 +18,16 @@
         </h5>
       </div>
       <ng-template #delWeeklyTask class="row">
-        <div class="col text-secondary">
+        <div class="col">
           <h5>
             <button
-              class="btn btn-sm btn-outline-secondary"
+              class="btn btn-sm btn-outline-dark"
               (click)="hideDeletionPopup()">
               Cancel Deletion
             </button>
           </h5>
         </div>
-        <div class="col text-secondary">
+        <div class="col">
           <h5>
             <button
               class="btn btn-sm btn-outline-danger"

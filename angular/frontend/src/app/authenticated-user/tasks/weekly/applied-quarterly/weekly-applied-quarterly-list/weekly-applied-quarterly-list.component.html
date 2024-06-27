@@ -1,9 +1,9 @@
-<hr class="thick-br"/>
-<h2>Weekly Schedulers Applied for {{quarterFromRouteData }} {{ yearFromRouteData }}</h2>
 
-<div class="container content">
+<div class="container m-3 p-2">
+  <hr class="thick-br"/>
+  <h2>Weekly Schedulers Applied for {{quarterFromRouteData }} {{ yearFromRouteData }}</h2>
   <div class="text-center">
-    <button class="btn btn-sm btn-outline-secondary" type="button"
+    <button class="btn btn-sm btn-outline-dark" type="button"
       (click)="toggleApplySchedulerSubmitForm()">
       {{ showApplySchedulerSubmitForm ? "Never Mind, I'll submit one next time for "
       : "Click Here to apply a weekly scheduler to " }} {{ quarterFromRouteData }}
@@ -23,9 +23,9 @@
   <hr class="thick-br"/>
 </div>
 
-<div *ngIf="wTAQ$ | async as wTAQs" class="container content">
+<div *ngIf="wTAQ$ | async as wTAQs" class="container m-2 p-2">
     <div class="large-scr-tbl">
-      <div class="container">
+      <div>
         <table class="table">
             <thead>
               <tr class="row">

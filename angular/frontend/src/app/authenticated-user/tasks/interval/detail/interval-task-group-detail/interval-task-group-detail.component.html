@@ -19,7 +19,7 @@
 </div>
 <div *ngIf="(intervalTaskGroup$ | async) as iTG; else homepage_link">
     <div class="text-center">
-      <button class="btn btn-sm btn-outline-secondary" type="button"
+      <button class="btn btn-sm btn-dark" type="button"
         (click)="toggleIntervalTaskSubmitForm()">
         {{ showIntervalTaskSubmitForm ? "Never Mind, I'll submit one next time for "
         : "Click Here to add a task to the group " }} {{ iTG.taskGroupName }}
@@ -27,8 +27,9 @@
       <br />
     </div>
     <div [hidden]="!showIntervalTaskSubmitForm"
-    [style.opacity]="!showIntervalTaskSubmitForm ? '0' : '1'"
-    [style.visibility]="!showIntervalTaskSubmitForm ? 'hidden' : 'visible'">
+      [style.opacity]="!showIntervalTaskSubmitForm ? '0' : '1'"
+      [style.visibility]="!showIntervalTaskSubmitForm ? 'hidden' : 'visible'"
+    >
       <hr class="thick-br"/>
       <app-create-interval-task-form
         [intervalTaskGroupId]=iTG.id
@@ -36,7 +37,7 @@
       </app-create-interval-task-form>
     </div>
     <hr class="thick-br"/>
-    <div class="mt-4 p-5 rounded">
+    <div class="mt-3 p-2 rounded">
         <div>
             <div class="container text-center">
                 <h1>{{ iTG.taskGroupName }}: Every {{ iTG.intervalInDays }} Days</h1>
@@ -66,7 +67,7 @@
 <ng-template #homepage_link>
     <hr class="thick-br"/>
     <div class="text-center">
-      <button class="btn btn-sm btn-outline-secondary text"
+      <button class="btn btn-sm btn-outline-dark text"
       [routerLink]="['/authenticated-user/landing']">
           Return to Homepage
       </button>
