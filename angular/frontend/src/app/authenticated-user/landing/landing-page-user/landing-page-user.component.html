@@ -24,6 +24,10 @@
   </button>
 </div>
 <div *ngIf="todaysTasks$ | async as todaysTasks" class="container">
+  <div class="m-3 p-2">
+
+  </div>
+  
   <hr class="thick-br"/>
   <h3>Today's Tasks</h3>
   <h5>{{ todaysTasks.length }} Task(s) Scheduled Today</h5>
@@ -36,7 +40,7 @@
   </h5>
   <div *ngIf="todaysTasks.length > 0"
     id="collapseDailyTasks"
-    class="collapse table-responsive"
+    class="collapse table-responsive m-3 p-2"
   >
     <hr class="thick-br"/>
     <table class="table">
@@ -56,7 +60,9 @@
             <p>{{ task.taskName }}</p>
           </th>
           <th *ngIf="task.status !== 'COMPLETED'" class="col">
-            <p (click)="onConfirmTaskCompletion(task.id)" id="confirmation">
+            <p (click)="onConfirmTaskCompletion(task.id)" 
+              class="confirm-style" id="confirmation"
+            >
               {{task.status}}
             </p>
           </th>

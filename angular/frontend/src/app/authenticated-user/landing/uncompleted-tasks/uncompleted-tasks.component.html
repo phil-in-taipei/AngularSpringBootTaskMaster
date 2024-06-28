@@ -10,7 +10,7 @@
     </h5>
     <div *ngIf="uncompletedTasks.length > 0"
         id="collapseUncompletedTasks"
-        class="collapse table-responsive"
+        class="collapse table-responsive m-3 p-2"
     >
     <hr class="thick-br"/>
     <table class="table">
@@ -30,7 +30,9 @@
               <p>{{ task.taskName }}</p>
             </th>
             <th class="col">
-              <p (click)="onConfirmTaskCompletionAndRemove(task.id)" id="confirm">
+              <p (click)="onConfirmTaskCompletionAndRemove(task.id)" 
+                class="confirm-style" id="confirm"
+              >
                 {{task.status}}
               </p>
             </th>

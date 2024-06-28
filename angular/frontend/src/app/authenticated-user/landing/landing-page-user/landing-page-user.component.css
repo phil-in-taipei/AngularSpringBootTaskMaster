@@ -1,17 +1,22 @@
 .date-search {
-    max-width: 550px;
-  }
-  
+  max-width: 550px;
+}
+
+.table tr {
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 0px;
+  padding: 1em;
+}
+ 
   
 #confirmation {
   text-decoration: none;
 }
   
-  
 h5, h3 {
    text-align: center;
 }
-  
 
 
   @media screen and (min-width: 993px) {

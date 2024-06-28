@@ -95,6 +95,15 @@ footer {
   background-color: black;
 }
 
+
+.confirm-style {
+  color: #4682B4;
+}
+
+.confirm-style:hover {
+  color: #FFB6C1;
+}
+
 .link-style {
   color: #FFB6C1;
 }
