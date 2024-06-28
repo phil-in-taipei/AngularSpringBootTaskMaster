@@ -90,8 +90,7 @@ hr {
 }
 
 footer {
-  flex: 0 0 auto;
-  display: flex;
+  flex-shrink: 0;   
   justify-content: center;
   background-color: black;
 }

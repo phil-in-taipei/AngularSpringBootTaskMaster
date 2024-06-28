@@ -1,6 +1,6 @@
 
 
-<div class="content">
+<div class="content m-3 p-2">
   <hr class="thick-br"/>
   <h2>Monthly Schedulers Applied for {{quarterFromRouteData }} {{ yearFromRouteData }}</h2>
   <div class="text-center">
@@ -27,7 +27,7 @@
 
 <div *ngIf="mTAQ$ | async as mTAQs" class="container">
     <div *ngIf="mTAQs.length > 0; else show_logo">
-      <div class="container">
+      <div class="container m-3 p-2">
         <table class="table">
             <thead>
               <tr class="row">
@@ -46,8 +46,8 @@
       </div>
     </div>
     <ng-template #show_logo>
-      <div class="container logo">
-        <h1>TM</h1>
+      <div class="text-center">
+        <h3>No Schedulers Applied to Current Quarter/Year</h3>
       </div>
     </ng-template>
     <hr class="thick-br"/>

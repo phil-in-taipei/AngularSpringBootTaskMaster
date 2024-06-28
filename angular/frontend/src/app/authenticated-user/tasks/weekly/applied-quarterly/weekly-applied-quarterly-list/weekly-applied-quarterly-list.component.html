@@ -24,8 +24,8 @@
 </div>
 
 <div *ngIf="wTAQ$ | async as wTAQs" class="container m-2 p-2">
-    <div class="large-scr-tbl">
-      <div>
+  <div *ngIf="wTAQs.length > 0; else no_WTAQ">
+    <div class="container m-3 p-2">
         <table class="table">
             <thead>
               <tr class="row">
@@ -43,5 +43,15 @@
           </table>
       </div>
     </div>
+    <ng-template #no_WTAQ>
+      <div class="text-center">
+        <h3>No Schedulers Applied to Current Quarter/Year</h3>
+      </div>
+    </ng-template>
+    <hr class="thick-br"/>
+    <br />
 </div>
 
+<!--<div class="text-center">
+  <h3>No Schedulers Applied to Current Quarter/Year</h3>
+</div> -->
