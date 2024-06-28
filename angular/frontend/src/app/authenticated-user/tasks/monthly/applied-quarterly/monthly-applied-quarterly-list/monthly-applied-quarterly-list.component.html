@@ -1,33 +1,42 @@
 
 
-<div class="content m-3 p-2">
-  <hr class="thick-br"/>
-  <h2>Monthly Schedulers Applied for {{quarterFromRouteData }} {{ yearFromRouteData }}</h2>
-  <div class="text-center">
-    <button class="btn btn-sm btn-outline-dark" type="button"
-      (click)="toggleApplySchedulerSubmitForm()">
-      {{ showApplySchedulerSubmitForm ? "Never Mind, I'll submit one next time for "
-      : "Click Here to apply a monthly scheduler to " }} {{ quarterFromRouteData }}
-    </button>
-    <br />
+<div class="container">
+  <div class=" m-3 p-2">
+    <hr class="thick-br"/>
+    <h2>Monthly Schedulers Applied for {{quarterFromRouteData }} {{ yearFromRouteData }}</h2>
+    <div class="text-center">
+      <button class="btn btn-sm btn-dark" type="button"
+        (click)="toggleApplySchedulerSubmitForm()">
+        {{ showApplySchedulerSubmitForm ? "Never Mind, I'll submit one next time for "
+        : "Click Here to apply a monthly scheduler to " }} {{ quarterFromRouteData }}
+      </button>
+      <br />
+      <hr class="thick-br"/>
+    </div>
   </div>
+
   <div [hidden]="!showApplySchedulerSubmitForm"
     [style.opacity]="!showApplySchedulerSubmitForm ? '0' : '1'"
     [style.visibility]="!showApplySchedulerSubmitForm ? 'hidden' : 'visible'"
+    class=" m-3 p-2"
   >
-    <hr class="thick-br"/>
     <app-apply-monthly-scheduler-form
       [quarter]=quarterFromRouteData
       [year]=yearFromRouteData>
     </app-apply-monthly-scheduler-form>
+    <hr class="thick-br"/>
   </div>
-  <hr class="thick-br"/>
 </div>
 
 
-<div *ngIf="mTAQ$ | async as mTAQs" class="container">
-    <div *ngIf="mTAQs.length > 0; else show_logo">
-      <div class="container m-3 p-2">
+<div *ngIf="mTAQ$ | async as mTAQs" 
+  [hidden]="showApplySchedulerSubmitForm"
+  [style.opacity]="showApplySchedulerSubmitForm ? '0' : '1'"
+  [style.visibility]="showApplySchedulerSubmitForm ? 'hidden' : 'visible'"
+  class="container"
+>
+    <div *ngIf="mTAQs.length > 0; else no_MTAQ" class="m-3 p-2">
+      <div class="container">
         <table class="table">
             <thead>
               <tr class="row">
@@ -44,12 +53,13 @@
             </tbody>
           </table>
       </div>
+      <hr class="thick-br" />
     </div>
-    <ng-template #show_logo>
-      <div class="text-center">
+    <ng-template #no_MTAQ>
+      <div class="text-center m-3 p-2">
         <h3>No Schedulers Applied to Current Quarter/Year</h3>
+        <hr class="thick-br"/>
       </div>
     </ng-template>
-    <hr class="thick-br"/>
     <br />
 </div>

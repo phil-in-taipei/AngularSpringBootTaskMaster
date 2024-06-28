@@ -1,31 +1,40 @@
 
-<div class="container content">
-  <hr class="thick-br"/>
-  <h2>Interval Task Groups Applied for {{quarterFromRouteData }} {{ yearFromRouteData }}</h2>
-  <div class="text-center">
-    <button class="btn btn-sm btn-dark" type="button"
-      (click)="toggleApplySchedulerSubmitForm()">
-      {{ showApplySchedulerSubmitForm ? "Never Mind, I'll submit one next time for "
-      : "Click Here to apply an interval task group to " }} {{ quarterFromRouteData }}
-    </button>
-    <br />
+<div class="container">
+  <div class="m-3 p-2">
+    <hr class="thick-br"/>
+    <h2>Interval Task Groups Applied for {{quarterFromRouteData }} {{ yearFromRouteData }}</h2>
+    <div class="text-center">
+      <button class="btn btn-sm btn-dark" type="button"
+        (click)="toggleApplySchedulerSubmitForm()">
+        {{ showApplySchedulerSubmitForm ? "Never Mind, I'll submit one next time for "
+        : "Click Here to apply an interval task group to " }} {{ quarterFromRouteData }}
+      </button>
+      <br />
+    </div>
+    <hr class="thick-br"/>
   </div>
+
   <div [hidden]="!showApplySchedulerSubmitForm"
     [style.opacity]="!showApplySchedulerSubmitForm ? '0' : '1'"
     [style.visibility]="!showApplySchedulerSubmitForm ? 'hidden' : 'visible'"
+    class="m-3 p-2"
   >
-    <hr class="thick-br"/>
     <app-apply-interval-task-group-form
       [quarter]=quarterFromRouteData
       [year]=yearFromRouteData>
     </app-apply-interval-task-group-form>
+    <hr class="thick-br"/>
   </div>
-  <hr class="thick-br"/>
 </div>
 
-<div *ngIf="itgaq$ | async as itgaqs" class="container content">
-  <div *ngIf="itgaqs.length > 0; else no_ITGAQ">
-    <div class="container m-3 p-2">
+<div *ngIf="itgaq$ | async as itgaqs" 
+  [hidden]="showApplySchedulerSubmitForm"
+  [style.opacity]="showApplySchedulerSubmitForm ? '0' : '1'"
+  [style.visibility]="showApplySchedulerSubmitForm ? 'hidden' : 'visible'"
+  class="container"
+>
+  <div *ngIf="itgaqs.length > 0; else no_ITGAQ" class="m-3 p-2">
+    <div class="container">
         <table class="table">
             <thead>
               <tr class="row">
@@ -42,13 +51,14 @@
             </tbody>
           </table>
       </div>
+      <hr class="thick-br" />
     </div>
     <ng-template #no_ITGAQ>
-      <div class="text-center">
+      <div class="text-center m-3 p-2">
         <h3>No Schedulers Applied to Current Quarter/Year</h3>
+        <hr class="thick-br" />
       </div>
     </ng-template>
-    <hr class="thick-br"/>
     <br />
 </div>
 
