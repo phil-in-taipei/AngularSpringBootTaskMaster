@@ -20,7 +20,6 @@
 
 <ng-container *ngIf="{value: tasksLoaded$ | async} as context">
     <div *ngIf="context.value">
-      {{ context.value }}
       <div class="text-center">
         <div class="spinner-border text-secondary" role="status">
           <span class="visually-hidden">Loading...</span>
