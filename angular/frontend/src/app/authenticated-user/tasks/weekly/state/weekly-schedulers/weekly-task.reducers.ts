@@ -1,25 +1,38 @@
 import {createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
 import { WeeklyTaskModel } from 'src/app/models/weekly-task.model';
 
+import { getDayOfWeekInteger } from 'src/app/shared-utils/date-time.util';
+
 import { 
     WeeklyTaskActions, WeeklyTaskSchedulersActionTypes 
 } from './weekly-task.actions';
 
-function compareWeeklyTasksByName(
-    a:WeeklyTaskModel, b:WeeklyTaskModel
-) {
+function compareWeeklyTasksByDayOfWeekAndName(
+    a: WeeklyTaskModel, 
+    b: WeeklyTaskModel
+  ) {
+    // First compare by day of week
+    const dayA = getDayOfWeekInteger(a.dayOfWeek);
+    const dayB = getDayOfWeekInteger(b.dayOfWeek);
+    
+    // If days are different, return the comparison result
+    if (dayA !== dayB) {
+      return dayA - dayB;
+    }
+    
+    // If days are the same, compare by name
     const taskA = a.weeklyTaskName;
     const taskB = b.weeklyTaskName;
-  
-    let comparison = 0;
+    
     if (taskA > taskB) {
-      comparison = 1;
+      return 1;
     } else if (taskA < taskB) {
-      comparison = -1;
+      return -1;
     }
-    return comparison;
-};
-
+    
+    // Return 0 if both day and name are the same
+    return 0;
+  }
 
 export interface WeeklyTasksState extends EntityState<WeeklyTaskModel> {
     errorMessage: string | undefined,
@@ -29,7 +42,7 @@ export interface WeeklyTasksState extends EntityState<WeeklyTaskModel> {
 
 export const adapter: EntityAdapter<WeeklyTaskModel> = 
     createEntityAdapter<WeeklyTaskModel>(
-        { sortComparer: compareWeeklyTasksByName }
+        { sortComparer: compareWeeklyTasksByDayOfWeekAndName }
     );
 
 export const initialWeeklyTasksState: WeeklyTasksState = adapter.getInitialState({

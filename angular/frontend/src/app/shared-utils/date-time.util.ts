@@ -18,6 +18,14 @@ export function getDateString(
   return dateString;
 }
 
+export function getDayOfWeekInteger(dayOfWeekString: string): number {
+  const daysOfWeek: string[] = [ 
+    "SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", 
+    "THURSDAY", "FRIDAY", "SATURDAY"
+  ];
+  return daysOfWeek.indexOf(dayOfWeekString);
+}
+
 
 export function getFirstDateofMonthStr(month: number, year: number):string {
   let dateStr: string;
