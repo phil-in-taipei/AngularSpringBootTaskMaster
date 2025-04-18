@@ -49,8 +49,8 @@
 
 <div *ngIf="dailyTasks$ | async as todaysTasks" class="container">
     <hr class="thick-br"/>
-    <h3>Today's Classes</h3>
-    <h5>{{ todaysTasks.length }} Task(s) Scheduled Today</h5>
+    <h3>Today's Tasks</h3>
+    <h5>{{ todaysTasks.length }} Task(s) Scheduled</h5>
     <div *ngIf="todaysTasks.length > 0; else no_daily"
         class="table-responsive"
       >
